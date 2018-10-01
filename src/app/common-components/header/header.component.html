@@ -1,0 +1,28 @@
+<div class="container">
+    <mat-sidenav-container>
+        <mat-sidenav-content>
+            <mat-toolbar color="primary">
+                <div>Lexlnsoft Solutions</div>
+                <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs class="width-100">
+                    <ul fxLayout fxLayoutGap="20px" class="navigation-items">
+                        <li>
+                            <button mat-raised-button type="submit" class="pull-right" >SUPPORT</button>
+                        </li>
+                        <li>
+                            <a *ngIf="auth.isLoggedIn" class="pull-right" (click)="navigatetoHome()">
+                                <mat-icon class="icon">home</mat-icon>
+                                <span class="label">Home</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a *ngIf="auth.isLoggedIn" class="pull-right" (click)="logout()" type="button">
+                                <mat-icon class="icon">input</mat-icon>
+                                <span class="label">LogOut</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </mat-toolbar>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

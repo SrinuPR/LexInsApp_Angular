@@ -1,0 +1,22 @@
+<div class="login-form">
+    <header>Login</header>
+    <form [formGroup]="loginForm" class="form">
+      <mat-form-field>
+        <input matInput placeholder="User ID" type="text" required formControlName="userName" name="userName">
+      </mat-form-field>
+      <div class="alert-message" *ngIf="displayErrorMessages('userName')">Please Enter User ID</div>
+      <mat-form-field>
+        <input matInput placeholder="Password" type="password" required formControlName="password" name="password">
+      </mat-form-field>
+      <div class="alert-message" *ngIf="displayErrorMessages('password')">Please Enter Password</div>
+      <div>
+        <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">LOGIN</button>
+      </div>
+      <div class="pull-right">
+        <a (click)="forgotPassword()" class="forgot-password pull-right">Forgot Password</a>
+      </div>
+      <div class="pull-right">
+        <a (click)="resetPassword()" class="forgot-password pull-right">Change Password</a>
+      </div>
+    </form>
+  </div>

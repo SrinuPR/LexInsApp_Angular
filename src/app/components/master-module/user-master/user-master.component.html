@@ -1,0 +1,63 @@
+<div class="form-content">
+    <div class="layout-header">
+        <span class="header-span">Create UserType Master</span>
+    </div>
+    <form [formGroup]="userMasterForm" class="form">
+        <div class="width-100">
+            <div class="form-control-field-left">
+                <mat-form-field>
+                    <mat-select matInput placeholder="Subscriber ID" required formControlName="subscriberID" name="subscriberID">
+                        <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
+                            {{ sub.text }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('subscriberID')">Please select Subscriber ID</div>
+            </div>
+            <div class="form-control-field-right">
+                <mat-form-field>
+                    <mat-select matInput placeholder="UserType ID" required formControlName="userTypeID" name="userTypeID">
+                        <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
+                            {{ sub.text }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('userTypeID')">Please enter UserType ID</div>
+            </div>
+        </div>
+
+        <div class="width-100">
+            <div class="form-control-field-left">
+                <mat-form-field>
+                    <input matInput placeholder="User ID" type="text" required formControlName="userID" name="userID">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('userID')">Please enter User ID</div>
+            </div>
+            <div class="form-control-field-right">
+                <mat-form-field>
+                    <input matInput placeholder="User Name" type="text" required formControlName="userName" name="userName">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('userName')">Please enter User Name</div>
+            </div>
+        </div>
+        <div class="width-100">
+            <div class="form-control-field-left">
+                <mat-form-field>
+                    <input matInput placeholder="Password" type="password" required formControlName="newPassword" name="newPassword">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('newPassword')">Please enter Password</div>
+            </div>
+            <div class="form-control-field-right">
+                <mat-form-field>
+                    <input matInput placeholder="Confirm Password" type="password" required formControlName="confirmPassword"
+                        name="confirmPassword">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('confirmPassword')">Please enter Confirm
+                    Password</div>
+            </div>
+        </div>
+        <div class="padding-top-10">
+            <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,31 @@
+.login-form {
+  border: 2px solid #263238;
+  padding: 15px;
+  border-radius: 50px 20px;
+  width:30%;
+  float:right;
+  height: 350px;
+  header {
+    padding-left: 20px;
+    padding-top: 25px;
+    font-size: 1.5em;
+    font-family: "Roboto", sans-serif;
+  }
+  .form > * {
+    width: 90%;
+  }
+  .form {
+    padding: 10px 0 0 20px;
+    .forgot-password {
+      padding-top: 15px;
+      padding-right: 30px;
+      line-height: 1.5;
+      font-family: "Roboto", sans-serif !important;
+      font-weight: normal;
+      color: #00bcd4;
+      text-decoration: none;
+    }
+  }
+}
+
+

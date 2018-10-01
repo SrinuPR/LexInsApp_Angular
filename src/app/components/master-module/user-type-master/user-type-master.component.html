@@ -1,0 +1,35 @@
+<div class="form-content">
+    <div class="layout-header">
+        <span class="header-span">Create UserType Master</span>
+    </div>
+    <form [formGroup]="userMasterForm" class="form">
+        <div class="width-100">
+            <div class="form-control-field-left">
+                <mat-form-field>
+                    <mat-select matInput placeholder="Subscriber ID" required formControlName="subscriberID" name="subscriberID">
+                        <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
+                            {{ sub.text }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('subscriberID')">Please Select Subscriber ID</div>
+            </div>
+            <div class="form-control-field-right">
+                <mat-form-field>
+                    <input matInput placeholder="UserType ID" type="text" required formControlName="userTypeID" name="userTypeID">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('userTypeID')">Please Enter UserType ID</div>
+            </div>
+        </div>
+        <div class="form-control-field">
+            <mat-form-field>
+                <input matInput placeholder="UserType Name" type="text" required formControlName="userTypeName" name="userTypeName">
+            </mat-form-field>
+            <div class="error-message" *ngIf="displayErrorMessages('userTypeName')">Please enter UserType Name</div>
+        </div>
+        <div class="padding-top-10">
+            <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE</button>
+        </div>
+
+    </form>
+</div>
