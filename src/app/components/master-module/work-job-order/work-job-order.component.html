@@ -1,0 +1,110 @@
+<div class="form-content">
+    <div class="layout-header">
+        <span class="header-span">Maintain Work / Job Order</span>
+    </div>
+    <form [formGroup]="workJobOrderForm" class="form">
+        <mat-form-field>
+            <input matInput placeholder="Subscriber Name" type="subscriberName" formControlName="subscriberName"
+                name="subscriberName">
+        </mat-form-field>
+        <div class="width-100">
+            <div class="form-control-field-left">
+                <mat-form-field>
+                    <mat-select matInput placeholder="Component / Product Drawing Number" required formControlName="productDrawingNumberionTypeID"
+                        name="productDrawingNumberionTypeID">
+                        <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
+                            {{ sub.text }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('productDrawingNumberionTypeID')">Please Enter
+                    Component / Product Drawing Number</div>
+            </div>
+            <div class="form-control-field-right">
+                <mat-form-field>
+                    <mat-select matInput placeholder="Customer P.O. Number" required formControlName="customerPONumber"
+                        name="customerPONumber">
+                        <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
+                            {{ sub.text }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('customerPONumber')">Please Enter Customer P.O.
+                    Number</div>
+            </div>
+        </div>
+        <div class="width-100">
+            <div class="form-control-field-left">
+                <mat-form-field>
+                    <mat-select matInput placeholder="Work / Job Order Number" required formControlName="workJobOrderNumber"
+                        name="workJobOrderNumber">
+                        <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
+                            {{ sub.text }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('workJobOrderNumber')">Please Select Work / Job
+                    Order Number</div>
+            </div>
+            <div class="form-control-field-right">
+                <mat-form-field>
+                    <input matInput placeholder="Work / Job Order Date" type="text" required formControlName="workJobOrderDate"
+                        name="workJobOrderDate">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('workJobOrderDate')">Please Enter Work / Job
+                    Order Date</div>
+            </div>
+        </div>
+        <div class="width-100">
+            <div class="form-control-field-3-left">
+                <mat-form-field>
+                    <input matInput placeholder="Lot Number" type="text" required formControlName="lotNumber" name="lotNumber">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('lotNumber')">Please Enter Lot Number</div>
+            </div>
+            <div class="form-control-field-3-middle">
+                <mat-form-field>
+                    <input matInput placeholder="Lot Size" type="text" required formControlName="lotSize" name="lotSize">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('lotSize')">Please Enter Lot Size</div>
+            </div>
+            <div class="form-control-field-3-right">
+                <mat-form-field>
+                    <input matInput placeholder="Lot Size Units" type="text" required formControlName="lotSizeUnits"
+                        name="lotSizeUnits">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('lotSizeUnits')">Please Enter Lot Size Units</div>
+            </div>
+        </div>
+        <mat-form-field>
+            <input matInput placeholder="Manufacturing Batch Number" type="text" required formControlName="manufacturingBatchNumber"
+                name="manufacturingBatchNumber">
+        </mat-form-field>
+        <div class="error-message" *ngIf="displayErrorMessages('manufacturingBatchNumber')">Please Enter
+            Manufacturing Batch Number</div>
+        <div class="width-100">
+            <div class="form-control-field-left">
+                <mat-form-field>
+                    <input matInput placeholder="Manufacturing Batch Size" type="text" required formControlName="manufacturingBatchSize"
+                        name="manufacturingBatchSize">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('manufacturingBatchSize')">Please Enter
+                    Manufacturing Batch Size</div>
+            </div>
+            <div class="form-control-field-right">
+                <mat-form-field>
+                    <input matInput placeholder="Manufacturing Batch Units" type="text" required formControlName="manufacturingBatchUnits"
+                        name="manufacturingBatchUnits">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('manufacturingBatchUnits')">Please Enter
+                    Manufacturing Batch Units</div>
+            </div>
+        </div>
+        <mat-form-field>
+            <textarea matInput placeholder="Work / Job Order Notes" required formControlName="workJobOrderNotes" name="workJobOrderNotes"></textarea>
+        </mat-form-field>
+        <div class="padding-top-10">
+            <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE</button>
+        </div>
+    </form>
+</div>

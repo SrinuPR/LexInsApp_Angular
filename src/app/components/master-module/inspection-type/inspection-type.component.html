@@ -1,0 +1,30 @@
+<div class="form-content">
+    <div class="layout-header">
+        <span class="header-span">Maintain Inspection Types</span>
+    </div>
+    <form [formGroup]="inspectionTypeForm" class="form">
+        <mat-form-field>
+            <input matInput placeholder="Subscriber Name" type="subscriberName" formControlName="subscriberName"
+                name="subscriberName">
+        </mat-form-field>
+        <div class="width-100">
+            <div class="form-control-field-left">
+                <mat-form-field>
+                    <input matInput placeholder="Inspection Type ID" type="text" required formControlName="inspectionTypeID"
+                        name="inspectionTypeID">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('inspectionTypeID')">Please Enter Inspection Type ID</div>
+            </div>
+            <div class="form-control-field-right">
+                <mat-form-field>
+                    <input matInput placeholder="Inspection Type Name" type="inspectionTypeName" required
+                        formControlName="inspectionTypeName" name="inspectionTypeName">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('inspectionTypeName')">Please Enter Inspection Type Name</div>
+            </div>
+        </div>
+        <div class="padding-top-10">
+            <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE</button>
+        </div>
+    </form>
+</div>

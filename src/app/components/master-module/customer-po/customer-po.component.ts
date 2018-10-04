@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 @Component({
     selector: 'app-customer-po',
     templateUrl: './customer-po.component.html',
-    styleUrls: ['./customer-po.component.css']
+    styleUrls: ['./customer-po.component.scss']
 })
 
 export class CustomerPOComponent implements OnInit {

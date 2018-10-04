@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 @Component({
     selector: 'app-user-master',
     templateUrl: './user-master.component.html',
-    styleUrls: ['./user-master.component.css']
+    styleUrls: ['./user-master.component.scss']
 })
 
 export class UserMasterComponent implements OnInit {

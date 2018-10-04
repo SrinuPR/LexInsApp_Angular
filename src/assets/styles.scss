@@ -8,6 +8,18 @@ body {
   width: 100%;
   clear: both;
 }
+table {
+  background-color: white;
+  width: 100%;
+  tr {
+    line-height: 30px;
+    .header {
+      color: rgba(0,0,0,.54);
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+}
 .alert-message {
   color: #f44336;
   font-family: "Roboto", sans-serif !important;
@@ -73,6 +85,20 @@ body {
 .form-control-field-right {
   width: 50%;
   padding-left: 2%;
+  float: left;
+}
+.form-control-field-3-left {
+  width: 30%;
+  padding-right: 3.5%;
+  float: left;
+}
+.form-control-field-3-right {
+  width: 30%;
+  float: left;
+}
+.form-control-field-3-middle {
+  width: 30%;
+  padding-right: 3.5%;
   float: left;
 }
 .form-control-field {
