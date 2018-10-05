@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="width-100">
-            <table>
+            <!-- <table>
                 <tr>
                     <th class="header" *ngFor="let header of headerColumns">{{header}}</th>
                 </tr>
@@ -32,31 +32,45 @@
                     <td>{{element.upperLimit}}</td>
                     <td>{{element.lowerLimit}}</td>
                 </tr>
-            </table>
-            <!-- <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-                <ng-container matColumnDef="measurementName">
-                    <th mat-header-cell *matHeaderCellDef> Measurement Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.measurementName}} </td>
+            </table> -->
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+              
+                <!-- Position Column -->
+                <ng-container matColumnDef="position">
+                  <th mat-header-cell *matHeaderCellDef>Measurement Name</th>
+                  <td mat-cell *matCellDef="let element"> {{element.position}} </td>
                 </ng-container>
-                <ng-container matColumnDef="baseMeasure">
-                    <th mat-header-cell *matHeaderCellDef> Base Measure </th>
-                    <td mat-cell *matCellDef="let element"> {{element.baseMeasure}} </td>
+              
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Base Measure</th>
+                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                 </ng-container>
-                <ng-container matColumnDef="baseMeasureUnits">
-                    <th mat-header-cell *matHeaderCellDef> Base Measure Units </th>
-                    <td mat-cell *matCellDef="let element"> {{element.baseMeasureUnits}} </td>
+              
+                <!-- Weight Column -->
+                <ng-container matColumnDef="weight">
+                  <th mat-header-cell *matHeaderCellDef>Base Measure Units</th>
+                  <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
                 </ng-container>
-                <ng-container matColumnDef="upperLimit">
-                    <th mat-header-cell *matHeaderCellDef> Upper Limit (+ Tolerance) </th>
-                    <td mat-cell *matCellDef="let element"> {{element.upperLimit}} </td>
+              
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="symbol">
+                  <th mat-header-cell *matHeaderCellDef>Upper Limit (+ Tolerance)</th>
+                  <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
                 </ng-container>
-                <ng-container matColumnDef="lowerLimit">
-                    <th mat-header-cell *matHeaderCellDef> Lower Limit (- Tolerance) </th>
-                    <td mat-cell *matCellDef="let element"> {{element.lowerLimit}} </td>
-                </ng-container>
+                
+                <!-- Symbol Column1 -->
+                <ng-container matColumnDef="symbol1">
+                    <th mat-header-cell *matHeaderCellDef>Upper Limit (+ Tolerance)</th>
+                    <td mat-cell *matCellDef="let element"> {{element.symbol1}} </td>
+                  </ng-container>
+              
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table> -->
+              </table>
         </div>
     </form>
     <div class="padding-top-10">
