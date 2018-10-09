@@ -4,68 +4,89 @@
     </div>
     <form [formGroup]="componentMasterForm" class="form">
         <mat-form-field>
-            <input matInput placeholder="Subscriber Name" type="subscriberName" formControlName="subscriberName"
-                name="subscriberName">
+            <input matInput placeholder="Subscriber Name" type="subscriberName" formControlName="subscriberName" name="subscriberName">
         </mat-form-field>
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Component / Product Drawing Number" type="text" required
-                        formControlName="productDrawingNumber" name="productDrawingNumber">
+                    <input matInput placeholder="Component / Product Drawing Number" onlyNumeric type="text" required
+                        formControlName="componentProductDrawNumber" maxlength="50" name="componentProductDrawNumber">
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('productDrawingNumber')">Please Enter Component / Product Drawing Number</div>
+                <div class="error-message" *ngIf="displayErrorMessages('componentProductDrawNumber')">Please Enter
+                    Component / Product Drawing Number</div>
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <input matInput placeholder="Component / Product Drawing Name" type="productDrawingName" required
-                        formControlName="productDrawingName" name="productDrawingName">
+                    <input matInput placeholder="Component / Product Drawing Name" maxlength="50" type="text" required formControlName="componentProductName"
+                        name="componentProductName">
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('productDrawingName')">Please Enter Component / Product Drawing Name</div>
+                <div class="error-message" *ngIf="displayErrorMessages('componentProductName')">Please Enter Component
+                    / Product Drawing Name</div>
             </div>
         </div>
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Component / Product Number" type="text" required formControlName="productNumber"
-                        name="productNumber">
+                    <input matInput placeholder="Component / Product Number" maxlength="50" type="text" onlyNumeric required formControlName="componentProductNumber"
+                        name="componentProductNumber">
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('productNumber')">Please Enter Component / Product Number</div>
+                <div class="error-message" *ngIf="displayErrorMessages('componentProductNumber')">Please Enter
+                    Component / Product Number</div>
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <input matInput placeholder="Component / Product Material" type="productMaterial" required
-                        formControlName="productMaterial" name="productMaterial">
+                    <input matInput placeholder="Component / Product Material" maxlength="50" type="text" required formControlName="componentProductMeterial"
+                        name="componentProductMeterial">
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('productMaterial')">Please Enter Component / Product Material</div>
+                <div class="error-message" *ngIf="displayErrorMessages('componentProductMeterial')">Please Enter
+                    Component / Product Material</div>
             </div>
         </div>
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Component / Product Manufacturing Units" type="text" required
-                        formControlName="productManufacturingUnits" name="productManufacturingUnits">
+                    <input matInput placeholder="Component / Product Manufacturing Units" maxlength="5" type="text" onlyNumeric required
+                        formControlName="componentProductManufacturerUnits" name="componentProductManufacturerUnits">
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('productManufacturingUnits')">Please Enter Component / Product Manufacturing Units</div>
+                <div class="error-message" *ngIf="displayErrorMessages('componentProductManufacturerUnits')">Please
+                    Enter Component / Product Manufacturing Units</div>
             </div>
         </div>
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Customer’s Name and Address" type="text" required formControlName="productNameAndAddress"
-                        name="productNameAndAddress">
+                    <textarea matInput placeholder="Customer’s Name and Address" maxlength="250" required formControlName="customerNameAddress"
+                        name="customerNameAddress"></textarea>
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('productNameAndAddress')">Please Enter Customer’s Name and Address</div>
+                <div class="error-message" *ngIf="displayErrorMessages('customerNameAddress')">Please Enter Customer’s
+                    Name and Address</div>
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <input matInput placeholder="Component / Product Notes" type="productNotes" required
-                        formControlName="productNotes" name="productNotes">
+                    <textarea matInput placeholder="Component / Product Notes" maxlength="250" formControlName="componentProductNotes"
+                        name="componentProductNotes"></textarea>
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('productNotes')">Please Enter Component / Product Notes</div>
             </div>
         </div>
         <div class="padding-top-10">
-            <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE</button>
+            <button mat-raised-button type="button" [disabled]="!componentMasterForm.valid" (click)="onSubmit()" class="pull-right"
+                color="primary">SAVE</button>
         </div>
     </form>
+    <table class="table">
+        <tr class="table-header">
+            <td class="header-span" *ngFor="let header of displayColumns">{{header}}</td>
+            <td class="header-span">Edit</td>
+            <td class="header-span">Delete</td>
+        </tr>
+        <tr class="table-column" *ngFor="let element of componentProductMasterList;let index=index;">
+            <td>{{element.componentProductDrawNumber}}</td>
+            <td>{{element.componentProductName}}</td>
+            <td>{{element.componentProductNumber}}</td>
+            <td>{{element.componentProductManufacturerUnits}}</td>
+            <td>{{element.customerNameAddress}}</td>
+            <td style="text-align: center; padding-top: 5px;"><i class="material-icons" (click)="onEdit(element, index)">edit</i></td>
+            <td style="text-align: center; padding-top: 5px;"><i class="material-icons" (click)="delete(element)">delete_forever</i></td>
+        </tr>
+    </table>
 </div>

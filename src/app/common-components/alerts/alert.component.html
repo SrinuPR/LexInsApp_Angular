@@ -1,0 +1,5 @@
+<div class="body" [ngClass]="{'alert-success': isSuccess, 'alert-danger': !isSuccess}" *ngIf="showAlert">
+    <i class="material-icons info-icon">info</i>
+    <span>{{message}}</span>
+    <i class="material-icons alert-icon" (click)="close()">close</i>
+</div>

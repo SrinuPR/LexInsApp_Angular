@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.scss']
 })
-export class LeftNavComponent {
+export class LoaderComponent {
 
   constructor( ) { }
 

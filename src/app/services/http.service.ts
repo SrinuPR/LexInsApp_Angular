@@ -1,46 +1,35 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import 'rxjs/add/operator/map';
+@Injectable()
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type':  'application/json'
-  })
-};
-
-@Injectable({
-  providedIn: 'root'
-})
 export class HttpService {
-  
-  constructor(public http: HttpClient) { }
 
-  getBody(object = {}) {
-    return {
-        body: {
-            id: '17',
-            method: '',
-            params: [object],
-            jsonrpc: '2.0'
-        }
-    };
-  }
-  
-  post(path, body) {
-    const url = 'http://10.8.76.37:8888/'
-    this.http.post(url + path, body, httpOptions)
-    .subscribe(
-      (response) => { console.log(response); }, // success path
-      (error) => { console.log(error); } // error path
-    );
+  constructor(
+    private http: HttpClient
+  ) {}
+  path = 'http://10.8.76.59:8888/';
+  private headers = new HttpHeaders({
+    'Pragma': 'no-cache',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json',
+    'Accept': 'application/json'
+  });
+
+  get(url: string, body?: any) : Observable<any> {
+    let fullURL = this.path + url;
+    if (body) {
+      fullURL = fullURL + body;
+    } 
+    return this.http.get(fullURL , { observe: 'response', headers: this.headers });
   }
 
-  get(path) {
-    const url = 'https://ot1.guidehome.com/mt/engageportalservices/v1/cache/metadata/questions/'
-    this.http.post(url + path, this.getBody(), httpOptions)
-    .subscribe(
-      (response) => { console.log(response); }, // success path
-      (error) => { console.log(error); } // error path
-    );
+  post(url: string, body: object): Observable<any> {
+    return this.http.post(this.path + url, body, { observe: 'response', headers: this.headers });
   }
 
+  put(url: string, body: any): Observable<any> {
+    return this.http.put(this.path + url + body, { observe: 'response', headers: this.headers });
+  }
 }

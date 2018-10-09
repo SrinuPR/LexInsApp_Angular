@@ -1,0 +1,26 @@
+table {
+    background-color: transparent;
+    .table-header {
+        background: #263238;
+        .header-span {
+            color: white;
+            padding: 1% 0 2% 0;
+            text-align: center;
+            font-size: 16px;
+        }
+    }
+    .table-column {
+        color: #263238;
+        background: white;
+        td {
+            padding-left: 10px;
+            font-size: 14px;
+            .material-icons {
+                font-size: 20px;
+            }
+        }
+    }
+    .table-column:nth-child(even) {
+        background: #f9f9f9;
+    }
+}

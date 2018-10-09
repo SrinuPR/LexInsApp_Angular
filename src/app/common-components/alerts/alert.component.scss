@@ -1,0 +1,22 @@
+.body {
+    width: 100%;
+    border-radius: 15px;
+    float: right;
+    padding: 15px;
+}
+.alert-success{
+    color: #3c763d;
+    background-color: #a4d491;
+}
+.alert-danger{
+    color: #dd0c0c;
+    background-color: #fbd8d8;
+    border: 1px solid;
+}
+.alert-icon {
+    float: right;
+}
+.info-icon {
+    float: left;
+    padding-right: 10px;
+}

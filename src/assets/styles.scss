@@ -113,3 +113,9 @@ table {
 .padding-top-30 {
   padding-top: 30px;
 }
+
+.mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after, .mat-input-element:disabled {
+  color: darkgray;
+  font-weight: 500;
+  font-size: 20px;
+}

@@ -25,12 +25,16 @@ import { ComponentMasterComponent } from './components/master-module/component-m
 import { WorkJobOrderComponent } from './components/master-module/work-job-order/work-job-order.component';
 import { InspectionsComponent } from './components/master-module/inspections/inspections.component'
 import { InspectionLineItemComponent } from './components/reports/inspection-line-item/inspection-line-item.component'
-
+import { LoaderComponent } from './common-components/loader/loader.component';
 import { LeftNavComponent } from '../app/common-components/left-nav/left-nav.component';
 import { HeaderComponent } from '../app/common-components/header/header.component';
-
+import { AlertsComponent } from '../app/common-components/alerts/alert.component'
 import { AuthService } from './services/auth.service';
 import { CommonService } from './services/common.service';
+import { DataService } from './services/data.service';
+import { HttpService } from './services/http.service';
+
+import { OnlyNumericDirective } from './directives/only-numeric'
 
 @NgModule({
   declarations: [
@@ -53,7 +57,10 @@ import { CommonService } from './services/common.service';
     ComponentMasterComponent,
     WorkJobOrderComponent,
     InspectionsComponent,
-    InspectionLineItemComponent
+    InspectionLineItemComponent,
+    OnlyNumericDirective,
+    AlertsComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +73,10 @@ import { CommonService } from './services/common.service';
   ],
   providers: [
     AuthService,
-    CommonService
+    CommonService,
+    DataService,
+    HttpService,
+    AlertsComponent
   ],
   bootstrap: [AppComponent]
 })
