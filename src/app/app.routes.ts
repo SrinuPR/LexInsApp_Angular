@@ -16,6 +16,7 @@ import { ComponentMasterComponent } from './components/master-module/component-m
 import { WorkJobOrderComponent } from './components/master-module/work-job-order/work-job-order.component';
 import { InspectionsComponent } from './components/master-module/inspections/inspections.component';
 import { InspectionLineItemComponent } from './components/reports/inspection-line-item/inspection-line-item.component'
+import { InspectionMeasurementsComponent } from './components/master-module/inspection-measurements/inspection-measurements.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -32,7 +33,8 @@ const routes: Routes = [
       { path: 'component-master', component: ComponentMasterComponent },
       { path: 'work-job-order', component: WorkJobOrderComponent },
       { path: 'inspections', component: InspectionsComponent },
-      { path: 'inspection-line-item', component: InspectionLineItemComponent }
+      { path: 'inspection-line-item', component: InspectionLineItemComponent },
+      { path: 'inspection-meaurements', component: InspectionLineItemComponent }
     ]
   },
   { path: 'resetpassword', component: ResetPasswordComponent },

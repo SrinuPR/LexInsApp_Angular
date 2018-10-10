@@ -5,12 +5,7 @@ import { ComponentProductMaster } from '../interfaces/component-product-master';
 import 'rxjs/add/operator/map';
 import { CustomerPO } from '../interfaces/customer-po';
 import { Subject } from 'rxjs/internal/Subject';
-
-export interface Alert {
-  message: string;
-  showAlert: boolean;
-  isSuccess: boolean;
-}
+import { UserDetailsModel } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +13,8 @@ export interface Alert {
 export class CommonService {
   showAlerts = new Subject<Alert>();
   showAlertsTrigger = this.showAlerts.asObservable();
+  public userDtls:UserDetailsModel; 
+  
   constructor(
     public httpService: HttpService,
     public http: HttpClient
@@ -26,16 +23,16 @@ export class CommonService {
   triggerAlerts(alertObject: Alert) {
     this.showAlerts.next(alertObject);
   }
-
-  userLogin() {
+  
+  async userLogin1(userName:string,pwd:string) {
+    //const url = 'http://10.8.59.41:8888/'
     const body = {
-      userId:'Srinu123',
-      password: 'Srinu123'
+      userId:userName,
+      password: pwd
     }
-    return this.httpService.post('user/login', body)
-    .subscribe((response) => {
-      console.log(response);
-    });
+    let response=  await this.httpService.post1('user/login', body);
+    let userData =  JSON.stringify(response);
+    this.userDtls = JSON.parse(userData);
   }
 
   getComponentProductMasterList() {
@@ -68,5 +65,44 @@ export class CommonService {
 
   deleteCustomerPO(subscriberId: number) {
     return this.httpService.post('component/delete/', {subscriberId});
+    //this.httpService.post('bp7appetitequestions?hard_refresh=true', body);
   }
+
+  async resetPassword(userName:string,pwd:string,newPwd:string,confNewPwd:string){
+
+    //const url = 'http://10.8.59.41:8888/';
+    const body = {
+      userId:userName,
+      activePassword: pwd,
+      newPassword:newPwd,
+      emailId:null,
+      status:"yes",
+      errorMessage:"no"
+    }
+    let response=  await this.httpService.post1('user/change/password', body);
+    /* let userData =  JSON.stringify(response);
+    this.userDtls = JSON.parse(userData); */
+    console.log('response'+response);
+  }
+
+  async forgotPassword(userName:string,emailId:string){
+   // const url = 'http://10.8.59.41:8888/';
+    const body = {
+      userId:userName,
+      activePassword:null,
+      newPassword:null,
+      emailId: emailId,
+      status:"yes",
+      errorMessage:"no"
+    }
+    let response=  await this.httpService.post1('user/forgot/password', body);
+    let userData =  JSON.stringify(response);
+    this.userDtls = JSON.parse(userData);
+  }
+}
+
+export interface Alert {
+  message: string;
+  showAlert: boolean;
+  isSuccess: boolean;
 }

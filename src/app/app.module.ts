@@ -33,8 +33,11 @@ import { AuthService } from './services/auth.service';
 import { CommonService } from './services/common.service';
 import { DataService } from './services/data.service';
 import { HttpService } from './services/http.service';
+import {MatCheckboxModule} from '@angular/material'
 
-import { OnlyNumericDirective } from './directives/only-numeric'
+import { OnlyNumericDirective } from './directives/only-numeric';
+import { InspectionMeasurementsComponent } from './components/master-module/inspection-measurements/inspection-measurements.component';
+
 
 @NgModule({
   declarations: [
@@ -60,7 +63,8 @@ import { OnlyNumericDirective } from './directives/only-numeric'
     InspectionLineItemComponent,
     OnlyNumericDirective,
     AlertsComponent,
-    LoaderComponent
+    LoaderComponent,
+    InspectionMeasurementsComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +73,8 @@ import { OnlyNumericDirective } from './directives/only-numeric'
     AppRouters,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatCheckboxModule
   ],
   providers: [
     AuthService,

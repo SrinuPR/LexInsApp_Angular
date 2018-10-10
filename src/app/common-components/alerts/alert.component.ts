@@ -14,6 +14,7 @@ export class AlertsComponent {
     public commonService: CommonService
   ) {
     this.commonService.showAlertsTrigger.subscribe((alertObject: Alert) => {
+      console.log('inside alert component!')
       this.triggerAlert(alertObject);
     })
   }

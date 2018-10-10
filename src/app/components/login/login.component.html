@@ -1,3 +1,4 @@
+
 <div class="login-form">
     <header>Login</header>
     <form [formGroup]="loginForm" class="form">
@@ -9,6 +10,7 @@
         <input matInput placeholder="Password" type="password" required formControlName="password" name="password">
       </mat-form-field>
       <div class="alert-message" *ngIf="displayErrorMessages('password')">Please Enter Password</div>
+      <!-- <div class="alert-message" *ngIf="errorDesc != null">{{errorDesc}}</div> -->
       <div>
         <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">LOGIN</button>
       </div>

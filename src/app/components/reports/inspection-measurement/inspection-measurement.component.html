@@ -1,0 +1,81 @@
+<div class="form-content">
+    <div class="layout-header">
+        <span class="header-span">Maintain Inspection Master</span>
+    </div>
+    <form [formGroup]="inspectionsForm" class="form">
+        <mat-form-field>
+            <input matInput placeholder="Subscriber Name" type="text" formControlName="subscriberName" name="subscriberName">
+        </mat-form-field>
+        <div class="width-100">
+            <div class="form-control-field-left">
+                <mat-form-field>
+                    <mat-select matInput placeholder="Component / Product Drawing Number" required formControlName="componentProductDrawingNumber"
+                        name="componentProductDrawingNumber">
+                        <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
+                            {{ sub.text }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('componentProductDrawingNumber')">Please select
+                    Component / Product Drawing Number</div>
+            </div>
+            <div class="form-control-field-right">
+                <mat-form-field>
+                    <input matInput placeholder="Component / Product Name" type="text" required formControlName="componentProductName"
+                        name="componentProductName">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('componentProductName')">Please Enter Component
+                    / Product Name</div>
+            </div>
+        </div>
+        <div class="width-100">
+            <div class="form-control-field-left">
+                <mat-form-field>
+                    <input matInput placeholder="Component / Product Number" type="text" required formControlName="componentProductNumber"
+                        name="componentProductNumber">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('componentProductNumber')">Please Enter
+                    Component / Product Number</div>
+            </div>
+            <div class="form-control-field-right">
+                <mat-form-field>
+                    <input matInput placeholder="Component / Product Material" type="text" required formControlName="componentProductMaterial"
+                        name="componentProductMaterial">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('componentProductMaterial')">Please Enter
+                    Component / Product Material</div>
+            </div>
+        </div>
+        <div class="width-100">
+            <div class="form-control-field-left">
+                <mat-form-field>
+                    <mat-select matInput placeholder="Inspection Type" required formControlName="inspectionType" name="inspectionType">
+                        <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
+                            {{ sub.text }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('inspectionType')">Please Select
+                    Inspection Type</div>
+            </div>
+            <div class="form-control-field-right">
+                <mat-form-field>
+                    <mat-select matInput placeholder="Inspection Stage" required formControlName="inspectionStage" name="inspectionStage">
+                        <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
+                            {{ sub.text }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('inspectionStage')">Please Select Inspection
+                    Stage</div>
+            </div>
+        </div>
+        <mat-form-field>
+            <textarea matInput placeholder="Component / Product Notes" required formControlName="componentProductNotes"
+                name="workJobOrderNotes"></textarea>
+        </mat-form-field>
+        <div class="padding-top-10">
+            <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE</button>
+        </div>
+    </form>
+</div>

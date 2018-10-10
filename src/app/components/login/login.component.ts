@@ -12,6 +12,7 @@ import { CommonService } from '../../services/common.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isButtonClicked = false;
+  errorDesc = null;
   constructor(
     public router: Router,
     public formBuilder: FormBuilder,
@@ -30,12 +31,29 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.isButtonClicked = true;
     if (this.loginForm.valid) {
-      this.commonService.userLogin();
-      this.auth.isLoggedIn = true;
-      this.router.navigate(['/dashboard']);
+      const user = this.loginForm.get('userName').value;
+      const pwd = this.loginForm.get('password').value;
+      await this.commonService.userLogin1(user,pwd);
+      const userDtls =this.commonService.userDtls;
+      this.errorDesc = userDtls.errorMessage;
+      if(this.errorDesc != null || this.errorDesc != ''){
+        console.log('inside trigger alert!');
+        this.commonService.triggerAlerts({message: this.errorDesc, showAlert: true, isSuccess: false});
+      }
+      console.log('error msg'+this.errorDesc);
+      if(null != userDtls && userDtls.status == 'Success'){
+        this.commonService.triggerAlerts({message:'', showAlert: false, isSuccess: false});
+        this.auth.isLoggedIn = true;
+          if(userDtls.firstTimeLogin){
+            this.router.navigate(['/resetpassword']);
+          }
+          else{
+            this.router.navigate(['/dashboard']);
+          }
+      }
     }
   }
 

@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserDetailsModel } from '../../models/user.model';
+import { CommonService } from '../../services/common.service';
+import { invalid } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'app-reset-password',
@@ -10,9 +13,13 @@ import { Router } from '@angular/router';
 
 export class ResetPasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;
+  errorDesc;
+  passwordMismatch = false;
   constructor(
     public router: Router,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    public userDtls: UserDetailsModel,
+    public commonService:CommonService
   ) { }
 
   ngOnInit() {
@@ -23,8 +30,8 @@ export class ResetPasswordComponent implements OnInit {
     this.resetPasswordForm = this.formBuilder.group({
       userName: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
-      newPassword: new FormControl('', [Validators.required]),
-      confirmPassword: new FormControl('', [Validators.required, this.passwordConfirming])
+      newPassword: new FormControl('', [Validators.required,this.passwordConfirming.bind(this)]),
+      confirmPassword: new FormControl('', [Validators.required, this.passwordConfirming.bind(this)])
     });
   }
 
@@ -37,10 +44,42 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   passwordConfirming(control: AbstractControl): { invalid: boolean } {
-    if (control.get('password') && control.get('confirmPassword')) {
-      if (control.get('password').value !== control.get('confirmPassword').value) {
+    
+    if(this.resetPasswordForm !=null){
+      const newPwd:string = this.resetPasswordForm.get('newPassword').value;
+      const confrimPwd:string = this.resetPasswordForm.get('confirmPassword').value;
+      if(newPwd === '' && (confrimPwd !==null && confrimPwd!=='') ){
+        this.passwordMismatch = true;
+        return { invalid: false };
+      }
+      if (confrimPwd !== '' && newPwd !== '' && newPwd !== confrimPwd) {
+        this.passwordMismatch = true;
+      }
+      if (confrimPwd !== '' && newPwd !== '' && newPwd === confrimPwd) {
+        this.passwordMismatch = false;
+      }
+    }
+    /* if (control.get('newPassword') && control.get('confirmPassword')) {
+      if (control.get('newPassword').value !== control.get('confirmPassword').value) {
         return { invalid: true };
       }
+    } */
+  }
+
+  async onSubmit(){
+    if (this.resetPasswordForm.valid) {
+      const user = this.resetPasswordForm.get('userName').value;
+      const pwd = this.resetPasswordForm.get('password').value;
+      const newPwd = this.resetPasswordForm.get('newPassword').value;
+      const confNewPwd = this.resetPasswordForm.get('confirmPassword').value;
+      await this.commonService.resetPassword(user,pwd,newPwd,confNewPwd);
+      /* const userDtls =this.commonService.userDtls;
+      this.errorDesc = userDtls.errorMessage;
+      console.log('error msg'+this.errorDesc); */
+      //if(null != userDtls && userDtls.status == 'Success'){
+        this.commonService.triggerAlerts({message: 'Password updated successfully, Please Login again with udpated password!', showAlert: true, isSuccess: true});
+        this.router.navigate(['']);
+      //}
     }
   }
 }

@@ -1,9 +1,16 @@
-import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
-@Injectable()
+import { Injectable } from '@angular/core';
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json'
+  })
+};
 
+@Injectable(
+  
+)
 export class HttpService {
 
   constructor(
@@ -28,6 +35,22 @@ export class HttpService {
   post(url: string, body: object): Observable<any> {
     return this.http.post(this.path + url, body, { observe: 'response', headers: this.headers });
   }
+
+  //10.14.224.30:8888/user/changePass 
+   async post1(path, body) {
+     let res = null;
+     const url = 'http://10.8.76.59:8888/'
+     await this.http.post(url + path, body,httpOptions)
+     .toPromise().then(
+       response => { console.log(response); 
+        res = response;
+       }, // success path
+       (error) => { console.log(error); 
+         res = error.error;
+       } // error path
+     );
+     return res;
+   }
 
   put(url: string, body: any): Observable<any> {
     return this.http.put(this.path + url + body, { observe: 'response', headers: this.headers });
