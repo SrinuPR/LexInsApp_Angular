@@ -22,14 +22,14 @@ export class ComponentMasterComponent implements OnInit {
   isEdit = false;
   editIndex: number;
   constructor(
-      public router: Router,
-      public formBuilder: FormBuilder,
-      public commonService: CommonService,
-      public dataService: DataService,
-      public alertComponent: AlertsComponent
+    public router: Router,
+    public formBuilder: FormBuilder,
+    public commonService: CommonService,
+    public dataService: DataService,
+    public alertComponent: AlertsComponent
   ) { }
   ngOnInit() {
-    
+
     this.buildFormControls();
     this.componentMasterForm.get('subscriberName').disable();
     this.getComponentProductMasterList();
@@ -75,12 +75,12 @@ export class ComponentMasterComponent implements OnInit {
 
   getComponentProductMasterList() {
     this.commonService.getComponentProductMasterList()
-    .subscribe((response) => {
-      this.componentProductMasterList = response.body;
-    },
-    (error) => {
-      this.commonService.triggerAlerts({message: 'Something went wrong. Please try again in some time.', showAlert: true, isSuccess: false});
-    });
+      .subscribe((response) => {
+        this.componentProductMasterList = response.body;
+      },
+        (error) => {
+          this.commonService.triggerAlerts({ message: 'Something went wrong. Please try again in some time.', showAlert: true, isSuccess: false });
+        });
   }
 
   onEdit(element: ComponentProductMaster, index: number) {
@@ -102,13 +102,13 @@ export class ComponentMasterComponent implements OnInit {
 
   delete(element: ComponentProductMaster) {
     this.commonService.deleteComponentProductMaster(element.componentId)
-    .subscribe((response) => {
-      console.log('success');
-      this.componentProductMasterList = _.without(this.componentProductMasterList, element);
-    },
-    (error) => {
-      this.commonService.triggerAlerts({message: 'Something went wrong. Please try again in some time.', showAlert: true, isSuccess: false});
-    });
+      .subscribe((response) => {
+        console.log('success');
+        this.componentProductMasterList = _.without(this.componentProductMasterList, element);
+      },
+        (error) => {
+          this.commonService.triggerAlerts({ message: 'Something went wrong. Please try again in some time.', showAlert: true, isSuccess: false });
+        });
   }
 
   onSubmit() {
@@ -118,38 +118,38 @@ export class ComponentMasterComponent implements OnInit {
       this.updateComponentProductMaster();
     }
     this.isEdit = false;
-    this.resetForm();
   }
 
   createComponentProductMaster() {
-    this.commonService.createComponentProductMaster(this.getRequestObject())
-    .subscribe((response) => {
-      console.log(response);
-      if (response.status === 's') {
-        this.componentProductMasterList = response.body;
-        this.commonService.triggerAlerts({message: 'Component / Product Saved.', showAlert: true, isSuccess: true});
-      } else {
-        this.commonService.triggerAlerts({message: 'Drawing Number Exists.', showAlert: true, isSuccess: false});
-      }
-    },
-    (error) => {
-      this.commonService.triggerAlerts({message: 'Component / Product Not Saved. Please try again.', showAlert: true, isSuccess: false});
-    });
+    const checkDuplicate = _.find(this.componentProductMasterList, { componentProductDrawNumber: this.getRequestObject().componentProductDrawNumber });
+    if (checkDuplicate) {
+      this.commonService.triggerAlerts({ message: 'Drawing Number Exists.', showAlert: true, isSuccess: false });
+    } else {
+      this.commonService.createComponentProductMaster(this.getRequestObject())
+        .subscribe((response) => {
+          this.componentProductMasterList = response.body;
+          this.commonService.triggerAlerts({ message: 'Component / Product Saved.', showAlert: true, isSuccess: true });
+        },
+          (error) => {
+            this.commonService.triggerAlerts({ message: 'Component / Product Not Saved. Please try again.', showAlert: true, isSuccess: false });
+          });
+      this.resetForm();
+    }
   }
 
   updateComponentProductMaster() {
     this.commonService.updateComponentProductMaster(this.getRequestObject())
-    .subscribe((response) => {
-      this.componentProductMasterList = response.body;
-      this.commonService.triggerAlerts({message: 'Component / Product Updated.', showAlert: true, isSuccess: true});
-    },
-    (error) => {
-      this.commonService.triggerAlerts({message: 'Component / Product Not Saved. Please try again.', showAlert: true, isSuccess: false});
-    });
+      .subscribe((response) => {
+        this.componentProductMasterList = response.body;
+        this.commonService.triggerAlerts({ message: 'Component / Product Updated.', showAlert: true, isSuccess: true });
+      },
+        (error) => {
+          this.commonService.triggerAlerts({ message: 'Component / Product Not Saved. Please try again.', showAlert: true, isSuccess: false });
+        });
   }
 
   getRequestObject() {
-    this.componentProductMasterObject.componentId = this.componentMasterForm.get('componentId') ? this.componentMasterForm.get('componentId').value || null  : null;
+    this.componentProductMasterObject.componentId = this.componentMasterForm.get('componentId') ? this.componentMasterForm.get('componentId').value || null : null;
     this.componentProductMasterObject.subscriberId = 12345;
     this.componentProductMasterObject.componentProductDrawNumber = this.componentMasterForm.get('componentProductDrawNumber').value;
     this.componentProductMasterObject.componentProductName = this.componentMasterForm.get('componentProductName').value;

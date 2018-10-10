@@ -25,6 +25,8 @@ export class InspectionLineItemComponent implements OnInit {
     dataSource = [
         {position: 'Length', name: '1000', weight: 10.0079, symbol: 50, symbol1: 50},
         {position: 'Height', name: '200', weight: 40.0026, symbol: 70, symbol1: 50},
+        {position: 'Width', name: '500', weight: 60.941, symbol: 30, symbol1: 50},
+        {position: 'Width', name: '500', weight: 60.941, symbol: 30, symbol1: 50},
         {position: 'Width', name: '500', weight: 60.941, symbol: 30, symbol1: 50}
     ]
 
