@@ -7,6 +7,6 @@ export interface ComponentProductMaster {
     componentProductNumber: string;
     componentProductMeterial: string;
     componentProductManufacturerUnits: string;
-	customerNameAddress: string;
-	componentProductNotes: string;
+    customerNameAddress: string;
+    componentProductNotes: string;
 }

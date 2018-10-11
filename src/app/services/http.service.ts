@@ -14,18 +14,18 @@ export class HttpService {
   constructor(
     private http: HttpClient
   ) {}
-  path = 'http://USHYDRNARNE8:8888/';
+  path = 'http://10.118.44.228:8888/';
   private headers = new HttpHeaders({
     'Pragma': 'no-cache',
     'cache-control': 'no-cache',
     'content-type': 'application/json'
   });
 
-  get(url: string, body?: any) : Observable<any> {
+  get(url: string, body?: any): Observable<any> {
     let fullURL = this.path + url;
     if (body) {
       fullURL = fullURL + body;
-    } 
+    }
     return this.http.get(fullURL , { observe: 'response', headers: this.headers });
   }
 
@@ -35,8 +35,7 @@ export class HttpService {
 
   async post1(path, body) {
     let res = null;
-    const url = 'http://10.8.76.42:8888/';
-    await this.http.post(url + path, body, httpOptions)
+    await this.http.post(this.path + path, body, httpOptions)
     .toPromise().then(
       response => { console.log(response);
        res = response;

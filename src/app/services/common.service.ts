@@ -29,7 +29,7 @@ export class CommonService {
     const body = {
       userId: userName,
       password: pwd
-    }
+    };
     let response = await this.httpService.post1('user/login', body);
     let userData = JSON.stringify(response);
     this.userDtls = JSON.parse(userData);
@@ -56,7 +56,7 @@ export class CommonService {
   }
 
   createCustomerPO(object: CustomerPO) {
-    return this.httpService.post('component/save', object);
+    return this.httpService.post('purchaseOrder/save', object);
   }
 
   updateCustomerPO(object: CustomerPO) {

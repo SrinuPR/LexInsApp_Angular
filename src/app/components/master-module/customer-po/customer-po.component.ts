@@ -41,14 +41,14 @@ export class CustomerPOComponent implements OnInit {
             customerPoId: null,
             customerPONumber: '',
             customerPODate: '',
-            customerPOQuantity: '',
+            customerPOQuantity: null,
             poNotes: ''
         };
     }
 
     buildFormControls() {
         this.customerPOForm = this.formBuilder.group({
-            subscriberName: new FormControl(''),
+            subscriberName: new FormControl(this.commonService.userDtls.subscriberName),
             customerPoId: new FormControl(''),
             componentId: new FormControl('', [Validators.required]),
             customerPONumber: new FormControl('', [Validators.required]),
@@ -69,11 +69,15 @@ export class CustomerPOComponent implements OnInit {
     getcustomerPOList() {
         this.commonService.getComponentProductMasterList()
             .subscribe((response) => {
-                this.componentProductDrawingNumberList = response.body;
+                if (response.body.status === 'Success') {
+                    this.componentProductDrawingNumberList = response.body.result;
+                }
             });
         this.commonService.getCustomerPOList()
             .subscribe((response) => {
-                this.customerPOList = response.body;
+                if (response.body.status === 'Success') {
+                    this.customerPOList = response.body.result;
+                }
             });
     }
 
@@ -82,9 +86,12 @@ export class CustomerPOComponent implements OnInit {
         this.isEdit = true;
         this.customerPOForm.get('customerPoId').setValue(element.customerPoId);
         this.customerPOForm.get('componentId').setValue(element.componentId);
+        this.customerPOForm.get('componentId').disable();
         this.customerPOForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
         this.customerPOForm.get('customerPONumber').setValue(element.customerPONumber);
+        this.customerPOForm.get('customerPONumber').disable();
         this.customerPOForm.get('customerPODate').setValue(element.customerPODate);
+        this.customerPOForm.get('customerPODate').disable();
         this.customerPOForm.get('customerPOQuantity').setValue(element.customerPOQuantity);
         this.customerPOForm.get('poNotes').setValue(element.poNotes);
     }
@@ -118,8 +125,10 @@ export class CustomerPOComponent implements OnInit {
         } else {
             this.commonService.createCustomerPO(this.getRequestObject())
                 .subscribe((response) => {
-                    this.customerPOList = response.body;
-                    this.commonService.triggerAlerts({ message: 'Customer P.O. Saved.', showAlert: true, isSuccess: true });
+                    if (response.body.status === 'Success') {
+                        this.customerPOList = response.body.result;
+                        this.commonService.triggerAlerts({ message: 'Customer P.O. Saved.', showAlert: true, isSuccess: true });
+                    }
                 },
                     (error) => {
                         this.commonService.triggerAlerts(
@@ -132,8 +141,10 @@ export class CustomerPOComponent implements OnInit {
     updateCustomerPO() {
         this.commonService.updateCustomerPO(this.getRequestObject())
             .subscribe((response) => {
-                this.customerPOList = response.body;
-                this.commonService.triggerAlerts({ message: 'Customer P.O. Saved.', showAlert: true, isSuccess: true });
+                if (response.body.status === 'Success') {
+                    this.customerPOList = response.body.result;
+                    this.commonService.triggerAlerts({ message: 'Customer P.O. Saved.', showAlert: true, isSuccess: true });
+                }
             },
                 (error) => {
                     this.commonService.triggerAlerts(
@@ -157,5 +168,18 @@ export class CustomerPOComponent implements OnInit {
         this.customerPOForm.reset();
         this.customerPOForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
         this.customerPOForm.get('subscriberName').disable();
+    }
+
+    cancelEdit() {
+        this.resetForm();
+        this.isEdit = false;
+    }
+
+    getProductDrawNumberText(componentId) {
+        _.find(this.componentProductDrawingNumberList, (item) => {
+            if (item.componentId === componentId) {
+                return item.componentProductDrawNumber;
+            }
+        });
     }
 }
