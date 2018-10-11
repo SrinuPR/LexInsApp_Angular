@@ -9,7 +9,7 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Component / Product Drawing Number" onlyNumeric type="text" required
+                    <input matInput placeholder="Component / Product Drawing Number" type="text" required
                         formControlName="componentProductDrawNumber" maxlength="50" name="componentProductDrawNumber">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('componentProductDrawNumber')">Please Enter
@@ -17,8 +17,8 @@
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <input matInput placeholder="Component / Product Drawing Name" maxlength="50" type="text" required formControlName="componentProductName"
-                        name="componentProductName">
+                    <input matInput placeholder="Component / Product Drawing Name" maxlength="50" type="text" required
+                        formControlName="componentProductName" name="componentProductName">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('componentProductName')">Please Enter Component
                     / Product Drawing Name</div>
@@ -27,16 +27,16 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Component / Product Number" maxlength="50" type="text" onlyNumeric required formControlName="componentProductNumber"
-                        name="componentProductNumber">
+                    <input matInput placeholder="Component / Product Number" maxlength="50" type="text" required
+                        formControlName="componentProductNumber" name="componentProductNumber">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('componentProductNumber')">Please Enter
                     Component / Product Number</div>
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <input matInput placeholder="Component / Product Material" maxlength="50" type="text" required formControlName="componentProductMeterial"
-                        name="componentProductMeterial">
+                    <input matInput placeholder="Component / Product Material" maxlength="50" type="text" required
+                        formControlName="componentProductMeterial" name="componentProductMeterial">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('componentProductMeterial')">Please Enter
                     Component / Product Material</div>
@@ -45,8 +45,8 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Component / Product Manufacturing Units" maxlength="5" type="text" onlyNumeric required
-                        formControlName="componentProductManufacturerUnits" name="componentProductManufacturerUnits">
+                    <input matInput placeholder="Component / Product Manufacturing Units" maxlength="5" type="text"
+                        required formControlName="componentProductManufacturerUnits" name="componentProductManufacturerUnits">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('componentProductManufacturerUnits')">Please
                     Enter Component / Product Manufacturing Units</div>
@@ -55,8 +55,8 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <textarea matInput placeholder="Customer’s Name and Address" maxlength="250" required formControlName="customerNameAddress"
-                        name="customerNameAddress"></textarea>
+                    <textarea matInput placeholder="Customer’s Name and Address" maxlength="250" required
+                        formControlName="customerNameAddress" name="customerNameAddress"></textarea>
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('customerNameAddress')">Please Enter Customer’s
                     Name and Address</div>
@@ -69,6 +69,8 @@
             </div>
         </div>
         <div class="padding-top-10">
+            <button mat-raised-button type="button" *ngIf="isEdit" (click)="cancelEdit()" class="pull-right"
+                color="primary">CANCEL</button>
             <button mat-raised-button type="button" [disabled]="!componentMasterForm.valid" (click)="onSubmit()" class="pull-right"
                 color="primary">SAVE</button>
         </div>

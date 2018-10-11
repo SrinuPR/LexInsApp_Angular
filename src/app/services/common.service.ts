@@ -13,8 +13,8 @@ import { UserDetailsModel } from '../models/user.model';
 export class CommonService {
   showAlerts = new Subject<Alert>();
   showAlertsTrigger = this.showAlerts.asObservable();
-  public userDtls:UserDetailsModel; 
-  
+  public userDtls: UserDetailsModel;
+
   constructor(
     public httpService: HttpService,
     public http: HttpClient
@@ -23,15 +23,15 @@ export class CommonService {
   triggerAlerts(alertObject: Alert) {
     this.showAlerts.next(alertObject);
   }
-  
-  async userLogin1(userName:string,pwd:string) {
+
+  async userLogin1(userName: string, pwd: string) {
     //const url = 'http://10.8.59.41:8888/'
     const body = {
-      userId:userName,
+      userId: userName,
       password: pwd
     }
-    let response=  await this.httpService.post1('user/login', body);
-    let userData =  JSON.stringify(response);
+    let response = await this.httpService.post1('user/login', body);
+    let userData = JSON.stringify(response);
     this.userDtls = JSON.parse(userData);
   }
 
@@ -40,7 +40,7 @@ export class CommonService {
   }
 
   createComponentProductMaster(object: ComponentProductMaster) {
-   return this.httpService.post('component/save', object);
+    return this.httpService.post('component/save', object);
   }
 
   updateComponentProductMaster(object: ComponentProductMaster) {
@@ -52,51 +52,50 @@ export class CommonService {
   }
 
   getCustomerPOList() {
-    return this.httpService.get('component/all');
+    return this.httpService.get('purchaseOrder/all');
   }
 
   createCustomerPO(object: CustomerPO) {
-   return this.httpService.post('component/save', object);
+    return this.httpService.post('component/save', object);
   }
 
   updateCustomerPO(object: CustomerPO) {
-    return this.httpService.post('user/updateComponentProductMaster', object);
+    return this.httpService.post('purchaseOrder/update', object);
   }
 
-  deleteCustomerPO(subscriberId: number) {
-    return this.httpService.post('component/delete/', {subscriberId});
-    //this.httpService.post('bp7appetitequestions?hard_refresh=true', body);
+  deleteCustomerPO(customerPoId: number) {
+    return this.httpService.post('purchaseOrder/delete/', { customerPoId });
   }
 
-  async resetPassword(userName:string,pwd:string,newPwd:string,confNewPwd:string){
+  async resetPassword(userName: string, pwd: string, newPwd: string, confNewPwd: string) {
 
-    //const url = 'http://10.8.59.41:8888/';
+    // const url = 'http://10.8.59.41:8888/';
     const body = {
-      userId:userName,
+      userId: userName,
       activePassword: pwd,
-      newPassword:newPwd,
-      emailId:null,
-      status:"yes",
-      errorMessage:"no"
-    }
-    let response=  await this.httpService.post1('user/change/password', body);
+      newPassword: newPwd,
+      emailId: null,
+      status: 'yes',
+      errorMessage: 'no'
+    };
+    const response = await this.httpService.post1('user/change/password', body);
     /* let userData =  JSON.stringify(response);
     this.userDtls = JSON.parse(userData); */
-    console.log('response'+response);
+    console.log('response' + response);
   }
 
-  async forgotPassword(userName:string,emailId:string){
-   // const url = 'http://10.8.59.41:8888/';
+  async forgotPassword(userName: string, emailId: string) {
+    // const url = 'http://10.8.59.41:8888/';
     const body = {
-      userId:userName,
-      activePassword:null,
-      newPassword:null,
+      userId: userName,
+      activePassword: null,
+      newPassword: null,
       emailId: emailId,
-      status:"yes",
-      errorMessage:"no"
-    }
-    let response=  await this.httpService.post1('user/forgot/password', body);
-    let userData =  JSON.stringify(response);
+      status: 'yes',
+      errorMessage: 'no'
+    };
+    const response = await this.httpService.post1('user/forgot/password', body);
+    const userData = JSON.stringify(response);
     this.userDtls = JSON.parse(userData);
   }
 }

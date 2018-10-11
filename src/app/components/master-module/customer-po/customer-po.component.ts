@@ -5,6 +5,7 @@ import { CommonService } from '../../../services/common.service';
 import { DataService } from '../../../services/data.service';
 import { CustomerPO } from '../../../interfaces/customer-po';
 import * as _ from 'underscore';
+import { ComponentProductMaster } from 'src/app/interfaces/component-product-master';
 
 @Component({
     selector: 'app-customer-po',
@@ -15,43 +16,40 @@ import * as _ from 'underscore';
 export class CustomerPOComponent implements OnInit {
     customerPOForm: FormGroup;
     displayColumns = ['Product Draw Number', 'Customer PO Number', 'Customer PO Date', 'Customer PO Quantity'];
-    subscribersList = [
-        { text: 'Deloitte', value: 1 },
-        { text: 'Symphony', value: 2 }
-    ];
     customerPOList: CustomerPO[] = [];
     customerPObject: CustomerPO;
+    componentProductDrawingNumberList: ComponentProductMaster[] = [];
     isEdit = false;
     editIndex: number;
     constructor(
         public router: Router,
         public formBuilder: FormBuilder,
-        public commonService: CommonService,
-        public dataService: DataService
+        public commonService: CommonService
     ) { }
     ngOnInit() {
         this.buildFormControls();
+        this.customerPOForm.get('subscriberName').disable();
         this.getcustomerPOList();
         this.setcustomerPObject();
     }
 
     setcustomerPObject() {
         this.customerPObject = {
-            subscriberId: this.dataService.subsrciberDetails.subscriberId,
-            subscriberName: this.dataService.subsrciberDetails.subscriberName,
+            subscriberId: this.commonService.userDtls.subscriberId,
+            subscriberName: this.commonService.userDtls.subscriberName,
             componentId: 0,
-            customerPOId: null,
+            customerPoId: null,
             customerPONumber: '',
             customerPODate: '',
             customerPOQuantity: '',
             poNotes: ''
         };
     }
-    
+
     buildFormControls() {
         this.customerPOForm = this.formBuilder.group({
             subscriberName: new FormControl(''),
-            customerPOId: new FormControl(''),
+            customerPoId: new FormControl(''),
             componentId: new FormControl('', [Validators.required]),
             customerPONumber: new FormControl('', [Validators.required]),
             customerPODate: new FormControl('', [Validators.required]),
@@ -69,18 +67,22 @@ export class CustomerPOComponent implements OnInit {
     }
 
     getcustomerPOList() {
+        this.commonService.getComponentProductMasterList()
+            .subscribe((response) => {
+                this.componentProductDrawingNumberList = response.body;
+            });
         this.commonService.getCustomerPOList()
             .subscribe((response) => {
-                console.log(response);
+                this.customerPOList = response.body;
             });
     }
 
     onEdit(element: CustomerPO, index: number) {
         this.editIndex = index;
         this.isEdit = true;
-        this.customerPOForm.get('customerPOId').setValue(element.componentId);
+        this.customerPOForm.get('customerPoId').setValue(element.customerPoId);
         this.customerPOForm.get('componentId').setValue(element.componentId);
-        this.customerPOForm.get('subscriberName').setValue(this.dataService.subsrciberDetails.subscriberName);
+        this.customerPOForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
         this.customerPOForm.get('customerPONumber').setValue(element.customerPONumber);
         this.customerPOForm.get('customerPODate').setValue(element.customerPODate);
         this.customerPOForm.get('customerPOQuantity').setValue(element.customerPOQuantity);
@@ -88,38 +90,61 @@ export class CustomerPOComponent implements OnInit {
     }
 
     delete(element: CustomerPO) {
-        this.customerPOList = _.without(this.customerPOList, element);
-        this.resetForm();
+        this.commonService.deleteCustomerPO(element.componentId)
+            .subscribe((response) => {
+                this.customerPOList = _.without(this.customerPOList, element);
+            },
+                (error) => {
+                    this.commonService.triggerAlerts(
+                        { message: 'Something went wrong. Please try again in some time.', showAlert: true, isSuccess: false });
+                });
     }
 
     onSubmit() {
         if (!this.isEdit) {
-            this.createComponentProductMaster();
+            this.createCustomerPO();
         } else {
-            this.updateComponentProductMaster();
+            this.updateCustomerPO();
         }
         this.isEdit = false;
         this.resetForm();
     }
 
-    createComponentProductMaster() {
-        this.commonService.createCustomerPO(this.getRequestObject())
-            .subscribe((response) => {
-                console.log(response);
-            });
-
+    createCustomerPO() {
+        const checkDuplicate = _.find(this.customerPOList,
+            { componentProductDrawNumber: this.getRequestObject().customerPONumber });
+        if (checkDuplicate) {
+            this.commonService.triggerAlerts({ message: 'Customer P.O. Exists.', showAlert: true, isSuccess: false });
+        } else {
+            this.commonService.createCustomerPO(this.getRequestObject())
+                .subscribe((response) => {
+                    this.customerPOList = response.body;
+                    this.commonService.triggerAlerts({ message: 'Customer P.O. Saved.', showAlert: true, isSuccess: true });
+                },
+                    (error) => {
+                        this.commonService.triggerAlerts(
+                            { message: 'Customer P.O. NOT Saved. Please try again.', showAlert: true, isSuccess: false });
+                    });
+            this.resetForm();
+        }
     }
 
-    updateComponentProductMaster() {
+    updateCustomerPO() {
         this.commonService.updateCustomerPO(this.getRequestObject())
             .subscribe((response) => {
-                console.log(response);
-            });
+                this.customerPOList = response.body;
+                this.commonService.triggerAlerts({ message: 'Customer P.O. Saved.', showAlert: true, isSuccess: true });
+            },
+                (error) => {
+                    this.commonService.triggerAlerts(
+                        { message: 'Customer P.O. NOT Saved. Please try again.', showAlert: true, isSuccess: false });
+                });
     }
 
     getRequestObject() {
-        this.customerPObject.customerPOId = this.customerPOForm.get('customerPOId') ? this.customerPOForm.get('customerPOId').value || null : null;
-        this.customerPObject.subscriberId = 12345;
+        this.customerPObject.customerPoId = this.customerPOForm.get('customerPoId')
+            ? this.customerPOForm.get('customerPoId').value || null : null;
+        this.customerPObject.subscriberId = this.commonService.userDtls.subscriberId;
         this.customerPObject.componentId = this.customerPOForm.get('componentId').value;
         this.customerPObject.customerPONumber = this.customerPOForm.get('customerPONumber').value;
         this.customerPObject.customerPODate = this.customerPOForm.get('customerPODate').value;
@@ -130,7 +155,7 @@ export class CustomerPOComponent implements OnInit {
 
     resetForm() {
         this.customerPOForm.reset();
-        this.customerPOForm.get('subscriberName').setValue(this.dataService.subsrciberDetails.subscriberName);
+        this.customerPOForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
         this.customerPOForm.get('subscriberName').disable();
     }
 }

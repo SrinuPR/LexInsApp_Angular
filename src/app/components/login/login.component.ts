@@ -36,23 +36,22 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const user = this.loginForm.get('userName').value;
       const pwd = this.loginForm.get('password').value;
-      await this.commonService.userLogin1(user,pwd);
-      const userDtls =this.commonService.userDtls;
+      await this.commonService.userLogin1(user, pwd);
+      const userDtls = this.commonService.userDtls;
       this.errorDesc = userDtls.errorMessage;
-      if(this.errorDesc != null || this.errorDesc != ''){
+      if (this.errorDesc != null || this.errorDesc !== '') {
         console.log('inside trigger alert!');
-        this.commonService.triggerAlerts({message: this.errorDesc, showAlert: true, isSuccess: false});
+        this.commonService.triggerAlerts({ message: this.errorDesc, showAlert: true, isSuccess: false });
       }
-      console.log('error msg'+this.errorDesc);
-      if(null != userDtls && userDtls.status == 'Success'){
-        this.commonService.triggerAlerts({message:'', showAlert: false, isSuccess: false});
+      console.log('error msg' + this.errorDesc);
+      if (null != userDtls && userDtls.status === 'Success') {
+        this.commonService.triggerAlerts({ message: '', showAlert: false, isSuccess: false });
         this.auth.isLoggedIn = true;
-          if(userDtls.firstTimeLogin){
-            this.router.navigate(['/resetpassword']);
-          }
-          else{
-            this.router.navigate(['/dashboard']);
-          }
+        if (userDtls.firstTimeLogin) {
+          this.router.navigate(['/resetpassword']);
+        } else {
+          this.router.navigate(['/dashboard']);
+        }
       }
     }
   }

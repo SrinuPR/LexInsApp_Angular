@@ -5,7 +5,7 @@
     <form [formGroup]="customerPOForm">
         <div class="width-100">
             <div class="form-control-field-left">
-                <mat-form-field>
+                <!-- <mat-form-field>
                     <mat-select matInput placeholder="Subscriber Name" required formControlName="subscriberName" name="subscriberName">
                         <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
                             {{ sub.text }}
@@ -13,13 +13,17 @@
                     </mat-select>
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('subscriberName')">Please
-                    select Subscriber ID</div>
+                    select Subscriber ID</div> -->
+                <mat-form-field>
+                    <input matInput placeholder="Subscriber Name" type="subscriberName" formControlName="subscriberName"
+                        name="subscriberName">
+                </mat-form-field>
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
                     <mat-select matInput placeholder="Customer Component/Product Drawing Number" required
                         formControlName="componentId" name="componentId">
-                        <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
+                        <mat-option *ngFor="let sub of componentProductDrawingNumberList" [value]="sub.value">
                             {{ sub.text }}
                         </mat-option>
                     </mat-select>

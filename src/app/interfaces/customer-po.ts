@@ -1,6 +1,6 @@
 export interface CustomerPO {
     componentId: number;
-    customerPOId?: number;
+    customerPoId?: number;
     subscriberId: number;
     subscriberName: string;
     customerPONumber: string;

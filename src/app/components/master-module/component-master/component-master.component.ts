@@ -7,6 +7,7 @@ import { DataService } from '../../../services/data.service';
 import * as _ from 'underscore';
 import { AlertsComponent } from '../../../common-components/alerts/alert.component';
 import { Subscriber } from 'rxjs';
+import { UserDetailsModel } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-component-master',
@@ -26,7 +27,8 @@ export class ComponentMasterComponent implements OnInit {
     public formBuilder: FormBuilder,
     public commonService: CommonService,
     public dataService: DataService,
-    public alertComponent: AlertsComponent
+    public alertComponent: AlertsComponent,
+    public userDetailsModel: UserDetailsModel
   ) { }
   ngOnInit() {
 
@@ -38,8 +40,8 @@ export class ComponentMasterComponent implements OnInit {
 
   setComponentProductMasterObject() {
     this.componentProductMasterObject = {
-      subscriberId: this.dataService.subsrciberDetails.subscriberId,
-      subscriberName: this.dataService.subsrciberDetails.subscriberName,
+      subscriberId: this.commonService.userDtls.subscriberId,
+      subscriberName: this.commonService.userDtls.subscriberName,
       componentId: null,
       componentProductDrawNumber: '',
       componentProductName: '',
@@ -54,7 +56,7 @@ export class ComponentMasterComponent implements OnInit {
   buildFormControls() {
     this.componentMasterForm = this.formBuilder.group({
       componentId: new FormControl(null),
-      subscriberName: new FormControl(this.dataService.subsrciberDetails.subscriberName),
+      subscriberName: new FormControl(this.commonService.userDtls.subscriberName),
       componentProductDrawNumber: new FormControl('', [Validators.required]),
       componentProductName: new FormControl('', [Validators.required]),
       componentProductNumber: new FormControl('', [Validators.required]),
@@ -76,10 +78,14 @@ export class ComponentMasterComponent implements OnInit {
   getComponentProductMasterList() {
     this.commonService.getComponentProductMasterList()
       .subscribe((response) => {
-        this.componentProductMasterList = response.body;
+        console.log(response);
+        if (response.body.status === 'Success') {
+          this.componentProductMasterList = response.body.result;
+        }
       },
         (error) => {
-          this.commonService.triggerAlerts({ message: 'Something went wrong. Please try again in some time.', showAlert: true, isSuccess: false });
+          this.commonService.triggerAlerts(
+            { message: 'Something went wrong. Please try again in some time.', showAlert: true, isSuccess: false });
         });
   }
 
@@ -87,8 +93,8 @@ export class ComponentMasterComponent implements OnInit {
     this.editIndex = index;
     this.isEdit = true;
     this.componentMasterForm.get('componentId').setValue(element.componentId);
-    this.componentMasterForm.get('subscriberName').setValue(this.dataService.subsrciberDetails.subscriberName);
-    this.componentMasterForm.get('componentProductDrawNumber').setValue(element.componentProductDrawNumber)
+    this.componentMasterForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
+    this.componentMasterForm.get('componentProductDrawNumber').setValue(element.componentProductDrawNumber);
     this.componentMasterForm.get('componentProductDrawNumber').disable();
     this.componentMasterForm.get('componentProductName').setValue(element.componentProductName);
     this.componentMasterForm.get('componentProductNumber').setValue(element.componentProductNumber);
@@ -107,7 +113,9 @@ export class ComponentMasterComponent implements OnInit {
         this.componentProductMasterList = _.without(this.componentProductMasterList, element);
       },
         (error) => {
-          this.commonService.triggerAlerts({ message: 'Something went wrong. Please try again in some time.', showAlert: true, isSuccess: false });
+          console.log(error);
+          this.commonService.triggerAlerts(
+            { message: 'Something went wrong. Please try again in some time.', showAlert: true, isSuccess: false });
         });
   }
 
@@ -117,21 +125,24 @@ export class ComponentMasterComponent implements OnInit {
     } else {
       this.updateComponentProductMaster();
     }
-    this.isEdit = false;
   }
 
   createComponentProductMaster() {
-    const checkDuplicate = _.find(this.componentProductMasterList, { componentProductDrawNumber: this.getRequestObject().componentProductDrawNumber });
+    const checkDuplicate = _.find(this.componentProductMasterList,
+      { componentProductDrawNumber: this.getRequestObject().componentProductDrawNumber });
     if (checkDuplicate) {
       this.commonService.triggerAlerts({ message: 'Drawing Number Exists.', showAlert: true, isSuccess: false });
     } else {
       this.commonService.createComponentProductMaster(this.getRequestObject())
         .subscribe((response) => {
-          this.componentProductMasterList = response.body;
-          this.commonService.triggerAlerts({ message: 'Component / Product Saved.', showAlert: true, isSuccess: true });
+          if (response.body.status === 'Success') {
+            this.componentProductMasterList = response.body.result;
+            this.commonService.triggerAlerts({ message: 'Component / Product Saved.', showAlert: true, isSuccess: true });
+          }
         },
           (error) => {
-            this.commonService.triggerAlerts({ message: 'Component / Product Not Saved. Please try again.', showAlert: true, isSuccess: false });
+            this.commonService.triggerAlerts(
+              { message: 'Component / Product Not Saved. Please try again.', showAlert: true, isSuccess: false });
           });
       this.resetForm();
     }
@@ -140,22 +151,29 @@ export class ComponentMasterComponent implements OnInit {
   updateComponentProductMaster() {
     this.commonService.updateComponentProductMaster(this.getRequestObject())
       .subscribe((response) => {
-        this.componentProductMasterList = response.body;
-        this.commonService.triggerAlerts({ message: 'Component / Product Updated.', showAlert: true, isSuccess: true });
+        if (response.body.status === 'Success') {
+          this.componentProductMasterList =  response.body.result;
+          this.commonService.triggerAlerts({ message: 'Component / Product Updated.', showAlert: true, isSuccess: true });
+        }
       },
         (error) => {
-          this.commonService.triggerAlerts({ message: 'Component / Product Not Saved. Please try again.', showAlert: true, isSuccess: false });
+          this.commonService.triggerAlerts(
+            { message: 'Component / Product Not Saved. Please try again.', showAlert: true, isSuccess: false });
         });
+    this.resetForm();
+    this.isEdit = false;
   }
 
   getRequestObject() {
-    this.componentProductMasterObject.componentId = this.componentMasterForm.get('componentId') ? this.componentMasterForm.get('componentId').value || null : null;
-    this.componentProductMasterObject.subscriberId = 12345;
+    this.componentProductMasterObject.componentId =
+      this.componentMasterForm.get('componentId') ? this.componentMasterForm.get('componentId').value || null : null;
+    this.componentProductMasterObject.subscriberId = this.commonService.userDtls.subscriberId;
     this.componentProductMasterObject.componentProductDrawNumber = this.componentMasterForm.get('componentProductDrawNumber').value;
     this.componentProductMasterObject.componentProductName = this.componentMasterForm.get('componentProductName').value;
     this.componentProductMasterObject.componentProductNumber = this.componentMasterForm.get('componentProductNumber').value;
     this.componentProductMasterObject.componentProductMeterial = this.componentMasterForm.get('componentProductMeterial').value;
-    this.componentProductMasterObject.componentProductManufacturerUnits = this.componentMasterForm.get('componentProductManufacturerUnits').value;
+    this.componentProductMasterObject.componentProductManufacturerUnits =
+      this.componentMasterForm.get('componentProductManufacturerUnits').value;
     this.componentProductMasterObject.customerNameAddress = this.componentMasterForm.get('customerNameAddress').value;
     this.componentProductMasterObject.componentProductNotes = this.componentMasterForm.get('componentProductNotes').value;
     return this.componentProductMasterObject;
@@ -163,7 +181,12 @@ export class ComponentMasterComponent implements OnInit {
 
   resetForm() {
     this.componentMasterForm.reset();
-    this.componentMasterForm.get('subscriberName').setValue(this.dataService.subsrciberDetails.subscriberName);
+    this.componentMasterForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
     this.componentMasterForm.get('subscriberName').disable();
+  }
+
+  cancelEdit() {
+    this.resetForm();
+    this.isEdit = false;
   }
 }
