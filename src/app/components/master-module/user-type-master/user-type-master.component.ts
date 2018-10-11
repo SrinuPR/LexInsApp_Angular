@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SubscriberService } from 'src/app/services/subscriber.service';
 
 @Component({
     selector: 'app-user-type-master',
@@ -16,10 +17,14 @@ export class UserTypeMasterComponent implements OnInit {
     ]
     constructor(
         public router: Router,
-        public formBuilder: FormBuilder
+        public formBuilder: FormBuilder,
+        public subcriberService: SubscriberService
     ) { }
     ngOnInit() {
-        this.buildFormControls();
+        this.subcriberService.getAllSubscribers().subscribe((response) => {
+            this.subcriberService.allSubscribers = response.body.subscriberList;
+            this.buildFormControls();
+        });
     }
 
     buildFormControls() {

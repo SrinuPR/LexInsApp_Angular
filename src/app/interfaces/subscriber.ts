@@ -3,6 +3,6 @@ export interface Subscriber {
     subscriberName: string;
     subscriberAddress: string;
     createdBy: string;
-    // status: null;
-    // errorMessage: null;
+    status: string;
+    message: string;
 }
