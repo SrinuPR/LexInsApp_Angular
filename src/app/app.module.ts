@@ -38,6 +38,8 @@ import {MatCheckboxModule} from '@angular/material'
 
 import { OnlyNumericDirective } from './directives/only-numeric';
 import { InspectionMeasurementsComponent } from './components/master-module/inspection-measurements/inspection-measurements.component';
+import { SubscriberService } from './services/subscriber.service';
+import { UserService } from './services/user.service';
 
 
 @NgModule({
@@ -83,7 +85,9 @@ import { InspectionMeasurementsComponent } from './components/master-module/insp
     CommonService,
     DataService,
     HttpService,
-    AlertsComponent
+    AlertsComponent,
+    SubscriberService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

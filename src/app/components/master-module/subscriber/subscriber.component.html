@@ -6,9 +6,14 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Subscriber ID" type="text" required formControlName="subscriberID" name="subscriberID">
+                    <input matInput placeholder="Subscriber ID" type="text" 
+                    formControlName="subscriberID" name="subscriberID">
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('subscriberID')">Please enter Subscriber ID</div>
+                <div *ngIf="subscriberID?.invalid && (subscriberID?.dirty || subscriberID?.touched)" class="alert alert-danger">
+                    <div class="error-message" *ngIf="subscriberID?.errors?.required">Please enter Subscriber ID</div>
+                    <div class="error-message" *ngIf="subscriberID?.errors?.subIdNotUnique">Subscriber ID already exists, Please enter
+                        a unique Subscriber ID</div>
+                </div>
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
@@ -21,9 +26,9 @@
         <mat-form-field>
             <textarea matInput placeholder="Subscriber Address" required formControlName="subscriberAddress" name="subscriberAddress"></textarea>
         </mat-form-field>
-        <div class="error-message" *ngIf="displayErrorMessages('subscriberAddress')">Please enter Subscriber Address</div>
+        <!-- <div class="error-message" >Please enter Subscriber Address</div> -->
         <div class="padding-top-10">
-            <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE</button>
+            <button mat-raised-button type="submit" (click)="createOrUpdateSubscriber()" class="pull-right" color="primary">SAVE</button>
         </div>
     </form>
 </div>
