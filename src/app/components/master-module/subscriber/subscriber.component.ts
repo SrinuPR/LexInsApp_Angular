@@ -35,7 +35,7 @@ export class SubscriberComponent implements OnInit {
     displayErrorMessages(field: string) {
       const control = this.subscriberForm.get(field);
       if (control) {
-        return (control.touched && control.errors.required);
+        return (control.touched && control.invalid);
       }
       return false;
     }
