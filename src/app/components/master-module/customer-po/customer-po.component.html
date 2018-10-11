@@ -23,8 +23,8 @@
                 <mat-form-field>
                     <mat-select matInput placeholder="Customer Component/Product Drawing Number" required
                         formControlName="componentId" name="componentId">
-                        <mat-option *ngFor="let sub of componentProductDrawingNumberList" [value]="sub.value">
-                            {{ sub.text }}
+                        <mat-option *ngFor="let sub of componentProductDrawingNumberList" [value]="sub.componentId">
+                            {{ sub.componentProductDrawNumber }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -53,7 +53,7 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Customer PO Quantity" type="text" required formControlName="customerPOQuantity"
+                    <input matInput placeholder="Customer PO Quantity" type="text" onlyNumeric required formControlName="customerPOQuantity"
                         name="customerPOQuantity">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('customerPOQuantity')">Please
@@ -76,7 +76,7 @@
             <td class="header-span">Delete</td>
         </tr>
         <tr class="table-column" *ngFor="let element of customerPOList;let index=index;">
-            <td>{{element.componentProductDrawNumber}}</td>
+            <td>{{getProductDrawNumberText(element.componentProductDrawNumber)}}</td>
             <td>{{element.customerPONumber}}</td>
             <td>{{element.customerPODate}}</td>
             <td>{{element.customerPOQuantity}}</td>

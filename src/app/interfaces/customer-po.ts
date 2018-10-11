@@ -5,6 +5,6 @@ export interface CustomerPO {
     subscriberName: string;
     customerPONumber: string;
     customerPODate: string;
-    customerPOQuantity: string;
+    customerPOQuantity?: number;
     poNotes: string;
 }
