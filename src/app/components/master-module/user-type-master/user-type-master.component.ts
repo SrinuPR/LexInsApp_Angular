@@ -20,10 +20,11 @@ export class UserTypeMasterComponent implements OnInit {
         public formBuilder: FormBuilder,
         public subcriberService: SubscriberService
     ) { }
+
     ngOnInit() {
+        this.buildFormControls();
         this.subcriberService.getAllSubscribers().subscribe((response) => {
-            this.subcriberService.allSubscribers = response.body.subscriberList;
-            this.buildFormControls();
+            this.subcriberService.allSubscribers = response.body.subMasterList;
         });
     }
 
