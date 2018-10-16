@@ -46,6 +46,22 @@ export class HttpService {
     );
     return res;
   }
+  //10.14.224.30:8888/user/changePass 
+   /* async post1(path, body) {
+     let res = null;
+     //const url = 'http://10.8.76.59:8888/';
+     const url = 'http://localhost:8888/';
+     await this.http.post(url + path, body,httpOptions)
+     .toPromise().then(
+       response => { console.log(response); 
+        res = response;
+       }, // success path
+       (error) => { console.log(error); 
+         res = error.error;
+       } // error path
+     );
+     return res;
+   } */
 
   put(url: string, body: any): Observable<any> {
     return this.http.put(this.path + url + body, { observe: 'response', headers: this.headers });
