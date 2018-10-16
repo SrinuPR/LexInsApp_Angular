@@ -13,4 +13,12 @@ export class UserService {
         //     });
     }
 
+    createUserType() {
+        //return this.httpService.post('subscriber/create', subscriber);
+    }
+
+    validateUserTypeId(userTypeId: number) {
+        //return this.httpService.get('subscriber/', userTypeId);
+    }
+
 }
