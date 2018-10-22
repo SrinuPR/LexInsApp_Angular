@@ -77,13 +77,13 @@ export class ValidateSubscriberUnique {
   static validateSubscriberId(subscriberService: SubscriberService) {
     return (control: AbstractControl) => {
       if (control.value == null || !control.touched || !control.dirty) {
-        console.log(control.value)
+        console.log(control.value);
         return null;
       }
       return subscriberService.validateSubscriberId(control.value).subscribe((response): ValidationErrors | null => {
         const status = response.body.message;
         return status === `Subscriber ID doesn't exist` ? null : { 'subIdNotUnique': true };
       });
-    }
+    };
   }
 }

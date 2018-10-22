@@ -1,24 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
+import { UserType } from '../interfaces/user-type';
 
 @Injectable()
 export class UserService {
 
-    constructor (public httpService: HttpService) { }
+    userType: UserType;
 
-    createUser() {
-        // return this.httpService.post('user/login', body)
-        //     .subscribe((response) => {
-        //         console.log(response);
-        //     });
+    constructor (public httpService: HttpService) {
+        this.userType = {};
     }
 
-    createUserType() {
-        //return this.httpService.post('subscriber/create', subscriber);
+    createorUpdateUserType(usertype: UserType) {
+        return this.httpService.post('usertype/create', usertype);
     }
 
-    validateUserTypeId(userTypeId: number) {
-        //return this.httpService.get('subscriber/', userTypeId);
+    validateUserType(userType: UserType) {
+        return this.httpService.post('usertype/validate/', userType);
     }
 
 }

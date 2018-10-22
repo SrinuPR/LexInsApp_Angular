@@ -16,19 +16,23 @@
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <input matInput placeholder="UserType ID" type="text" required formControlName="userTypeID" name="userTypeID">
+                    <input matInput placeholder="UserType ID" type="text" required formControlName="userTypeID" name="userTypeID" (blur)="verifyUserType()">
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('userTypeID')">Please Enter UserType ID</div>
+                <div class="error-message" *ngIf="userMasterForm.get('userTypeID').touched && userMasterForm.get('userTypeID').hasError('required')">Please Enter UserType ID</div>
+                <div class="error-message" *ngIf="userMasterForm.get('subscriberID')?.touched && userMasterForm.get('userTypeID')?.hasError('userTypeIDNotUnique')">User Type ID already exists, Please enter
+                    a unique User Type ID</div>
             </div>
         </div>
         <div class="form-control-field">
             <mat-form-field>
-                <input matInput placeholder="UserType Name" type="text" required formControlName="userTypeName" name="userTypeName">
+                <input matInput placeholder="UserType Name" type="text" required formControlName="userTypeName" name="userTypeName" (blur)="verifyUserType()">
             </mat-form-field>
-            <div class="error-message" *ngIf="displayErrorMessages('userTypeName')">Please enter UserType Name</div>
+            <div class="error-message" *ngIf="userMasterForm.get('userTypeName').touched && userMasterForm.get('userTypeName').hasError('required')">Please enter UserType Name</div>
+            <div class="error-message" *ngIf="userMasterForm.get('userTypeName')?.touched && userMasterForm.get('userTypeName')?.hasError('userTypeNameNotUnique')">User Type Name already exists, Please enter
+                a unique User Type Name</div>
         </div>
         <div class="padding-top-10">
-            <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE</button>
+            <button mat-raised-button type="submit" [disabled]="!userMasterForm.valid" (click)="createOrUpdateUserType()" class="pull-right" color="primary">SAVE</button>
         </div>
 
     </form>
