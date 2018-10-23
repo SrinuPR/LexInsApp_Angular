@@ -96,8 +96,10 @@ export class UserTypeMasterComponent implements OnInit {
         this.userService.createorUpdateUserType(userType).subscribe((response) => {
           console.log(response);
           const result = response.body;
-          if (result.status === 'User Type Master Saved') {
+          if (result.message === 'User Type Master Saved') {
             console.log('User Type Master saved successfully');
+            this.commonService.triggerAlerts(
+                { message: 'User Type Master details saved successfully', showAlert: true, isSuccess: false });
           }
         });
       }
