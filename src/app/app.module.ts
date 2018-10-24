@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MaterialModule } from './material.module';
 import { AppRouters } from './app.routes';
 
@@ -40,6 +40,8 @@ import { OnlyNumericDirective } from './directives/only-numeric';
 import { InspectionMeasurementsComponent } from './components/master-module/inspection-measurements/inspection-measurements.component';
 import { SubscriberService } from './services/subscriber.service';
 import { UserService } from './services/user.service';
+import { LoaderInterceptorService } from './services/loader-interceptor.service';
+import { LoaderService } from './services/loader.service';
 
 
 @NgModule({
@@ -87,7 +89,13 @@ import { UserService } from './services/user.service';
     HttpService,
     AlertsComponent,
     SubscriberService,
-    UserService
+    UserService,
+    LoaderService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
