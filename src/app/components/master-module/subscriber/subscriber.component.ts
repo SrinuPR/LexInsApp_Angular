@@ -60,7 +60,7 @@ export class SubscriberComponent implements OnInit {
       if (result.status === 'Success' && result.message === 'Subscriber Saved') {
         console.log('Subscriber saved successfully');
         this.commonService.triggerAlerts(
-          { message: 'Subscriber details saved successfully', showAlert: true, isSuccess: false });
+          { message: 'Subscriber details saved successfully', showAlert: true, isSuccess: true });
       }
     });
   }

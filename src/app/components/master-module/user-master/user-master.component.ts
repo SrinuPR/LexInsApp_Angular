@@ -67,7 +67,7 @@ export class UserMasterComponent implements OnInit {
           const result = response.body;
             console.log('User Master saved successfully');
             this.commonService.triggerAlerts(
-                { message: 'User details saved successfully', showAlert: true, isSuccess: false });
+                { message: 'User details saved successfully', showAlert: true, isSuccess: true });
         });
     }
 
