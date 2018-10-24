@@ -6,7 +6,7 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <mat-select matInput placeholder="Subscriber ID" required formControlName="subscriberID" name="subscriberID">
+                    <mat-select matInput placeholder="Subscriber ID" formControlName="subscriberID" name="subscriberID">
                         <mat-option *ngFor="let sub of subcriberService.allSubscribers" [value]="sub.subscriberId">
                             {{ sub.subscriberId }}
                         </mat-option>
@@ -16,7 +16,7 @@
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <input matInput placeholder="UserType ID" type="text" onlyNumeric formControlName="userTypeID" name="userTypeID" maxlength="5" (blur)="verifyUserType()">
+                    <input matInput placeholder="UserType ID" type="text" onlyNumeric formControlName="userTypeID" name="userTypeID" maxlength="3" (blur)="verifyUserType()">
                 </mat-form-field>
                 <div class="error-message" *ngIf="userMasterForm.get('userTypeID').touched && userMasterForm.get('userTypeID').hasError('required')">Please Enter UserType ID</div>
                 <div class="error-message" *ngIf="userMasterForm.get('userTypeID')?.touched && userMasterForm.get('userTypeID')?.hasError('userTypeIDNotUnique')">User Type ID already exists, Please enter

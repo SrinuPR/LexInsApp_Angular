@@ -24,15 +24,13 @@ export class UserTypeMasterComponent implements OnInit {
 
     ngOnInit() {
         this.buildFormControls();
-        this.subcriberService.getAllSubscribers().subscribe((response) => {
-            this.subcriberService.allSubscribers = response.body.subMasterList;
-        });
+        this.subcriberService.getAllSubscribers();
     }
 
     buildFormControls() {
         this.userMasterForm = this.formBuilder.group({
             subscriberID: new FormControl('', [Validators.required]),
-            userTypeID: new FormControl(this.userService.userType.userTypeId, [Validators.required, Validators.maxLength(5)]),
+            userTypeID: new FormControl(this.userService.userType.userTypeId, [Validators.required]),
             userTypeName: new FormControl(this.userService.userType.userTypeName, [Validators.required])
         });
     }
@@ -94,7 +92,6 @@ export class UserTypeMasterComponent implements OnInit {
         userType.subscriberId = Number(this.userMasterForm.get('subscriberID').value);
         userType.createdBy = this.commonService.userDtls.userName;
         this.userService.createorUpdateUserType(userType).subscribe((response) => {
-          console.log(response);
           const result = response.body;
           if (result.message === 'User Type Master Saved') {
             console.log('User Type Master saved successfully');

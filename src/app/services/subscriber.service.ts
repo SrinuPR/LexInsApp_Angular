@@ -19,7 +19,11 @@ export class SubscriberService {
     }
 
     getAllSubscribers() {
-        return this.httpService.get('subscriber/all'); 
+        if (!this.allSubscribers || this.allSubscribers.length === 0) {
+            this.httpService.get('subscriber/all').subscribe((response) => {
+                this.allSubscribers = response.body.subMasterList;
+            });
+        }
     }
 
 }
