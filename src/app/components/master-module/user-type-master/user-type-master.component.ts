@@ -30,8 +30,8 @@ export class UserTypeMasterComponent implements OnInit {
     buildFormControls() {
         this.userMasterForm = this.formBuilder.group({
             subscriberID: new FormControl('', [Validators.required]),
-            userTypeID: new FormControl(this.userService.userType.userTypeId, [Validators.required]),
-            userTypeName: new FormControl(this.userService.userType.userTypeName, [Validators.required])
+            userTypeID: new FormControl('', [Validators.required]),
+            userTypeName: new FormControl('', [Validators.required])
         });
     }
 
