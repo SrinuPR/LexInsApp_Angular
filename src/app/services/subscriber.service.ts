@@ -19,7 +19,7 @@ export class SubscriberService {
     }
 
     getAllSubscribers() {
-        return this.httpService.get('subscriber/all'); 
+        return this.httpService.get('subscriber/all');
     }
 
 }
