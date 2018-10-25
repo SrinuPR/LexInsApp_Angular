@@ -6,7 +6,7 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Subscriber ID" type="text" onlyNumeric maxlength="5" 
+                    <input matInput placeholder="Subscriber ID" type="text" onlyNumeric minlength="5" maxlength="5" 
                     [formControlName]="'subscriberID'" name="subscriberID" (blur)="verifySubscriber()">
                 </mat-form-field>
                 <div class="error-message" *ngIf="subscriberForm.get('subscriberID').touched && subscriberForm.get('subscriberID').hasError('required')">Please enter Subscriber ID</div>
