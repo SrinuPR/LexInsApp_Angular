@@ -14,9 +14,10 @@ export class AlertsComponent {
     public commonService: CommonService
   ) {
     this.commonService.showAlertsTrigger.subscribe((alertObject: Alert) => {
-      console.log('inside alert component!')
       this.triggerAlert(alertObject);
-    })
+    });
+
+    this.commonService.clearAlertsEvent.subscribe(data => this.clearAlerts());
   }
 
   triggerAlert(event) {
@@ -26,6 +27,10 @@ export class AlertsComponent {
   }
 
   close() {
+    this.showAlert = false;
+  }
+
+  clearAlerts() {
     this.showAlert = false;
   }
 

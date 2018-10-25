@@ -62,6 +62,9 @@ export class SubscriberComponent implements OnInit {
         this.commonService.triggerAlerts(
           { message: 'Subscriber details saved successfully', showAlert: true, isSuccess: true });
       }
+    }, (error) => {
+      this.commonService.triggerAlerts(
+          { message: 'Unable to save Subscriber details', showAlert: true, isSuccess: false });
     });
   }
 

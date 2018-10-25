@@ -95,9 +95,13 @@ export class UserTypeMasterComponent implements OnInit {
           const result = response.body;
           if (result.message === 'User Type Master Saved') {
             console.log('User Type Master saved successfully');
+            this.userMasterForm.reset();
             this.commonService.triggerAlerts(
                 { message: 'User Type Master details saved successfully', showAlert: true, isSuccess: true });
           }
+        }, (error) => {
+            this.commonService.triggerAlerts(
+                { message: 'Unable to save User Type Master details', showAlert: true, isSuccess: false });
         });
       }
 }

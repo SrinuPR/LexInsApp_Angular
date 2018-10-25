@@ -14,7 +14,9 @@ import { Facilities } from '../components/master-module/facilities/facilities.co
 })
 export class CommonService {
   showAlerts = new Subject<Alert>();
+  clearOrHideAlerts = new Subject<{}>();
   showAlertsTrigger = this.showAlerts.asObservable();
+  clearAlertsEvent = this.clearOrHideAlerts.asObservable();
   public userDtls: UserDetailsModel;
 
   constructor(
@@ -24,6 +26,10 @@ export class CommonService {
 
   triggerAlerts(alertObject: Alert) {
     this.showAlerts.next(alertObject);
+  }
+
+  clearAlerts() {
+    this.clearOrHideAlerts.next();
   }
 
   async userLogin1(userName: string, pwd: string) {

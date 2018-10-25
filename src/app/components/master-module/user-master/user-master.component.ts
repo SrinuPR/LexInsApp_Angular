@@ -68,6 +68,9 @@ export class UserMasterComponent implements OnInit {
             console.log('User Master saved successfully');
             this.commonService.triggerAlerts(
                 { message: 'User details saved successfully', showAlert: true, isSuccess: true });
+        }, (error) => {
+            this.commonService.triggerAlerts(
+                { message: 'Unable to save User Master details', showAlert: true, isSuccess: false });
         });
     }
 
