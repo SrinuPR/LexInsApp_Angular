@@ -5,26 +5,28 @@
         <form [formGroup]="inspectionStageForm" class="form">
             <mat-form-field>
                 <input matInput placeholder="Subscriber Name" type="subscriberName" formControlName="subscriberName"
-                    name="subscriberName">
+                    name="subscriberName" [value]="subscriber.subscriberName">
             </mat-form-field>
             <div class="width-100">
                 <div class="form-control-field-left">
                     <mat-form-field>
-                        <input matInput placeholder="Inspection Stage ID" type="text" required formControlName="inspectionStageID"
-                            name="inspectionStageID">
+                        <input matInput placeholder="Inspection Stage ID" type="text" [formControl]="inspectionStageID" required formControlName="inspectionStageID"
+                            name="inspectionStageID" (blur)="verifyInspectionStage()">
                     </mat-form-field>
                     <div class="error-message" *ngIf="displayErrorMessages('inspectionStageID')">Please Enter Inspection Stage ID</div>
+                    <div class="error-message" *ngIf="inspectionStageForm.get('inspectionStageID').touched && inspectionStageForm.get('inspectionStageID').hasError('inspectionStageIdNotUnique')">Inspection Stage ID already exists, Please enter
+                        a unique Inspection Stage ID</div>
                 </div>
                 <div class="form-control-field-right">
                     <mat-form-field>
-                        <input matInput placeholder="Inspection Stage Name" type="inspectionStageName" required
+                        <input matInput placeholder="Inspection Stage Name"  type="inspectionStageName" required
                             formControlName="inspectionStageName" name="inspectionStageName">
                     </mat-form-field>
                     <div class="error-message" *ngIf="displayErrorMessages('inspectionStageName')">Please Enter Inspection Stage Name</div>
                 </div>
             </div>
             <div class="padding-top-10">
-                <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE</button>
+                <button mat-raised-button type="submit" [disabled]="!inspectionStageForm.valid" (click)="createOrUpdateResource()" class="pull-right" color="primary">SAVE</button>
             </div>
         </form>
     </div>

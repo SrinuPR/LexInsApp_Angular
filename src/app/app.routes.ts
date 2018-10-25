@@ -19,6 +19,7 @@ import { InspectionLineItemComponent } from './components/reports/inspection-lin
 import { InspectionMeasurementsComponent } from './components/master-module/inspection-measurements/inspection-measurements.component';
 import { InspectionReportComponent } from './components/reports/inspection-report/inspection-report.component'
 import { RouterGuardService } from './services/router-guard.service';
+import { AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -39,9 +40,11 @@ const routes: Routes = [
       { path: 'inspection-meaurements', component: InspectionMeasurementsComponent, canActivate: [RouterGuardService] },
       { path: 'inspection-report', component: InspectionReportComponent, canActivate: [RouterGuardService] }
     ]
+    
   },
   { path: 'resetpassword', component: ResetPasswordComponent },
-  { path: 'forgotpassword', component: ForgotPasswordComponent }
+  { path: 'forgotpassword', component: ForgotPasswordComponent },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

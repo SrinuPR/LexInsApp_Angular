@@ -42,6 +42,7 @@ import { SubscriberService } from './services/subscriber.service';
 import { UserService } from './services/user.service';
 import { LoaderInterceptorService } from './services/loader-interceptor.service';
 import { LoaderService } from './services/loader.service';
+import { AuthGuard } from './services/auth-guard.service';
 
 
 @NgModule({
@@ -95,7 +96,8 @@ import { LoaderService } from './services/loader.service';
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptorService,
       multi: true
-    }
+    },
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

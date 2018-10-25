@@ -14,7 +14,8 @@ export class HttpService {
   constructor(
     private http: HttpClient
   ) {}
-  path = 'http://10.8.76.40:8888/';
+  path = 'http://10.118.44.228:8888/';
+  
   private headers = new HttpHeaders({
     'Pragma': 'no-cache',
     'cache-control': 'no-cache',
@@ -37,11 +38,12 @@ export class HttpService {
     let res = null;
     await this.http.post(this.path + path, body, httpOptions)
     .toPromise().then(
-      response => { console.log(response);
+      response => { 
        res = response;
       }, // success path
-      (error) => { console.log(error);
+      (error) => {
         res = error.error;
+        console.log('exgtracted error:'+res.type);
       } // error path
     );
     return res;
