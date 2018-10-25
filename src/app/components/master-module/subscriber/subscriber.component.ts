@@ -25,7 +25,7 @@ export class SubscriberComponent implements OnInit {
 
   buildFormControls() {
     this.subscriberForm = this.formBuilder.group({
-      subscriberID: new FormControl('', [Validators.required]),
+      subscriberID: new FormControl('', [Validators.required, Validators.maxLength(5)]),
       subscriberName: new FormControl('', [Validators.required]),
       subscriberAddress: new FormControl('', [Validators.required])
     });
@@ -59,6 +59,8 @@ export class SubscriberComponent implements OnInit {
       const result = response.body;
       if (result.status === 'Success' && result.message === 'Subscriber Saved') {
         console.log('Subscriber saved successfully');
+        this.commonService.triggerAlerts(
+          { message: 'Subscriber details saved successfully', showAlert: true, isSuccess: true });
       }
     });
   }

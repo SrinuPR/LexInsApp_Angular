@@ -8,7 +8,7 @@ export class SubscriberService {
 
     allSubscribers: Subscriber[];
 
-    constructor (public httpService: HttpService) { }
+    constructor(public httpService: HttpService) { }
 
     validateSubscriberId(subName: number): Observable<any> {
         return this.httpService.get('subscriber/', subName);
@@ -19,7 +19,11 @@ export class SubscriberService {
     }
 
     getAllSubscribers() {
-        return this.httpService.get('subscriber/all');
+        if (!this.allSubscribers || this.allSubscribers.length === 0) {
+            this.httpService.get('subscriber/all').subscribe((response) => {
+                this.allSubscribers = response.body.subMasterList;
+            });
+        }
     }
 
 }

@@ -6,9 +6,9 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <mat-select matInput placeholder="Subscriber Name" required formControlName="subscriberID" name="subscriberID">
-                        <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
-                            {{ sub.text }}
+                    <mat-select matInput placeholder="Subscriber Name" formControlName="subscriberID" name="subscriberID" (selectionChange)="getApplicableUserTypes()">
+                        <mat-option *ngFor="let sub of subscriberService.allSubscribers" [value]="sub.subscriberId">
+                            {{ sub.subscriberName }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -16,9 +16,9 @@
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <mat-select matInput placeholder="UserType Name" required formControlName="userTypeID" name="userTypeID">
-                        <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
-                            {{ sub.text }}
+                    <mat-select matInput placeholder="UserType Name" formControlName="userTypeID" name="userTypeID">
+                        <mat-option *ngFor="let userType of userService.allUserTypes" [value]="userType.userTypeId">
+                            {{ userType.userTypeName }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -29,13 +29,15 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="User ID" type="text" required formControlName="userID" name="userID">
+                    <input matInput placeholder="User ID" type="text" maxlength="10" formControlName="userID" name="userID" (blur)="verifyUserId()">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('userID')">Please enter User ID</div>
+                <div class="error-message" *ngIf="userMasterForm.get('userID').touched && userMasterForm.get('userID').hasError('userIdNotUnique')">User ID already exists, Please enter
+                        a unique User ID</div>
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <input matInput placeholder="User Name" type="text" required formControlName="userName" name="userName">
+                    <input matInput placeholder="User Name" type="text" formControlName="userName" name="userName">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('userName')">Please enter User Name</div>
             </div>
@@ -43,21 +45,22 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Password" type="password" required formControlName="newPassword" name="newPassword">
+                    <input matInput placeholder="Password" type="password" formControlName="newPassword" name="newPassword">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('newPassword')">Please enter Password</div>
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <input matInput placeholder="Confirm Password" type="password" required formControlName="confirmPassword"
+                    <input matInput placeholder="Confirm Password" type="password" formControlName="confirmPassword"
                         name="confirmPassword">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('confirmPassword')">Please enter Confirm
                     Password</div>
+                <div class="error-message" *ngIf="userMasterForm.hasError('notSame')">Passwords do not match</div>
             </div>
         </div>
         <div class="padding-top-10">
-            <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE</button>
+            <button mat-raised-button type="submit" [disabled]="!userMasterForm.valid" (click)="createUserMaster()" class="pull-right" color="primary">SAVE</button>
         </div>
     </form>
 </div>

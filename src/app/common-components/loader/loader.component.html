@@ -1,1 +1,3 @@
-<mat-spinner></mat-spinner>
+<div  class="row" [class.hidden]="!show">
+    <mat-spinner *ngIf="show" class="loader"></mat-spinner>
+</div>
