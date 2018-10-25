@@ -15,19 +15,18 @@ import { ShiftComponent } from './components/master-module/shift/shift.component
 import { ComponentMasterComponent } from './components/master-module/component-master/component-master.component';
 import { WorkJobOrderComponent } from './components/master-module/work-job-order/work-job-order.component';
 import { InspectionsComponent } from './components/master-module/inspections/inspections.component';
-import { InspectionLineItemComponent } from './components/reports/inspection-line-item/inspection-line-item.component'
+import { InspectionLineItemComponent } from './components/reports/inspection-line-item/inspection-line-item.component';
 import { InspectionMeasurementsComponent } from './components/master-module/inspection-measurements/inspection-measurements.component';
-import { InspectionReportComponent } from './components/reports/inspection-report/inspection-report.component'
-import { RouterGuardService } from './services/router-guard.service';
+import { InspectionReportComponent } from './components/reports/inspection-report/inspection-report.component';
 import { AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'dashboard', component: DashboardComponent,
     canActivate: [AuthGuard],
-    children:[
+    children: [
       {
-        path:'',
+        path: '',
         canActivateChild: [AuthGuard],
         children: [
           { path: 'subscriber', component: SubscriberComponent },
@@ -47,7 +46,6 @@ const routes: Routes = [
         ]
       }
     ]
-    
   },
   { path: 'resetpassword', component: ResetPasswordComponent },
   { path: 'forgotpassword', component: ForgotPasswordComponent },

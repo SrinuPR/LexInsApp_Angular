@@ -8,18 +8,17 @@ import { CommonService } from './common.service';
 export class AuthService {
   isLoggedIn = false;
   activeLink = '';
-  
-  constructor(public router: Router,public commonServcie: CommonService) { }
+
+  constructor(public router: Router, public commonServcie: CommonService) { }
 
   showResetPassword() {
     return !(this.router.url === '/resetpassword');
   }
 
-  isAuthenticated(){
-    if(this.commonServcie.userDtls != null){
+  isAuthenticated() {
+    if (this.commonServcie.userDtls != null) {
       return true;
-    }
-    else{
+    } else {
         return false;
     }
   }
