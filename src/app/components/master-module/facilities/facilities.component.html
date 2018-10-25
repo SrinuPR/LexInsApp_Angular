@@ -4,24 +4,23 @@
     </div>
     <form [formGroup]="facilityForm" class="form">
         <mat-form-field>
-            <input matInput placeholder="Subscriber Name" type="subscriberName" formControlName="subscriberName"
-                name="subscriberName">
+            <input matInput placeholder="Subscriber Name" type="subscriberName" formControlName="subscriberName" name="subscriberName">
         </mat-form-field>
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Facility / Machine Number" type="text" required formControlName="facilityNumber"
+                    <input matInput placeholder="Facility / Machine Number" type="text" (blur)="verifyFacilityNumber()" required formControlName="facilityNumber"
                         name="facilityNumber">
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('facilityNumber')">Please Enter Facility /
-                    Machine Number</div>
+                <div class="error-message" *ngIf="displayErrorMessages('facilityNumber')">Please enter Facility / Machine Number</div>
+                <div class="error-message" *ngIf="subscriberForm.get('facilityNumber').touched && subscriberForm.get('facilityNumber').hasError('notUnique')">Facility / Machine Number Exists</div>
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
                     <input matInput placeholder="Facility / Machine Name" type="facilityName" required formControlName="facilityName"
                         name="facilityName">
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('facilityName')">Please Enter Facility / Machine
+                <div class="error-message" *ngIf="displayErrorMessages('facilityName')">Please enter Facility / Machine
                     Name</div>
             </div>
         </div>
@@ -29,4 +28,13 @@
             <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE</button>
         </div>
     </form>
+    <table class="table">
+        <tr class="table-header">
+            <td class="header-span" *ngFor="let header of displayColumns">{{header}}</td>
+        </tr>
+        <tr class="table-column" *ngFor="let element of facilitiesList;let index=index;">
+            <td>{{element.facilityNumber}}</td>
+            <td>{{element.facilityName}}</td>
+        </tr>
+    </table>
 </div>

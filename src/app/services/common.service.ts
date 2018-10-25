@@ -6,6 +6,8 @@ import 'rxjs/add/operator/map';
 import { CustomerPO } from '../interfaces/customer-po';
 import { Subject } from 'rxjs/internal/Subject';
 import { UserDetailsModel } from '../models/user.model';
+import { Shift } from '../components/master-module/shift/shift.component';
+import { Facilities } from '../components/master-module/facilities/facilities.component';
 
 @Injectable({
   providedIn: 'root'
@@ -97,6 +99,34 @@ export class CommonService {
     const response = await this.httpService.post1('user/forgot/password', body);
     const userData = JSON.stringify(response);
     this.userDtls = JSON.parse(userData);
+  }
+
+  getShiftList() {
+    return this.httpService.get('component/all');
+  }
+
+  createShift(object: Shift) {
+    return this.httpService.post('component/save', object);
+  }
+
+  updateShift(object: Shift) {
+    return this.httpService.post('component/update', object);
+  }
+
+  deleteShift(shiftId: string) {
+    return this.httpService.get('component/delete/', shiftId);
+  }
+
+  getFacilityList() {
+    return this.httpService.get('facilities/all');
+  }
+
+  checkFacilityNumber(facilityNumber: string) {
+    return this.httpService.get('facilities/', facilityNumber);
+  }
+
+  createFacility(object: Facilities) {
+    return this.httpService.post('facilities/create', object);
   }
 }
 

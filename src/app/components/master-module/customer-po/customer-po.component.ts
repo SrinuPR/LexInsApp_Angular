@@ -42,7 +42,8 @@ export class CustomerPOComponent implements OnInit {
             customerPONumber: '',
             customerPODate: '',
             customerPOQuantity: null,
-            poNotes: ''
+            poNotes: '',
+            componentProductDrawNum: ''
         };
     }
 
@@ -155,8 +156,8 @@ export class CustomerPOComponent implements OnInit {
     getRequestObject() {
         this.customerPObject.customerPoId = this.customerPOForm.get('customerPoId')
             ? this.customerPOForm.get('customerPoId').value || null : null;
+        this.customerPObject.componentProductDrawNum = this.customerPOForm.get('componentId').value;
         this.customerPObject.subscriberId = this.commonService.userDtls.subscriberId;
-        this.customerPObject.componentId = this.customerPOForm.get('componentId').value;
         this.customerPObject.customerPONumber = this.customerPOForm.get('customerPONumber').value;
         this.customerPObject.customerPODate = this.customerPOForm.get('customerPODate').value;
         this.customerPObject.customerPOQuantity = this.customerPOForm.get('customerPOQuantity').value;

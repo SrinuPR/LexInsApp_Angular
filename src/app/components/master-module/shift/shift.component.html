@@ -1,31 +1,41 @@
 <div class="form-content">
-        <div class="layout-header">
-            <span class="header-span">Maintain Shift Master</span>
-        </div>
-        <form [formGroup]="shiftForm" class="form">
-            <mat-form-field>
-                <input matInput placeholder="Subscriber Name" type="subscriberName" formControlName="subscriberName"
-                    name="subscriberName">
-            </mat-form-field>
-            <div class="width-100">
-                <div class="form-control-field-left">
-                    <mat-form-field>
-                        <input matInput placeholder="Shift ID" type="text" required formControlName="shiftID"
-                            name="shiftID">
-                    </mat-form-field>
-                    <div class="error-message" *ngIf="displayErrorMessages('shiftID')">Please enter Subscriber ID</div>
-                </div>
-                <div class="form-control-field-right">
-                    <mat-form-field>
-                        <input matInput placeholder="Shift Name" type="shiftName" required
-                            formControlName="shiftName" name="shiftName">
-                    </mat-form-field>
-                    <div class="error-message" *ngIf="displayErrorMessages('shiftName')">Please enter Subscriber
-                        Name</div>
-                </div>
-            </div>
-            <div class="padding-top-10">
-                <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE</button>
-            </div>
-        </form>
+    <div class="layout-header">
+        <span class="header-span">Maintain Shift Master</span>
     </div>
+    <form [formGroup]="shiftForm" class="form">
+        <mat-form-field>
+            <input matInput placeholder="Subscriber Name" type="subscriberName" formControlName="subscriberName" name="subscriberName">
+        </mat-form-field>
+        <div class="width-100">
+            <div class="form-control-field-left">
+                <mat-form-field>
+                    <input matInput placeholder="Shift ID" type="text" required formControlName="shiftID" name="shiftID">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('shiftID')">Please enter Shift  ID</div>
+            </div>
+            <div class="form-control-field-right">
+                <mat-form-field>
+                    <input matInput placeholder="Shift Name" type="shiftName" required formControlName="shiftName" name="shiftName">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('shiftName')">Please enter Shift
+                    Name</div>
+            </div>
+        </div>
+        <div class="padding-top-10">
+            <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE</button>
+        </div>
+    </form>
+    <table class="table">
+        <tr class="table-header">
+            <td class="header-span" *ngFor="let header of displayColumns">{{header}}</td>
+            <td class="header-span">Edit</td>
+            <td class="header-span">Delete</td>
+        </tr>
+        <tr class="table-column" *ngFor="let element of shiftList;let index=index;">
+            <td>{{element.shiftId}}</td>
+            <td>{{element.shiftName}}</td>
+            <td style="text-align: center; padding-top: 5px;"><i class="material-icons" (click)="onEdit(element, index)">edit</i></td>
+            <td style="text-align: center; padding-top: 5px;"><i class="material-icons" (click)="delete(element)">delete_forever</i></td>
+        </tr>
+    </table>
+</div>

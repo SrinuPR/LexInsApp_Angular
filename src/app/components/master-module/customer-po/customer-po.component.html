@@ -23,7 +23,7 @@
                 <mat-form-field>
                     <mat-select matInput placeholder="Customer Component/Product Drawing Number" required
                         formControlName="componentId" name="componentId">
-                        <mat-option *ngFor="let sub of componentProductDrawingNumberList" [value]="sub.componentId">
+                        <mat-option *ngFor="let sub of componentProductDrawingNumberList" [value]="sub.componentProductDrawNumber">
                             {{ sub.componentProductDrawNumber }}
                         </mat-option>
                     </mat-select>
@@ -35,7 +35,7 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Customer PO Number" type="text" required formControlName="customerPONumber"
+                    <input matInput placeholder="Customer PO Number" type="text" maxlength="30" required formControlName="customerPONumber"
                         name="customerPONumber">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('customerPONumber')">Please
@@ -53,7 +53,7 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Customer PO Quantity" type="text" onlyNumeric required formControlName="customerPOQuantity"
+                    <input matInput placeholder="Customer PO Quantity"  maxlength="5" type="text" onlyNumeric required formControlName="customerPOQuantity"
                         name="customerPOQuantity">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('customerPOQuantity')">Please
@@ -62,7 +62,7 @@
         </div>
         <div class="form-control-field">
             <mat-form-field>
-                <textarea matInput placeholder="P.O. Notes" formControlName="poNotes" name="poNotes"></textarea>
+                <textarea matInput placeholder="P.O. Notes"  maxlength="150" formControlName="poNotes" name="poNotes"></textarea>
             </mat-form-field>
         </div>
         <div class="padding-top-30">

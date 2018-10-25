@@ -8,7 +8,7 @@ export class SubscriberService {
 
     allSubscribers: Subscriber[];
 
-    constructor (public httpService: HttpService) { }
+    constructor(public httpService: HttpService) { }
 
     validateSubscriberId(subName: number): Observable<any> {
         return this.httpService.get('subscriber/', subName);

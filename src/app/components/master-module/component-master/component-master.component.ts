@@ -31,7 +31,6 @@ export class ComponentMasterComponent implements OnInit {
     public userDetailsModel: UserDetailsModel
   ) { }
   ngOnInit() {
-
     this.buildFormControls();
     this.componentMasterForm.get('subscriberName').disable();
     this.getComponentProductMasterList();

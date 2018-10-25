@@ -7,4 +7,5 @@ export interface CustomerPO {
     customerPODate: string;
     customerPOQuantity?: number;
     poNotes: string;
+    componentProductDrawNum: string;
 }
