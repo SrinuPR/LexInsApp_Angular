@@ -19,29 +19,39 @@ import { InspectionLineItemComponent } from './components/reports/inspection-lin
 import { InspectionMeasurementsComponent } from './components/master-module/inspection-measurements/inspection-measurements.component';
 import { InspectionReportComponent } from './components/reports/inspection-report/inspection-report.component'
 import { RouterGuardService } from './services/router-guard.service';
+import { AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'dashboard', component: DashboardComponent,
-    children: [
-      { path: 'subscriber', component: SubscriberComponent, canActivate: [RouterGuardService] },
-      { path: 'user-master', component: UserMasterComponent, canActivate: [RouterGuardService] },
-      { path: 'user-type-master', component: UserTypeMasterComponent, canActivate: [RouterGuardService] },
-      { path: 'customer-po', component: CustomerPOComponent, canActivate: [RouterGuardService] },
-      { path: 'inspection-type', component: InspectionTypeComponent, canActivate: [RouterGuardService] },
-      { path: 'inspection-stage', component: InspectionStageComponent, canActivate: [RouterGuardService] },
-      { path: 'facilities', component: FacilitiesComponent, canActivate: [RouterGuardService] },
-      { path: 'shift', component: ShiftComponent, canActivate: [RouterGuardService] },
-      { path: 'component-master', component: ComponentMasterComponent, canActivate: [RouterGuardService] },
-      { path: 'work-job-order', component: WorkJobOrderComponent, canActivate: [RouterGuardService] },
-      { path: 'inspections', component: InspectionsComponent, canActivate: [RouterGuardService] },
-      { path: 'inspection-line-item', component: InspectionLineItemComponent, canActivate: [RouterGuardService] },
-      { path: 'inspection-meaurements', component: InspectionMeasurementsComponent, canActivate: [RouterGuardService] },
-      { path: 'inspection-report', component: InspectionReportComponent, canActivate: [RouterGuardService] }
+    canActivate: [AuthGuard],
+    children:[
+      {
+        path:'',
+        canActivateChild: [AuthGuard],
+        children: [
+          { path: 'subscriber', component: SubscriberComponent },
+          { path: 'user-master', component: UserMasterComponent },
+          { path: 'user-type-master', component: UserTypeMasterComponent },
+          { path: 'customer-po', component: CustomerPOComponent },
+          { path: 'inspection-type', component: InspectionTypeComponent },
+          { path: 'inspection-stage', component: InspectionStageComponent },
+          { path: 'facilities', component: FacilitiesComponent },
+          { path: 'shift', component: ShiftComponent },
+          { path: 'component-master', component: ComponentMasterComponent },
+          { path: 'work-job-order', component: WorkJobOrderComponent },
+          { path: 'inspections', component: InspectionsComponent },
+          { path: 'inspection-line-item', component: InspectionLineItemComponent },
+          { path: 'inspection-meaurements', component: InspectionMeasurementsComponent },
+          { path: 'inspection-report', component: InspectionReportComponent }
+        ]
+      }
     ]
+    
   },
   { path: 'resetpassword', component: ResetPasswordComponent },
-  { path: 'forgotpassword', component: ForgotPasswordComponent }
+  { path: 'forgotpassword', component: ForgotPasswordComponent },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

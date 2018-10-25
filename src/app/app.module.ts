@@ -34,7 +34,7 @@ import { AuthService } from './services/auth.service';
 import { CommonService } from './services/common.service';
 import { DataService } from './services/data.service';
 import { HttpService } from './services/http.service';
-import {MatCheckboxModule, MatDatepicker, MatDatepickerModule, MatNativeDateModule, MatDialogModule, MAT_DIALOG_DATA} from '@angular/material'
+import {MatCheckboxModule, MatDatepickerModule, MatNativeDateModule, MatDialogModule, MAT_DIALOG_DATA} from '@angular/material'
 
 import { OnlyNumericDirective } from './directives/only-numeric';
 import { InspectionMeasurementsComponent } from './components/master-module/inspection-measurements/inspection-measurements.component';
@@ -43,6 +43,7 @@ import { UserService } from './services/user.service';
 import { LoaderInterceptorService } from './services/loader-interceptor.service';
 import { LoaderService } from './services/loader.service';
 import { WorkJobOrderConfirmDialogComponent } from './components/master-module/work-job-order/work-job-order-confirm-dialog.component';
+import { AuthGuard } from './services/auth-guard.service';
 
 
 @NgModule({
@@ -104,7 +105,8 @@ import { WorkJobOrderConfirmDialogComponent } from './components/master-module/w
     {
       provide: MAT_DIALOG_DATA,
       useValue: {}
-    }
+    },
+    AuthGuard
   ],
   entryComponents: [WorkJobOrderConfirmDialogComponent, WorkJobOrderComponent],
   bootstrap: [AppComponent]

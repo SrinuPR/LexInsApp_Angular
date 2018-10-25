@@ -8,6 +8,7 @@ import { Subject } from 'rxjs/internal/Subject';
 import { UserDetailsModel } from '../models/user.model';
 import { Shift } from '../components/master-module/shift/shift.component';
 import { Facilities } from '../components/master-module/facilities/facilities.component';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -89,7 +90,9 @@ export class CommonService {
     const response = await this.httpService.post1('user/change/password', body);
     /* let userData =  JSON.stringify(response);
     this.userDtls = JSON.parse(userData); */
+
     console.log('response' + response);
+    return response;
   }
 
   async forgotPassword(userName: string, emailId: string) {
@@ -134,6 +137,12 @@ export class CommonService {
   createFacility(object: Facilities) {
     return this.httpService.post('facilities/create', object);
   }
+  validateResourceIdentifier(resourceUrl: string,resourceId: number): Observable<any> {
+    return this.httpService.get(resourceUrl,resourceId);
+}
+createOrUpdateResource(resourceUrl: string,resourceData: any) {
+  return this.httpService.post(resourceUrl, resourceData);
+}
 }
 
 export interface Alert {
