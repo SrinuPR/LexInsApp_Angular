@@ -34,7 +34,7 @@ import { AuthService } from './services/auth.service';
 import { CommonService } from './services/common.service';
 import { DataService } from './services/data.service';
 import { HttpService } from './services/http.service';
-import {MatCheckboxModule} from '@angular/material'
+import {MatCheckboxModule, MatDatepicker, MatDatepickerModule, MatNativeDateModule, MatDialogModule, MAT_DIALOG_DATA} from '@angular/material'
 
 import { OnlyNumericDirective } from './directives/only-numeric';
 import { InspectionMeasurementsComponent } from './components/master-module/inspection-measurements/inspection-measurements.component';
@@ -42,6 +42,7 @@ import { SubscriberService } from './services/subscriber.service';
 import { UserService } from './services/user.service';
 import { LoaderInterceptorService } from './services/loader-interceptor.service';
 import { LoaderService } from './services/loader.service';
+import { WorkJobOrderConfirmDialogComponent } from './components/master-module/work-job-order/work-job-order-confirm-dialog.component';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { LoaderService } from './services/loader.service';
     OnlyNumericDirective,
     AlertsComponent,
     LoaderComponent,
-    InspectionMeasurementsComponent
+    InspectionMeasurementsComponent,
+    WorkJobOrderConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +82,10 @@ import { LoaderService } from './services/loader.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatDialogModule
   ],
   providers: [
     AuthService,
@@ -95,8 +100,13 @@ import { LoaderService } from './services/loader.service';
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptorService,
       multi: true
+    },
+    {
+      provide: MAT_DIALOG_DATA,
+      useValue: {}
     }
   ],
+  entryComponents: [WorkJobOrderConfirmDialogComponent, WorkJobOrderComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

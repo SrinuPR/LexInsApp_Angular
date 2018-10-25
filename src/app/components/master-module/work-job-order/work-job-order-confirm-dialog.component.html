@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>
+  <mat-icon class="text-warning">warning</mat-icon>
+  Work / Job Order for the selected P.O. exists
+</h1>
+<div mat-dialog-content>
+  <p>Do you want to continue with same Work / Job Order {{dialogData.workJobOrderNumber}} ?</p>
+</div>
+<mat-dialog-actions align="center">
+  <button mat-button (click)="onNo()">No</button>
+  <button mat-button (click)="onYes()" cdkFocusInitial>Yes</button>
+</mat-dialog-actions>
