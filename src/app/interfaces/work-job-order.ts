@@ -9,12 +9,21 @@ export interface WorkJobOrder {
     manufacturingBatchUnits?: string;
     workOrderJobNotes?: string;
     subscriberId?: number;
-    SubscriberName?: string;
+    subscriberName?: string;
     componentProductDrawNumber?: string;
     customerPONumber?: string;
 }
 
 export interface WorkJobOrderDialog {
-    workJobOrderNumber?: string;
-    workJobOrderAcknwldgmnt?: boolean;
+    title?: string;
+    content?: string;
+    confirm?: boolean;
+}
+
+export interface WorkJobOrderConfirm {
+    workNumberConfirm?: boolean;
+    lotNumberConfirm?: boolean;
+    lotSizeConfirm?: boolean;
+    batchNumberConfirm?: boolean;
+    batchSizeConfirm?: boolean;
 }

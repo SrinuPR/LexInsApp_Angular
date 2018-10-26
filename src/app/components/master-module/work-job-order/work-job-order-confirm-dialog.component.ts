@@ -14,12 +14,12 @@ import { WorkJobOrderDialog } from 'src/app/interfaces/work-job-order';
       @Inject(MAT_DIALOG_DATA) public dialogData: WorkJobOrderDialog) {}
 
     onYes() {
-      this.dialogData.workJobOrderAcknwldgmnt = true;
+      this.dialogData.confirm = true;
       this.dialogRef.close(this.dialogData);
     }
 
     onNo() {
-      this.dialogData.workJobOrderAcknwldgmnt = false;
+      this.dialogData.confirm = false;
       this.dialogRef.close(this.dialogData);
     }
   }
