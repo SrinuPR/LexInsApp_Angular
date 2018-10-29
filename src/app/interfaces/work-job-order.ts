@@ -12,12 +12,15 @@ export interface WorkJobOrder {
     subscriberName?: string;
     componentProductDrawNumber?: string;
     customerPONumber?: string;
+    wjOrderId?: number;
 }
 
 export interface WorkJobOrderDialog {
     title?: string;
     content?: string;
     confirm?: boolean;
+    message?: string;
+    fomControlName?: string;
 }
 
 export interface WorkJobOrderConfirm {

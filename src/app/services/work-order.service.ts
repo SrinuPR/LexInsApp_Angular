@@ -47,4 +47,12 @@ export class WorkJobOrderService {
         return this.httpService.post('workjoborder/validate/ManfBatchSize/', wjOrder);
     }
 
+    getWorkJobOrderList() {
+        return this.httpService.get('workjoborder/all');
+    }
+
+    deleteWorkJobOrder(workJobOrderId: number) {
+        return this.httpService.get('workjoborder/delete/' + workJobOrderId);
+    }
+
 }

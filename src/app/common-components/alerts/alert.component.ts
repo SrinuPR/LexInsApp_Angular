@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { CommonService, Alert } from 'src/app/services/common.service';
+import { Component } from '@angular/core';
+import { CommonService } from 'src/app/services/common.service';
+import { Alert } from 'src/app/interfaces/alert';
 
 @Component({
   selector: 'app-alert',

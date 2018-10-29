@@ -9,6 +9,9 @@ import { UserDetailsModel } from '../models/user.model';
 import { Shift } from '../components/master-module/shift/shift.component';
 import { Facilities } from '../components/master-module/facilities/facilities.component';
 import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material';
+import { ModalPopUpComponent } from '../common-components/alerts/modal-popup.component';
+import { Alert } from '../interfaces/alert';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +25,8 @@ export class CommonService {
 
   constructor(
     public httpService: HttpService,
-    public http: HttpClient
+    public http: HttpClient,
+    public dialog: MatDialog
   ) { }
 
   triggerAlerts(alertObject: Alert) {
@@ -137,16 +141,20 @@ export class CommonService {
   createFacility(object: Facilities) {
     return this.httpService.post('facilities/create', object);
   }
-  validateResourceIdentifier(resourceUrl: string,resourceId: number): Observable<any> {
-    return this.httpService.get(resourceUrl,resourceId);
-}
-createOrUpdateResource(resourceUrl: string,resourceData: any) {
-  return this.httpService.post(resourceUrl, resourceData);
-}
+  validateResourceIdentifier(resourceUrl: string, resourceId: number): Observable<any> {
+      return this.httpService.get(resourceUrl, resourceId);
+  }
+  createOrUpdateResource(resourceUrl: string, resourceData: any) {
+    return this.httpService.post(resourceUrl, resourceData);
+  }
+
+  displayPopUp(alert: Alert) {
+    this.dialog.open(ModalPopUpComponent, {
+      data: alert,
+      width: '500px',
+      disableClose: true,
+      hasBackdrop: true
+    });
+  }
 }
 
-export interface Alert {
-  message: string;
-  showAlert: boolean;
-  isSuccess: boolean;
-}

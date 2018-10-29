@@ -45,6 +45,7 @@ import { LoaderInterceptorService } from './services/loader-interceptor.service'
 import { LoaderService } from './services/loader.service';
 import { WorkJobOrderConfirmDialogComponent } from './components/master-module/work-job-order/work-job-order-confirm-dialog.component';
 import { AuthGuard } from './services/auth-guard.service';
+import { ModalPopUpComponent } from './common-components/alerts/modal-popup.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { AuthGuard } from './services/auth-guard.service';
     AlertsComponent,
     LoaderComponent,
     InspectionMeasurementsComponent,
-    WorkJobOrderConfirmDialogComponent
+    WorkJobOrderConfirmDialogComponent,
+    ModalPopUpComponent
   ],
   imports: [
     BrowserModule,
@@ -108,7 +110,7 @@ import { AuthGuard } from './services/auth-guard.service';
     },
     AuthGuard
   ],
-  entryComponents: [WorkJobOrderConfirmDialogComponent, WorkJobOrderComponent],
+  entryComponents: [WorkJobOrderConfirmDialogComponent, WorkJobOrderComponent, ModalPopUpComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>
+    <mat-icon *ngIf="data.type === alertType.WARNING" class="popup-warning">warning</mat-icon>
+    <i *ngIf="data.type === alertType.INFO" class="material-icons info-icon popup-info">info</i>
+    <mat-icon *ngIf="data.type === alertType.ERROR" class="popup-error">error</mat-icon>
+    <span [ngClass]="{'popup-error': data.type === alertType.ERROR, 'popup-info': data.type === alertType.INFO, 'popup-warning': data.type === alertType.WARNING}">{{getTitle()}} :</span> 
+</h1>
+<div mat-dialog-content>
+    <p [ngClass]="{'popup-error': data.type === alertType.ERROR, 'popup-info': data.type === alertType.INFO, 'popup-warning': data.type === alertType.WARNING}">{{data.message}}</p>
+</div>
+<mat-dialog-actions align="end">
+    <button mat-button [ngClass]="{'popup-error': data.type === alertType.ERROR, 'popup-info': data.type === alertType.INFO, 'popup-warning': data.type === alertType.WARNING}" (click)="onOK()" cdkFocusInitial>OK</button>
+</mat-dialog-actions>

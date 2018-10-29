@@ -6,6 +6,6 @@
   <p>{{dialogData.content}}</p>
 </div>
 <mat-dialog-actions align="center">
-  <button mat-button (click)="onNo()">No</button>
-  <button mat-button (click)="onYes()" cdkFocusInitial>Yes</button>
+  <button mat-button (click)="onYes()" cdkFocusInitial>{{dialogData.message}}</button>
+  <button mat-button (click)="onReEnter()">Oops, I will reenter</button>
 </mat-dialog-actions>

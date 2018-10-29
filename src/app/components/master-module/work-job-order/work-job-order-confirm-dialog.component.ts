@@ -18,7 +18,7 @@ import { WorkJobOrderDialog } from 'src/app/interfaces/work-job-order';
       this.dialogRef.close(this.dialogData);
     }
 
-    onNo() {
+    onReEnter() {
       this.dialogData.confirm = false;
       this.dialogRef.close(this.dialogData);
     }
