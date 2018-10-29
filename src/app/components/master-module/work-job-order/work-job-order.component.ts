@@ -183,8 +183,9 @@ export class WorkJobOrderComponent implements OnInit {
       const customerPO = this.workJobOrderForm.get('customerPONumber');
       const lotNumber = this.workJobOrderForm.get('lotNumber');
       const workNumber = this.workJobOrderForm.get('workJobOrderNumber');
+      const batchSize = this.workJobOrderForm.get('manufacturingBatchSize');
       if (productDrawNumber.valid && customerPO.valid && productDrawNumber.value && customerPO.value
-        && lotNumber.valid && lotNumber.value && workNumber.valid && workNumber.value) {
+        && lotNumber.valid && lotNumber.value && workNumber.valid && workNumber.value && batchSize.valid && batchSize.value) {
         this.workJobOrderService.validateManufacturerBatchSize(this.mapWorkJobOrder()).
         subscribe((response) => {
           console.log(response);
