@@ -36,7 +36,7 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Work / Job Order Number" autocomplete="off" type="text" onlyNumeric maxlength="10" formControlName="workJobOrderNumber"
+                    <input matInput placeholder="Work / Job Order Number" autocomplete="off" type="text" maxlength="10" formControlName="workJobOrderNumber"
                         name="workJobOrderNumber" (blur)="validateWorkJobOrderAndCustomerPO()">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('workJobOrderNumber')">Please Select Work / Job

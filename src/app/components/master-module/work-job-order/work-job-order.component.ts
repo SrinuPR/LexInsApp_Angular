@@ -110,14 +110,14 @@ export class WorkJobOrderComponent implements OnInit {
         subscribe((response) => {
           console.log(response);
           const result = response.body;
-          if (result.message !== this.WORK_JOB_ORDER_VALIDATION_WARNING) {
+          if (result.message === this.WORK_JOB_ORDER_VALIDATION_WARNING) {
             this.openConfirmationDialog(<WorkJobOrderDialog>{
               title: this.WORK_JOB_ORDER_VALIDATION_WARNING,
               content: 'Do you want to continue with same Work / Job Order ' + workNumber.value,
               confirm: false
             });
           }
-        });
+        }, (error) => {console.log(error); });
       }
     }
 
@@ -136,7 +136,7 @@ export class WorkJobOrderComponent implements OnInit {
               confirm: false
             });
           }
-        });
+        }, (error) => {console.log(error); });
       }
     }
 
@@ -155,7 +155,7 @@ export class WorkJobOrderComponent implements OnInit {
               confirm: false
             });
           }
-        });
+        }, (error) => {console.log(error); });
       }
     }
 
@@ -174,7 +174,7 @@ export class WorkJobOrderComponent implements OnInit {
               confirm: false
             });
           }
-        });
+        }, (error) => {console.log(error); });
       }
     }
 
@@ -196,14 +196,14 @@ export class WorkJobOrderComponent implements OnInit {
               confirm: false
             });
           }
-        });
+        }, (error) => {console.log(error); });
       }
     }
 
     mapWorkJobOrder() {
       return <WorkJobOrder>{
         workJobOrderNumber: this.workJobOrderForm.get('workJobOrderNumber').value,
-        workJobOrderDate: this.workJobOrderForm.get('workJobOrderDate').value,
+        workJobOrderDate: this.toLocaleDate(this.workJobOrderForm.get('workJobOrderDate').value),
         lotNumber: this.workJobOrderForm.get('lotNumber').value,
         lotSize: Number(this.workJobOrderForm.get('lotSize').value),
         lotSizeUnits: this.workJobOrderForm.get('lotSizeUnits').value,
@@ -216,6 +216,13 @@ export class WorkJobOrderComponent implements OnInit {
         customerPONumber: this.workJobOrderForm.get('customerPONumber').value,
         workOrderJobNotes: this.workJobOrderForm.get('workJobOrderNotes').value
       };
+    }
+
+    toLocaleDate(value: string): string {
+      if (value) {
+        const localDate = new Date(value);
+        return localDate.getDate() + '-' + localDate.getMonth() + 1 + '-' + localDate.getFullYear();
+      }
     }
 
     createWorkJobOrder() {
