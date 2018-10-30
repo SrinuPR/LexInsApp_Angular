@@ -31,16 +31,19 @@ export class FacilitiesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.buildFormControls();
-    this.facilityForm.get('subscriberName').disable();
-    this.getFacilityList();
-    this.setFacilityObject();
+    if (this.commonService.userDtls) {
+      this.buildFormControls();
+      this.facilityForm.get('subscriberName').disable();
+      this.getFacilityList();
+      this.setFacilityObject();
+    } else {
+      this.router.navigate(['']);
+    }
   }
 
   buildFormControls() {
     this.facilityForm = this.formBuilder.group({
-      subscriberId: this.commonService.userDtls ? this.commonService.userDtls.subscriberId || 12345 : 12345,
-      subscriberName: this.commonService.userDtls ? this.commonService.userDtls.subscriberName || 'chAITANY' : 'TEJA',
+      subscriberName: new FormControl(this.commonService.userDtls.subscriberName),
       facilityId: new FormControl(''),
       facilityNumber: new FormControl('', [Validators.required]),
       facilityName: new FormControl('', [Validators.required]),
@@ -49,26 +52,12 @@ export class FacilitiesComponent implements OnInit {
 
   setFacilityObject() {
     this.facilitiesObject = {
-      subscriberId: this.commonService.userDtls ? this.commonService.userDtls.subscriberId || 12345 : 12345,
-      subscriberName: this.commonService.userDtls ? this.commonService.userDtls.subscriberName || 'chAITANY' : 'TEJA',
+      subscriberId: this.commonService.userDtls.subscriberId,
+      subscriberName: this.commonService.userDtls.subscriberName,
       facilityId: null,
       facilityName: '',
       facilityNumber: ''
     };
-  }
-
-  verifyFacilityNumber() {
-    const control = this.facilityForm.get('facilityNumber').value;
-    if (control.value && control.value.length > 0) {
-      this.commonService.checkFacilityNumber(control.value).subscribe((response) => {
-        const status = response.body.message;
-        if (status === 'Facility / Machine Number Exists') {
-          control.setErrors(null);
-        } else {
-          control.setErrors({'notUnique': true });
-        }
-      });
-    }
   }
 
   getFacilityList() {
@@ -123,6 +112,20 @@ export class FacilitiesComponent implements OnInit {
       return (control.touched && control.invalid);
     }
     return false;
+  }
+
+  checkDuplicates() {
+    const control = this.facilityForm.get('facilityNumber');
+    if (control.value) {
+      this.commonService.checkFacilityNumber(control.value)
+        .subscribe((response) => {
+          if (response.body.message === 'Facility/Machine Number exists') {
+            control.setErrors({ 'notUnique': true });
+          } else {
+            control.setErrors(null);
+          }
+        });
+    }
   }
 }
 
