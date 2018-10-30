@@ -23,12 +23,8 @@ import { AuthGuard } from './services/auth-guard.service';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'dashboard', component: DashboardComponent,
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
-      {
-        path: '',
-        canActivateChild: [AuthGuard],
-        children: [
           { path: 'subscriber', component: SubscriberComponent },
           { path: 'user-master', component: UserMasterComponent },
           { path: 'user-type-master', component: UserTypeMasterComponent },
@@ -43,13 +39,9 @@ const routes: Routes = [
           { path: 'inspection-line-item', component: InspectionLineItemComponent },
           { path: 'inspection-meaurements', component: InspectionMeasurementsComponent },
           { path: 'inspection-report', component: InspectionReportComponent }
-        ]
-      }
-    ]
-  },
+        ]},
   { path: 'resetpassword', component: ResetPasswordComponent },
-  { path: 'forgotpassword', component: ForgotPasswordComponent },
-  { path: '**', redirectTo: '' }
+  { path: 'forgotpassword', component: ForgotPasswordComponent }
 ];
 
 @NgModule({
