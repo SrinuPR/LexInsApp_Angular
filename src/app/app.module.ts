@@ -23,18 +23,19 @@ import { FacilitiesComponent } from './components/master-module/facilities/facil
 import { ShiftComponent } from './components/master-module/shift/shift.component';
 import { ComponentMasterComponent } from './components/master-module/component-master/component-master.component';
 import { WorkJobOrderComponent } from './components/master-module/work-job-order/work-job-order.component';
-import { InspectionsComponent } from './components/master-module/inspections/inspections.component'
-import { InspectionLineItemComponent } from './components/reports/inspection-line-item/inspection-line-item.component'
+import { InspectionsComponent } from './components/master-module/inspections/inspections.component';
+import { InspectionLineItemComponent } from './components/reports/inspection-line-item/inspection-line-item.component';
 import { InspectionReportComponent } from './components/reports/inspection-report/inspection-report.component';
 import { LoaderComponent } from './common-components/loader/loader.component';
 import { LeftNavComponent } from '../app/common-components/left-nav/left-nav.component';
 import { HeaderComponent } from '../app/common-components/header/header.component';
-import { AlertsComponent } from '../app/common-components/alerts/alert.component'
+import { AlertsComponent } from '../app/common-components/alerts/alert.component';
 import { AuthService } from './services/auth.service';
 import { CommonService } from './services/common.service';
 import { DataService } from './services/data.service';
 import { HttpService } from './services/http.service';
-import {MatCheckboxModule} from '@angular/material'
+import {MatCheckboxModule, MatDatepickerModule, MatNativeDateModule, MatDialogModule,
+   MAT_DIALOG_DATA, MAT_DATE_FORMATS, DateAdapter} from '@angular/material';
 
 import { OnlyNumericDirective } from './directives/only-numeric';
 import { InspectionMeasurementsComponent } from './components/master-module/inspection-measurements/inspection-measurements.component';
@@ -42,7 +43,9 @@ import { SubscriberService } from './services/subscriber.service';
 import { UserService } from './services/user.service';
 import { LoaderInterceptorService } from './services/loader-interceptor.service';
 import { LoaderService } from './services/loader.service';
-
+import { WorkJobOrderConfirmDialogComponent } from './components/master-module/work-job-order/work-job-order-confirm-dialog.component';
+import { AuthGuard } from './services/auth-guard.service';
+import { ModalPopUpComponent } from './common-components/alerts/modal-popup.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +73,9 @@ import { LoaderService } from './services/loader.service';
     OnlyNumericDirective,
     AlertsComponent,
     LoaderComponent,
-    InspectionMeasurementsComponent
+    InspectionMeasurementsComponent,
+    WorkJobOrderConfirmDialogComponent,
+    ModalPopUpComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +85,10 @@ import { LoaderService } from './services/loader.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatDialogModule
   ],
   providers: [
     AuthService,
@@ -95,8 +103,18 @@ import { LoaderService } from './services/loader.service';
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptorService,
       multi: true
-    }
+    },
+    {
+      provide: MAT_DIALOG_DATA,
+      useValue: {}
+    },
+    AuthGuard
   ],
+  entryComponents: [WorkJobOrderConfirmDialogComponent, WorkJobOrderComponent, ModalPopUpComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private dateAdapter: DateAdapter<Date>) {
+    dateAdapter.setLocale('en-in'); // DD/MM/YYYY
+  }
+ }

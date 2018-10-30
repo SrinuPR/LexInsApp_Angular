@@ -36,13 +36,13 @@
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <input matInput placeholder="Customer PO Date" type="text" required formControlName="customerPODate"
-                        name="customerPODate">
+                    <input matInput class="date-picker" [matDatepicker]="picker" readonly (click)="picker.open()"
+                        placeholder="Customer PO Date" formControlName="customerPODate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker [disabled]="isUpdate"></mat-datepicker>
                 </mat-form-field>
                 <div class="error-message" *ngIf="customerPOForm.get('customerPODate').touched && customerPOForm.get('customerPODate').hasError('required')">Please
                     enter Customer PO Date</div>
-                <div class="error-message" *ngIf="customerPOForm.get('customerPODate').touched && customerPOForm.get('customerPODate').hasError('pattern')">Date
-                    format is dd/mm/yyyy</div>
             </div>
         </div>
         <div class="width-100">

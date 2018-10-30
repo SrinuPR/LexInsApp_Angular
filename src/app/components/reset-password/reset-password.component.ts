@@ -15,6 +15,7 @@ export class ResetPasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;
   errorDesc;
   passwordMismatch = false;
+  resetPasswordGiven =false;
   constructor(
     public router: Router,
     public formBuilder: FormBuilder,
@@ -33,6 +34,17 @@ export class ResetPasswordComponent implements OnInit {
       newPassword: new FormControl('', [Validators.required,this.passwordConfirming.bind(this)]),
       confirmPassword: new FormControl('', [Validators.required, this.passwordConfirming.bind(this)])
     });
+  }
+
+  checkPasswordStrength(){
+    this.resetPasswordGiven = true;
+    const control = this.resetPasswordForm.get('newPassword');
+    if (control.value && (control.value.length >=8  && control.value.length <= 20 ) ) {
+      control.setErrors(null);
+    }
+    else{
+      control.setErrors({"weakPassword":true});
+    }
   }
 
   displayErrorMessages(field: string) {
@@ -72,7 +84,8 @@ export class ResetPasswordComponent implements OnInit {
       const pwd = this.resetPasswordForm.get('password').value;
       const newPwd = this.resetPasswordForm.get('newPassword').value;
       const confNewPwd = this.resetPasswordForm.get('confirmPassword').value;
-      await this.commonService.resetPassword(user,pwd,newPwd,confNewPwd);
+      const response =  await this.commonService.resetPassword(user,pwd,newPwd,confNewPwd);
+      if(response.type === '')
       /* const userDtls =this.commonService.userDtls;
       this.errorDesc = userDtls.errorMessage;
       console.log('error msg'+this.errorDesc); */
@@ -82,4 +95,5 @@ export class ResetPasswordComponent implements OnInit {
       //}
     }
   }
+
 }

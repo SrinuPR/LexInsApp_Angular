@@ -33,7 +33,8 @@ export class UserMasterComponent implements OnInit {
             userTypeID: new FormControl('', [Validators.required]),
             userID: new FormControl('', [Validators.required]),
             userName: new FormControl('', [Validators.required]),
-            newPassword: new FormControl('', [Validators.required]),
+            newPassword: new FormControl('', [Validators.required,
+                Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
             confirmPassword: new FormControl('', [Validators.required])
         }, {validator: this.checkPasswords});
     }
@@ -67,7 +68,10 @@ export class UserMasterComponent implements OnInit {
           const result = response.body;
             console.log('User Master saved successfully');
             this.commonService.triggerAlerts(
-                { message: 'User details saved successfully', showAlert: true, isSuccess: true });
+                { message: 'User Saved', showAlert: true, isSuccess: true });
+        }, (error) => {
+            this.commonService.triggerAlerts(
+                { message: 'User NOT saved, please try again', showAlert: true, isSuccess: false });
         });
     }
 

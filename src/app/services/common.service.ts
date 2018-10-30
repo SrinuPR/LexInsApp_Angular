@@ -8,22 +8,33 @@ import { Subject } from 'rxjs/internal/Subject';
 import { UserDetailsModel } from '../models/user.model';
 import { Shift } from '../components/master-module/shift/shift.component';
 import { Facilities } from '../components/master-module/facilities/facilities.component';
+import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material';
+import { ModalPopUpComponent } from '../common-components/alerts/modal-popup.component';
+import { Alert } from '../interfaces/alert';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
   showAlerts = new Subject<Alert>();
+  clearOrHideAlerts = new Subject<{}>();
   showAlertsTrigger = this.showAlerts.asObservable();
+  clearAlertsEvent = this.clearOrHideAlerts.asObservable();
   public userDtls: UserDetailsModel;
 
   constructor(
     public httpService: HttpService,
-    public http: HttpClient
+    public http: HttpClient,
+    public dialog: MatDialog
   ) { }
 
   triggerAlerts(alertObject: Alert) {
     this.showAlerts.next(alertObject);
+  }
+
+  clearAlerts() {
+    this.clearOrHideAlerts.next();
   }
 
   async userLogin1(userName: string, pwd: string) {
@@ -87,7 +98,9 @@ export class CommonService {
     const response = await this.httpService.post1('user/change/password', body);
     /* let userData =  JSON.stringify(response);
     this.userDtls = JSON.parse(userData); */
+
     console.log('response' + response);
+    return response;
   }
 
   async forgotPassword(userName: string, emailId: string) {
@@ -136,10 +149,20 @@ export class CommonService {
   createFacility(object: Facilities) {
     return this.httpService.post('facilities/create', object);
   }
+  validateResourceIdentifier(resourceUrl: string, resourceId: number): Observable<any> {
+      return this.httpService.get(resourceUrl, resourceId);
+  }
+  createOrUpdateResource(resourceUrl: string, resourceData: any) {
+    return this.httpService.post(resourceUrl, resourceData);
+  }
+
+  displayPopUp(alert: Alert) {
+    this.dialog.open(ModalPopUpComponent, {
+      data: alert,
+      width: '500px',
+      disableClose: true,
+      hasBackdrop: true
+    });
+  }
 }
 
-export interface Alert {
-  message: string;
-  showAlert: boolean;
-  isSuccess: boolean;
-}

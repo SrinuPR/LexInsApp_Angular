@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>
+  <mat-icon class="text-warning">warning</mat-icon>
+  {{dialogData.title}}
+</h1>
+<div mat-dialog-content>
+  <p>{{dialogData.content}}</p>
+</div>
+<mat-dialog-actions align="center">
+  <button mat-button (click)="onYes()" cdkFocusInitial>{{dialogData.message}}</button>
+  <button mat-button (click)="onReEnter()">Oops, I will reenter</button>
+</mat-dialog-actions>

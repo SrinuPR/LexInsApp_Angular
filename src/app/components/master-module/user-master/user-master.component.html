@@ -29,7 +29,7 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="User ID" type="text" maxlength="10" formControlName="userID" name="userID" (blur)="verifyUserId()">
+                    <input matInput autocomplete="off" placeholder="User ID" type="text" maxlength="10" formControlName="userID" name="userID" (blur)="verifyUserId()">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('userID')">Please enter User ID</div>
                 <div class="error-message" *ngIf="userMasterForm.get('userID').touched && userMasterForm.get('userID').hasError('userIdNotUnique')">User ID already exists, Please enter
@@ -37,7 +37,7 @@
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <input matInput placeholder="User Name" type="text" formControlName="userName" name="userName">
+                    <input matInput autocomplete="off" placeholder="User Name" type="text" maxlength="20" formControlName="userName" name="userName">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('userName')">Please enter User Name</div>
             </div>
@@ -45,13 +45,17 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Password" type="password" formControlName="newPassword" name="newPassword">
+                    <input matInput autocomplete="off" placeholder="Password" type="password" maxlength="20" formControlName="newPassword" name="newPassword">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('newPassword')">Please enter Password</div>
+                <div class="error-message" *ngIf="userMasterForm.get('newPassword')?.errors?.pattern">
+                    The password should be of length 8 to 16 characters with at least one uppercase alphabet, one lower case alphabet, one numerical 
+                    and one special character
+                </div>
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <input matInput placeholder="Confirm Password" type="password" formControlName="confirmPassword"
+                    <input matInput autocomplete="off" maxlength="20" placeholder="Confirm Password" type="password" formControlName="confirmPassword"
                         name="confirmPassword">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('confirmPassword')">Please enter Confirm

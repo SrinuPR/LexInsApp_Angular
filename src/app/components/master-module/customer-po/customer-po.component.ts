@@ -57,8 +57,7 @@ export class CustomerPOComponent implements OnInit {
             customerPoId: new FormControl(''),
             componentId: new FormControl('', [Validators.required]),
             customerPONumber: new FormControl('', [Validators.required]),
-            customerPODate: new FormControl('',
-                [Validators.required, Validators.pattern('^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$')]),
+            customerPODate: new FormControl('', [Validators.required]),
             customerPOQuantity: new FormControl('', [Validators.required]),
             poNotes: new FormControl('')
         });

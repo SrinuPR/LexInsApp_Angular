@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { CommonService, Alert } from 'src/app/services/common.service';
+import { Component } from '@angular/core';
+import { CommonService } from 'src/app/services/common.service';
+import { Alert } from 'src/app/interfaces/alert';
 
 @Component({
   selector: 'app-alert',
@@ -14,9 +15,10 @@ export class AlertsComponent {
     public commonService: CommonService
   ) {
     this.commonService.showAlertsTrigger.subscribe((alertObject: Alert) => {
-      console.log('inside alert component!')
       this.triggerAlert(alertObject);
-    })
+    });
+
+    this.commonService.clearAlertsEvent.subscribe(data => this.clearAlerts());
   }
 
   triggerAlert(event) {
@@ -26,6 +28,10 @@ export class AlertsComponent {
   }
 
   close() {
+    this.showAlert = false;
+  }
+
+  clearAlerts() {
     this.showAlert = false;
   }
 

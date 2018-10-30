@@ -6,23 +6,23 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Subscriber ID" type="text" onlyNumeric maxlength="5" 
-                    [formControlName]="'subscriberID'" name="subscriberID" (blur)="verifySubscriber()">
+                    <input matInput autocomplete="off" placeholder="Subscriber ID" type="text" onlyNumeric minlength="5" maxlength="5" 
+                    formControlName="subscriberID" name="subscriberID" (blur)="verifySubscriber()">
                 </mat-form-field>
                 <div class="error-message" *ngIf="subscriberForm.get('subscriberID').touched && subscriberForm.get('subscriberID').hasError('required')">Please enter Subscriber ID</div>
-                <div class="error-message" *ngIf="subscriberForm.get('subscriberID').touched && subscriberForm.get('subscriberID').hasError('subIdNotUnique')">Subscriber ID already exists, Please enter
-                    a unique Subscriber ID</div>
+                <div class="error-message" *ngIf="subscriberForm.get('subscriberID')?.hasError('subIdNotUnique')">Subscriber ID exists</div>
+                <div class="error-message" *ngIf="subscriberForm.get('subscriberID')?.errors?.minlength">Subscriber ID must be at least 5 characters long.</div> 
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <input matInput placeholder="Subscriber Name" type="subscriberName" formControlName="subscriberName"
+                    <input matInput autocomplete="off" placeholder="Subscriber Name" maxlength="150" type="text" formControlName="subscriberName"
                         name="subscriberName">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('subscriberName')">Please enter Subscriber Name</div>
             </div>
         </div>
         <mat-form-field>
-            <textarea matInput placeholder="Subscriber Address" formControlName="subscriberAddress" name="subscriberAddress"></textarea>
+            <textarea matInput autocomplete="off" maxlength="250" placeholder="Subscriber Address" formControlName="subscriberAddress" name="subscriberAddress"></textarea>
         </mat-form-field>
         <div class="error-message" *ngIf="subscriberForm.get('subscriberAddress').touched && subscriberForm.get('subscriberAddress').hasError('required')">Please enter Subscriber Address</div>
         <div class="padding-top-10">

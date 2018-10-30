@@ -15,30 +15,31 @@ import { ShiftComponent } from './components/master-module/shift/shift.component
 import { ComponentMasterComponent } from './components/master-module/component-master/component-master.component';
 import { WorkJobOrderComponent } from './components/master-module/work-job-order/work-job-order.component';
 import { InspectionsComponent } from './components/master-module/inspections/inspections.component';
-import { InspectionLineItemComponent } from './components/reports/inspection-line-item/inspection-line-item.component'
+import { InspectionLineItemComponent } from './components/reports/inspection-line-item/inspection-line-item.component';
 import { InspectionMeasurementsComponent } from './components/master-module/inspection-measurements/inspection-measurements.component';
-import { InspectionReportComponent } from './components/reports/inspection-report/inspection-report.component'
+import { InspectionReportComponent } from './components/reports/inspection-report/inspection-report.component';
+import { AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'dashboard', component: DashboardComponent,
+    canActivateChild: [AuthGuard],
     children: [
-      { path: 'subscriber', component: SubscriberComponent },
-      { path: 'user-master', component: UserMasterComponent },
-      { path: 'user-type-master', component: UserTypeMasterComponent },
-      { path: 'customer-po', component: CustomerPOComponent },
-      { path: 'inspection-type', component: InspectionTypeComponent },
-      { path: 'inspection-stage', component: InspectionStageComponent },
-      { path: 'facilities', component: FacilitiesComponent },
-      { path: 'shift', component: ShiftComponent },
-      { path: 'component-master', component: ComponentMasterComponent },
-      { path: 'work-job-order', component: WorkJobOrderComponent },
-      { path: 'inspections', component: InspectionsComponent },
-      { path: 'inspection-line-item', component: InspectionLineItemComponent },
-      { path: 'inspection-meaurements', component: InspectionMeasurementsComponent },
-      { path: 'inspection-report', component: InspectionReportComponent }
-    ]
-  },
+          { path: 'subscriber', component: SubscriberComponent },
+          { path: 'user-master', component: UserMasterComponent },
+          { path: 'user-type-master', component: UserTypeMasterComponent },
+          { path: 'customer-po', component: CustomerPOComponent },
+          { path: 'inspection-type', component: InspectionTypeComponent },
+          { path: 'inspection-stage', component: InspectionStageComponent },
+          { path: 'facilities', component: FacilitiesComponent },
+          { path: 'shift', component: ShiftComponent },
+          { path: 'component-master', component: ComponentMasterComponent },
+          { path: 'work-job-order', component: WorkJobOrderComponent },
+          { path: 'inspections', component: InspectionsComponent },
+          { path: 'inspection-line-item', component: InspectionLineItemComponent },
+          { path: 'inspection-meaurements', component: InspectionMeasurementsComponent },
+          { path: 'inspection-report', component: InspectionReportComponent }
+        ]},
   { path: 'resetpassword', component: ResetPasswordComponent },
   { path: 'forgotpassword', component: ForgotPasswordComponent }
 ];

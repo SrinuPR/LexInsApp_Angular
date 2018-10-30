@@ -41,7 +41,7 @@ export class SubscriberComponent implements OnInit {
 
   verifySubscriber() {
     const control = this.subscriberForm.get('subscriberID');
-    if (control.value && control.value.length > 0) {
+    if (control.valid && control.value && control.value.length > 0) {
       this.subscriberService.validateSubscriberId(control.value).subscribe((response) => {
         const status = response.body.message;
         if (status === `Subscriber ID doesn't exist`) {
@@ -60,8 +60,12 @@ export class SubscriberComponent implements OnInit {
       if (result.status === 'Success' && result.message === 'Subscriber Saved') {
         console.log('Subscriber saved successfully');
         this.commonService.triggerAlerts(
-          { message: 'Subscriber details saved successfully', showAlert: true, isSuccess: true });
+          { message: result.message, showAlert: true, isSuccess: true });
+        this.subscriberForm.reset();
       }
+    }, (error) => {
+      this.commonService.triggerAlerts(
+          { message: 'Subscriber NOT saved, please try again', showAlert: true, isSuccess: false });
     });
   }
 
