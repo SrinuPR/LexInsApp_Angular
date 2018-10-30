@@ -14,7 +14,7 @@ export class HttpService {
   constructor(
     private http: HttpClient
   ) {}
-  path = 'http://10.8.76.40:8888/';
+  path = 'http://10.118.44.228:8888/';
   private headers = new HttpHeaders({
     'Pragma': 'no-cache',
     'cache-control': 'no-cache',
@@ -46,17 +46,17 @@ export class HttpService {
     );
     return res;
   }
-  //10.14.224.30:8888/user/changePass 
+  // 10.14.224.30:8888/user/changePass
    /* async post1(path, body) {
      let res = null;
      //const url = 'http://10.8.76.59:8888/';
      const url = 'http://localhost:8888/';
      await this.http.post(url + path, body,httpOptions)
      .toPromise().then(
-       response => { console.log(response); 
+       response => { console.log(response);
         res = response;
        }, // success path
-       (error) => { console.log(error); 
+       (error) => { console.log(error);
          res = error.error;
        } // error path
      );

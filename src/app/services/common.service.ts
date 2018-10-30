@@ -61,12 +61,16 @@ export class CommonService {
     return this.httpService.post('purchaseOrder/save', object);
   }
 
+  checkDuplicateCustomerPO(customerPONumber: string) {
+    return this.httpService.get('purchaseOrder/validate/' + customerPONumber);
+  }
+
   updateCustomerPO(object: CustomerPO) {
     return this.httpService.post('purchaseOrder/update', object);
   }
 
   deleteCustomerPO(customerPoId: number) {
-    return this.httpService.post('purchaseOrder/delete/', { customerPoId });
+    return this.httpService.get('purchaseOrder/delete/' + customerPoId.toString());
   }
 
   async resetPassword(userName: string, pwd: string, newPwd: string, confNewPwd: string) {
@@ -102,19 +106,23 @@ export class CommonService {
   }
 
   getShiftList() {
-    return this.httpService.get('component/all');
+    return this.httpService.get('createShiftMaster/all');
   }
 
   createShift(object: Shift) {
-    return this.httpService.post('component/save', object);
+    return this.httpService.post('createShiftMaster/createShift', object);
   }
 
   updateShift(object: Shift) {
-    return this.httpService.post('component/update', object);
+    return this.httpService.post('createShiftMaster/updateShift', object);
   }
 
   deleteShift(shiftId: string) {
-    return this.httpService.get('component/delete/', shiftId);
+    return this.httpService.get('createShiftMaster/delete/', shiftId);
+  }
+
+  checkShift(shiftID: string) {
+    return this.httpService.get('createShiftMaster/validate/', shiftID);
   }
 
   getFacilityList() {

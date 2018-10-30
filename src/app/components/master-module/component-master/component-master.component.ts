@@ -31,10 +31,14 @@ export class ComponentMasterComponent implements OnInit {
     public userDetailsModel: UserDetailsModel
   ) { }
   ngOnInit() {
-    this.buildFormControls();
-    this.componentMasterForm.get('subscriberName').disable();
-    this.getComponentProductMasterList();
-    this.setComponentProductMasterObject();
+    if (this.commonService.userDtls) {
+      this.buildFormControls();
+      this.componentMasterForm.get('subscriberName').disable();
+      this.getComponentProductMasterList();
+      this.setComponentProductMasterObject();
+    } else {
+      this.router.navigate(['']);
+    }
   }
 
   setComponentProductMasterObject() {
@@ -151,7 +155,7 @@ export class ComponentMasterComponent implements OnInit {
     this.commonService.updateComponentProductMaster(this.getRequestObject())
       .subscribe((response) => {
         if (response.body.status === 'Success') {
-          this.componentProductMasterList =  response.body.result;
+          this.componentProductMasterList = response.body.result;
           this.commonService.triggerAlerts({ message: 'Component / Product Updated.', showAlert: true, isSuccess: true });
         }
       },
@@ -182,6 +186,9 @@ export class ComponentMasterComponent implements OnInit {
     this.componentMasterForm.reset();
     this.componentMasterForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
     this.componentMasterForm.get('subscriberName').disable();
+    this.componentMasterForm.get('componentProductDrawNumber').enable();
+    this.componentMasterForm.get('componentProductManufacturerUnits').enable();
+    this.componentMasterForm.get('customerNameAddress').enable();
   }
 
   cancelEdit() {

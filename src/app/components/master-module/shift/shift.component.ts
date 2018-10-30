@@ -30,25 +30,28 @@ export class ShiftComponent implements OnInit {
     public commonService: CommonService,
   ) { }
   ngOnInit() {
-    this.buildFormControls();
-    this.shiftForm.get('subscriberName').disable();
-    this.getShiftList();
-    this.setShiftObject();
+    if (this.commonService.userDtls) {
+      this.buildFormControls();
+      this.shiftForm.get('subscriberName').disable();
+      this.getShiftList();
+      this.setShiftObject();
+    } else {
+      this.router.navigate(['']);
+    }
   }
 
   buildFormControls() {
     this.shiftForm = this.formBuilder.group({
-      subscriberId: this.commonService.userDtls ? this.commonService.userDtls.subscriberId || 12345 : 12345,
-      subscriberName: this.commonService.userDtls ? this.commonService.userDtls.subscriberName || 'chAITANY' : 'TEJA',
-      shiftID: new FormControl('', [Validators.required]),
+      subscriberName: this.commonService.userDtls.subscriberName,
+      shiftId: new FormControl('', [Validators.required]),
       shiftName: new FormControl('', [Validators.required]),
     });
   }
 
   setShiftObject() {
     this.shiftObject = {
-      subscriberId: this.commonService.userDtls ? this.commonService.userDtls.subscriberId || 12345 : 12345,
-      subscriberName: this.commonService.userDtls ? this.commonService.userDtls.subscriberName || 'chAITANY' : 'TEJA',
+      subscriberId: this.commonService.userDtls.subscriberId,
+      subscriberName: this.commonService.userDtls.subscriberName,
       shiftId: '',
       shiftName: ''
     };
@@ -102,16 +105,14 @@ export class ShiftComponent implements OnInit {
         if (response.body.status === 'Success') {
           this.shiftList = response.body.result;
           this.commonService.triggerAlerts({ message: 'Shift Saved.', showAlert: true, isSuccess: true });
-        } else {
-          this.commonService.triggerAlerts(
-            { message: 'Shift ID Exists.', showAlert: true, isSuccess: false });
         }
+        this.resetForm();
       },
         (error) => {
           this.commonService.triggerAlerts(
             { message: 'Shift Not Saved. Please try again.', showAlert: true, isSuccess: false });
+          this.resetForm();
         });
-    this.resetForm();
   }
 
   updateShift() {
@@ -121,12 +122,13 @@ export class ShiftComponent implements OnInit {
           this.shiftList = response.body.result;
           this.commonService.triggerAlerts({ message: 'Shift Updated.', showAlert: true, isSuccess: true });
         }
+        this.resetForm();
       },
         (error) => {
           this.commonService.triggerAlerts(
             { message: 'Shift Not Saved. Please try again.', showAlert: true, isSuccess: false });
+          this.resetForm();
         });
-    this.resetForm();
     this.isEdit = false;
   }
 
@@ -141,6 +143,7 @@ export class ShiftComponent implements OnInit {
     this.shiftForm.reset();
     this.shiftForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
     this.shiftForm.get('subscriberName').disable();
+    this.shiftForm.get('shiftId').enable();
   }
 
   cancelEdit() {
@@ -154,5 +157,19 @@ export class ShiftComponent implements OnInit {
       return (control.touched && control.invalid);
     }
     return false;
+  }
+
+  checkDuplicates() {
+    const control = this.shiftForm.get('shiftId');
+    if (control.value) {
+      this.commonService.checkShift(control.value)
+        .subscribe((response) => {
+          if (response.body.message === 'Shift ID Exists') {
+            control.setErrors({ 'notUnique': true });
+          } else {
+            control.setErrors(null);
+          }
+        });
+    }
   }
 }

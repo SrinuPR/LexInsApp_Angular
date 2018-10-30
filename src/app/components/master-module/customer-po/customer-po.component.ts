@@ -27,10 +27,14 @@ export class CustomerPOComponent implements OnInit {
         public commonService: CommonService
     ) { }
     ngOnInit() {
-        this.buildFormControls();
-        this.customerPOForm.get('subscriberName').disable();
-        this.getcustomerPOList();
-        this.setcustomerPObject();
+        if (this.commonService.userDtls) {
+            this.buildFormControls();
+            this.customerPOForm.get('subscriberName').disable();
+            this.getcustomerPOList();
+            this.setcustomerPObject();
+        } else  {
+            this.router.navigate(['']);
+        }
     }
 
     setcustomerPObject() {
@@ -53,7 +57,8 @@ export class CustomerPOComponent implements OnInit {
             customerPoId: new FormControl(''),
             componentId: new FormControl('', [Validators.required]),
             customerPONumber: new FormControl('', [Validators.required]),
-            customerPODate: new FormControl('', [Validators.required]),
+            customerPODate: new FormControl('',
+                [Validators.required, Validators.pattern('^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$')]),
             customerPOQuantity: new FormControl('', [Validators.required]),
             poNotes: new FormControl('')
         });
@@ -98,7 +103,7 @@ export class CustomerPOComponent implements OnInit {
     }
 
     delete(element: CustomerPO) {
-        this.commonService.deleteCustomerPO(element.componentId)
+        this.commonService.deleteCustomerPO(element.customerPoId)
             .subscribe((response) => {
                 this.customerPOList = _.without(this.customerPOList, element);
             },
@@ -115,28 +120,22 @@ export class CustomerPOComponent implements OnInit {
             this.updateCustomerPO();
         }
         this.isEdit = false;
-        this.resetForm();
     }
 
     createCustomerPO() {
-        const checkDuplicate = _.find(this.customerPOList,
-            { componentProductDrawNumber: this.getRequestObject().customerPONumber });
-        if (checkDuplicate) {
-            this.commonService.triggerAlerts({ message: 'Customer P.O. Exists.', showAlert: true, isSuccess: false });
-        } else {
-            this.commonService.createCustomerPO(this.getRequestObject())
-                .subscribe((response) => {
-                    if (response.body.status === 'Success') {
-                        this.customerPOList = response.body.result;
-                        this.commonService.triggerAlerts({ message: 'Customer P.O. Saved.', showAlert: true, isSuccess: true });
-                    }
-                },
-                    (error) => {
-                        this.commonService.triggerAlerts(
-                            { message: 'Customer P.O. NOT Saved. Please try again.', showAlert: true, isSuccess: false });
-                    });
-            this.resetForm();
-        }
+        this.commonService.createCustomerPO(this.getRequestObject())
+            .subscribe((response) => {
+                if (response.body.status === 'Success') {
+                    this.customerPOList = response.body.result;
+                    this.commonService.triggerAlerts({ message: 'Customer P.O. Saved.', showAlert: true, isSuccess: true });
+                }
+                this.resetForm();
+            }, (error) => {
+                this.commonService.triggerAlerts(
+                    { message: 'Customer P.O. NOT Saved. Please try again.', showAlert: true, isSuccess: false });
+                this.resetForm();
+            });
+
     }
 
     updateCustomerPO() {
@@ -145,18 +144,20 @@ export class CustomerPOComponent implements OnInit {
                 if (response.body.status === 'Success') {
                     this.customerPOList = response.body.result;
                     this.commonService.triggerAlerts({ message: 'Customer P.O. Saved.', showAlert: true, isSuccess: true });
+                    this.resetForm();
                 }
             },
                 (error) => {
                     this.commonService.triggerAlerts(
                         { message: 'Customer P.O. NOT Saved. Please try again.', showAlert: true, isSuccess: false });
+                    this.resetForm();
                 });
     }
 
     getRequestObject() {
         this.customerPObject.customerPoId = this.customerPOForm.get('customerPoId')
             ? this.customerPOForm.get('customerPoId').value || null : null;
-        this.customerPObject.componentProductDrawNum = this.customerPOForm.get('componentId').value;
+        this.customerPObject.componentId = this.customerPOForm.get('componentId').value;
         this.customerPObject.subscriberId = this.commonService.userDtls.subscriberId;
         this.customerPObject.customerPONumber = this.customerPOForm.get('customerPONumber').value;
         this.customerPObject.customerPODate = this.customerPOForm.get('customerPODate').value;
@@ -169,6 +170,9 @@ export class CustomerPOComponent implements OnInit {
         this.customerPOForm.reset();
         this.customerPOForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
         this.customerPOForm.get('subscriberName').disable();
+        this.customerPOForm.get('componentId').enable();
+        this.customerPOForm.get('customerPONumber').enable();
+        this.customerPOForm.get('customerPODate').enable();
     }
 
     cancelEdit() {
@@ -176,11 +180,19 @@ export class CustomerPOComponent implements OnInit {
         this.isEdit = false;
     }
 
-    getProductDrawNumberText(componentId) {
-        _.find(this.componentProductDrawingNumberList, (item) => {
-            if (item.componentId === componentId) {
-                return item.componentProductDrawNumber;
-            }
-        });
+    onDrawNumberChange(componentId: string) {
+        const data = _.where(this.componentProductDrawingNumberList, { componentId: componentId });
+        this.customerPObject.componentProductDrawNum = data[0].componentProductDrawNumber;
+    }
+
+    checkDuplicates() {
+        const control = this.customerPOForm.get('customerPONumber');
+        this.commonService.checkDuplicateCustomerPO(control.value)
+            .subscribe((response) => {
+                control.setErrors(null);
+            },
+                (error) => {
+                    control.setErrors({ 'notUnique': true });
+                });
     }
 }
