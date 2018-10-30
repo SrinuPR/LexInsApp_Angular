@@ -64,17 +64,21 @@ export class WorkJobOrderComponent implements OnInit {
 
     buildFormControls() {
       this.workJobOrderForm = this.formBuilder.group({
-        subscriberName: new FormControl(this.commonService.userDtls.subscriberName),
+        subscriberName: new FormControl({value: this.commonService.userDtls.subscriberName, disabled: this.isUpdate}),
         productDrawingNumberionTypeID: new FormControl(this.selectedWorkJobOrder.componentProductDrawNumber, [Validators.required]),
         customerPONumber: new FormControl(this.selectedWorkJobOrder.customerPONumber, [Validators.required]),
-        workJobOrderNumber: new FormControl(this.selectedWorkJobOrder.workJobOrderNumber, [Validators.required]),
-        workJobOrderDate: new FormControl(this.selectedWorkJobOrder.workJobOrderDate, [Validators.required]),
-        lotNumber: new FormControl(this.selectedWorkJobOrder.lotNumber, [Validators.required]),
+        workJobOrderNumber: new FormControl({value: this.selectedWorkJobOrder.workJobOrderNumber,
+          disabled: this.isUpdate}, [Validators.required]),
+        workJobOrderDate: new FormControl({value: this.selectedWorkJobOrder.workJobOrderDate,
+           disabled: this.isUpdate}, [Validators.required]),
+        lotNumber: new FormControl({value: this.selectedWorkJobOrder.lotNumber, disabled: this.isUpdate}, [Validators.required]),
         lotSize: new FormControl(this.selectedWorkJobOrder.lotSize, [Validators.required]),
-        lotSizeUnits: new FormControl(this.selectedWorkJobOrder.lotSizeUnits, [Validators.required]),
-        manufacturingBatchNumber: new FormControl(this.selectedWorkJobOrder.manufacturingBatchNumber, [Validators.required]),
+        lotSizeUnits: new FormControl({value: this.selectedWorkJobOrder.lotSizeUnits, disabled: this.isUpdate}, [Validators.required]),
+        manufacturingBatchNumber: new FormControl({value: this.selectedWorkJobOrder.manufacturingBatchNumber,
+           disabled: this.isUpdate}, [Validators.required]),
         manufacturingBatchSize: new FormControl(this.selectedWorkJobOrder.manufacturingBatchSize, [Validators.required]),
-        manufacturingBatchUnits: new FormControl(this.selectedWorkJobOrder.manufacturingBatchUnits, [Validators.required]),
+        manufacturingBatchUnits: new FormControl({value: this.selectedWorkJobOrder.manufacturingBatchUnits,
+           disabled: this.isUpdate}, [Validators.required]),
         workJobOrderNotes: new FormControl(this.selectedWorkJobOrder.workOrderJobNotes, [Validators.required])
       });
     }
@@ -162,16 +166,19 @@ export class WorkJobOrderComponent implements OnInit {
       const productDrawNumber = this.workJobOrderForm.get('productDrawingNumberionTypeID');
       const customerPO = this.workJobOrderForm.get('customerPONumber');
       const lotSize = this.workJobOrderForm.get('lotSize');
-      if (productDrawNumber.valid && customerPO.valid && productDrawNumber.value
-        && customerPO.value && lotSize.valid && lotSize.value) {
+      if (!productDrawNumber.invalid && !customerPO.invalid && productDrawNumber.value
+        && customerPO.value && !lotSize.invalid && lotSize.value) {
         this.workJobOrderService.validateLotSize(this.mapWorkJobOrder()).
         subscribe((response) => {
           console.log(response);
           const result = response.body;
-          if (result.message === this.LOT_SIZE_VALIDATION_FAILED) {
-            // logic
-          }
-        }, (error) => {console.log(error); });
+        }, (error) => {console.log(error);
+          if (error.error && error.error.message === this.LOT_SIZE_VALIDATION_FAILED) {
+            this.commonService.displayPopUp({
+              message: this.LOT_SIZE_VALIDATION_FAILED,
+              type: AlertType.ERROR
+            });
+          }});
       }
     }
 
@@ -196,8 +203,8 @@ export class WorkJobOrderComponent implements OnInit {
       const lotNumber = this.workJobOrderForm.get('lotNumber');
       const workNumber = this.workJobOrderForm.get('workJobOrderNumber');
       const batchSize = this.workJobOrderForm.get('manufacturingBatchSize');
-      if (productDrawNumber.valid && customerPO.valid && productDrawNumber.value && customerPO.value
-        && lotNumber.valid && lotNumber.value && workNumber.valid && workNumber.value && batchSize.valid && batchSize.value) {
+      if (!productDrawNumber.invalid && !customerPO.invalid && productDrawNumber.value && customerPO.value
+        && !lotNumber.invalid && lotNumber.value && !workNumber.invalid && workNumber.value && batchSize.valid && batchSize.value) {
         this.workJobOrderService.validateManufacturerBatchSize(this.mapWorkJobOrder()).
         subscribe((response) => {
           console.log(response);
@@ -259,23 +266,45 @@ export class WorkJobOrderComponent implements OnInit {
             message: response.body.message,
             type: AlertType.INFO
           });
+        }, (error) => {
+          if (error && error.error) {
+            this.commonService.displayPopUp({
+              message: error.error.message,
+              type: AlertType.ERROR
+            });
+          }
         });
     }
 
     updateWorkJobOrder() {
       const existingWorkJobOrder = this.mapWorkJobOrder();
-      const index = this.workJobOrderList.findIndex((data: WorkJobOrder) => {
-        return data.workJobOrderNumber === existingWorkJobOrder.workJobOrderNumber;
-      });
-      this.workJobOrderList[index] = existingWorkJobOrder;
+      this.workJobOrderService.updateWorkJobOrder(existingWorkJobOrder).
+        subscribe((response) => {
+          const index = this.workJobOrderList.findIndex((data: WorkJobOrder) => {
+            return data.workJobOrderNumber === existingWorkJobOrder.workJobOrderNumber;
+          });
+          this.workJobOrderList[index] = existingWorkJobOrder;
+          this.isUpdate = false;
+          this.selectedWorkJobOrder = {};
+          this.buildFormControls();
+          this.commonService.displayPopUp({
+            message: response.body.message,
+            type: AlertType.INFO
+          });
+        }, (error) => {
+          if (error && error.error) {
+            this.commonService.displayPopUp({
+              message: error.error.message,
+              type: AlertType.ERROR
+            });
+          }
+        });
     }
 
     editWorkJobOrder(wjOrder: WorkJobOrder) {
       this.selectedWorkJobOrder = wjOrder;
       this.isUpdate = true;
-      console.log(this.selectedWorkJobOrder);
       this.buildFormControls();
-      console.log(this.workJobOrderForm.get('workJobOrderDate').value);
       this.commonService.clearAlerts();
     }
 

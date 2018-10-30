@@ -55,4 +55,8 @@ export class WorkJobOrderService {
         return this.httpService.get('workjoborder/delete/' + workJobOrderId);
     }
 
+    updateWorkJobOrder(workJobOrder: WorkJobOrder) {
+        return this.httpService.post('workjoborder/update/', workJobOrder);
+    }
+
 }

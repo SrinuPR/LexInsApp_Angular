@@ -10,7 +10,7 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <mat-select matInput placeholder="Component / Product Drawing Number" required formControlName="productDrawingNumberionTypeID"
+                    <mat-select matInput [disabled]="isUpdate" placeholder="Component / Product Drawing Number" formControlName="productDrawingNumberionTypeID"
                         name="productDrawingNumberionTypeID" (selectionChange)="selectComponentData()">
                         <mat-option *ngFor="let componentData of componentDataList" [value]="componentData.componentProductDrawNumber">
                             {{ componentData.componentProductDrawNumber }}
@@ -22,8 +22,8 @@
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <mat-select matInput placeholder="Customer P.O. Number" (selectionChange)="validateWorkJobOrderAndCustomerPO()" required formControlName="customerPONumber"
-                        name="customerPONumber">
+                    <mat-select matInput placeholder="Customer P.O. Number"  (selectionChange)="validateWorkJobOrderAndCustomerPO()"  formControlName="customerPONumber"
+                        name="customerPONumber" [disabled]="isUpdate">
                         <mat-option *ngFor="let customerPO of customerPOList" [value]="customerPO">
                             {{ customerPO }}
                         </mat-option>
@@ -36,7 +36,7 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Work / Job Order Number" autocomplete="off" type="text" maxlength="10" formControlName="workJobOrderNumber"
+                    <input matInput placeholder="Work / Job Order Number"  autocomplete="off" type="text" maxlength="10" formControlName="workJobOrderNumber"
                         name="workJobOrderNumber" (blur)="validateWorkJobOrderAndCustomerPO()">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('workJobOrderNumber')">Please Select Work / Job
@@ -46,7 +46,7 @@
                     <mat-form-field>
                         <input matInput class="date-picker" [matDatepicker]="picker" readonly (click)="picker.open()" placeholder="Work / Job Order Date" formControlName="workJobOrderDate">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker disabled="false"></mat-datepicker>
+                        <mat-datepicker #picker [disabled]="isUpdate"></mat-datepicker>
                     </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('workJobOrderDate')">Please Enter Work / Job
                     Order Date</div>
@@ -55,7 +55,7 @@
         <div class="width-100">
             <div class="form-control-field-3-left">
                 <mat-form-field>
-                    <input matInput placeholder="Lot Number" autocomplete="off" maxlength="10" (blur)="validateLotNumber()" type="text" formControlName="lotNumber" name="lotNumber">
+                    <input matInput placeholder="Lot Number"  autocomplete="off" maxlength="10" (blur)="validateLotNumber()" type="text" formControlName="lotNumber" name="lotNumber">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('lotNumber')">Please Enter Lot Number</div>
             </div>
@@ -67,14 +67,14 @@
             </div>
             <div class="form-control-field-3-right">
                 <mat-form-field>
-                    <input matInput placeholder="Lot Size Units" autocomplete="off" maxlength="5"  type="text" formControlName="lotSizeUnits"
+                    <input matInput placeholder="Lot Size Units"  autocomplete="off" maxlength="5"  type="text" formControlName="lotSizeUnits"
                         name="lotSizeUnits">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('lotSizeUnits')">Please Enter Lot Size Units</div>
             </div>
         </div>
         <mat-form-field>
-            <input matInput placeholder="Manufacturing Batch Number" autocomplete="off" (blur)="validateManufacturerBatchNumber()" maxlength="30" type="text" formControlName="manufacturingBatchNumber"
+            <input matInput placeholder="Manufacturing Batch Number"  autocomplete="off" (blur)="validateManufacturerBatchNumber()" maxlength="30" type="text" formControlName="manufacturingBatchNumber"
                 name="manufacturingBatchNumber">
         </mat-form-field>
         <div class="error-message" *ngIf="displayErrorMessages('manufacturingBatchNumber')">Please Enter
@@ -85,14 +85,14 @@
                     <input matInput placeholder="Manufacturing Batch Size" autocomplete="off" (blur)="validateManufacturerBatchSize()" maxlength="5" onlyNumeric type="text" formControlName="manufacturingBatchSize"
                         name="manufacturingBatchSize">
                 </mat-form-field>
-                <div class="error-message" *ngIf="workJobOrderForm.get('manufacturingBatchSize').touched && workJobOrderForm.get('manufacturingBatchSize').hasError('required')">Please Enter
+                <div class="error-message" *ngIf="workJobOrderForm.get('manufacturingBatchSize').touched && workJobOrderForm.get('manufacturingBatchSize').hasError('')">Please Enter
                     Manufacturing Batch Size</div>
                 <!-- <div class="error-message" *ngIf="workJobOrderForm.get('manufacturingBatchSize')?.hasError('batchSizeExceeds')">
                     {{MATCH_SIZE_EXCEEDS_LOT_SIZE}}</div> -->
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <input matInput placeholder="Manufacturing Batch Units" autocomplete="off" maxlength="5" type="text" formControlName="manufacturingBatchUnits"
+                    <input matInput placeholder="Manufacturing Batch Units"  autocomplete="off" maxlength="5" type="text" formControlName="manufacturingBatchUnits"
                         name="manufacturingBatchUnits">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('manufacturingBatchUnits')">Please Enter
