@@ -7,5 +7,5 @@
 </div>
 <mat-dialog-actions align="center">
   <button mat-button (click)="onYes()" cdkFocusInitial>{{dialogData.message}}</button>
-  <button mat-button (click)="onReEnter()">Oops, I will reenter</button>
+  <button mat-button (click)="onReEnter()">{{dialogData.actionControlText}}</button>
 </mat-dialog-actions>

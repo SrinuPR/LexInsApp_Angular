@@ -21,6 +21,8 @@ export interface WorkJobOrderDialog {
     confirm?: boolean;
     message?: string;
     fomControlName?: string;
+    actionControlText: string;
+    enableControlsOrExit?: boolean;
 }
 
 export interface WorkJobOrderConfirm {

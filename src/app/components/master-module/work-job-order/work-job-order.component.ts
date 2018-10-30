@@ -26,6 +26,10 @@ export class WorkJobOrderComponent implements OnInit {
     LOT_SIZE_VALIDATION_FAILED = 'Lot Size exceeds P.O. Quantity';
     MANUFACTURER_BATCH_SIZE_VALIDATION_FAILED = 'Batch Size exceeds the Lot Size';
     MATCH_SIZE_EXCEEDS_LOT_SIZE = 'Batch Size exceeds the Lot Size';
+    FULL_WORK_JOB_ORDER_QUANTITY_PRODUCED = 'Full Work / Job Order Quantity Produced. Cannot change the Work /Job Order';
+    FULL_LOT_SIZE_PRODUCED = 'Full Lot Size Produced for this Lot Number';
+    FULL_BATCH_SIZE_PRODUCED = 'Full Batch Size Produced for this Batch Number';
+    OOPS_REENTER = 'Oops, I will reenter';
 
     headerTitles = ['Component / Product Drawing Number', 'Customer P.O. Number', 'Wor /Job Order Number',
     'Lot Number', 'Manufacturer Batch Number'];
@@ -57,7 +61,6 @@ export class WorkJobOrderComponent implements OnInit {
         this.buildFormControls();
         this.getWorkJobOrderList();
         this.workJobOrderForm.get('subscriberName').disable();
-        // this.workJobOrderForm.get('workJobOrderDate').disable();
         this.workJobOrderForm.get('lotSizeUnits').disable();
         this.workJobOrderForm.get('manufacturingBatchUnits').disable();
     }
@@ -79,7 +82,7 @@ export class WorkJobOrderComponent implements OnInit {
         manufacturingBatchSize: new FormControl(this.selectedWorkJobOrder.manufacturingBatchSize, [Validators.required]),
         manufacturingBatchUnits: new FormControl({value: this.selectedWorkJobOrder.manufacturingBatchUnits,
            disabled: this.isUpdate}, [Validators.required]),
-        workJobOrderNotes: new FormControl(this.selectedWorkJobOrder.workOrderJobNotes, [Validators.required])
+        workJobOrderNotes: new FormControl(this.selectedWorkJobOrder.workOrderJobNotes, [])
       });
     }
 
@@ -111,8 +114,17 @@ export class WorkJobOrderComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         console.log('The dialog was closed', result);
-        if (!(<WorkJobOrderDialog>result).confirm) {
-          this.workJobOrderForm.get(dialogData.fomControlName).setValue(null);
+        if (dialogData.enableControlsOrExit) {
+          if (!(<WorkJobOrderDialog>result).confirm) {
+            this.workJobOrderForm.get(dialogData.fomControlName).enable();
+          } else {
+            console.log('Exit the screen');
+            this.router.navigate(['/dashboard']);
+          }
+        } else {
+          if (!(<WorkJobOrderDialog>result).confirm) {
+            this.workJobOrderForm.get(dialogData.fomControlName).setValue(null);
+          }
         }
       });
     }
@@ -131,7 +143,9 @@ export class WorkJobOrderComponent implements OnInit {
               content: this.WORK_JOB_ORDER_VALIDATION_WARNING,
               message: 'I know, adding another Lot or Batch',
               confirm: false,
-              fomControlName: 'workJobOrderNumber'
+              fomControlName: 'workJobOrderNumber',
+              actionControlText: this.OOPS_REENTER,
+              enableControlsOrExit: false
             });
           }
         }, (error) => {console.log(error); });
@@ -152,13 +166,23 @@ export class WorkJobOrderComponent implements OnInit {
               content: this.LOT_NUMBER_VALIDATION_WARNING,
               message: 'I know, adding another Batch',
               confirm: false,
-              fomControlName: 'lotNumber'
+              fomControlName: 'lotNumber',
+              actionControlText: this.OOPS_REENTER,
+              enableControlsOrExit: false
             });
           }
           if (result.lotSize) {
             this.workJobOrderForm.get('lotSize').setValue(result.lotSize);
           }
-        }, (error) => {console.log(error); });
+        }, (error) => {
+          console.log(error);
+          if (error.error && error.error.message) {
+            this.commonService.displayPopUp({
+              message: error.error.message,
+              type: AlertType.ERROR
+            });
+          }
+        });
       }
     }
 
@@ -171,14 +195,27 @@ export class WorkJobOrderComponent implements OnInit {
         this.workJobOrderService.validateLotSize(this.mapWorkJobOrder()).
         subscribe((response) => {
           console.log(response);
-          const result = response.body;
-        }, (error) => {console.log(error);
-          if (error.error && error.error.message === this.LOT_SIZE_VALIDATION_FAILED) {
-            this.commonService.displayPopUp({
-              message: this.LOT_SIZE_VALIDATION_FAILED,
-              type: AlertType.ERROR
-            });
-          }});
+        }, (error) => {
+          console.log(error);
+          if (error.error && error.error.message) {
+            if (error.error.message === this.FULL_BATCH_SIZE_PRODUCED) {
+              this.openConfirmationDialog(<WorkJobOrderDialog>{
+                title: 'ERROR',
+                content: this.FULL_BATCH_SIZE_PRODUCED,
+                message: 'Other Lot Number',
+                confirm: false,
+                fomControlName: 'lotNumber',
+                actionControlText: 'Exit',
+                enableControlsOrExit: true
+              });
+            } else {
+              this.commonService.displayPopUp({
+                message: error.error.message,
+                type: AlertType.ERROR
+              });
+            }
+          }
+        });
       }
     }
 
@@ -189,11 +226,15 @@ export class WorkJobOrderComponent implements OnInit {
         this.workJobOrderService.validateManufacturerBatchNumber(this.mapWorkJobOrder()).
         subscribe((response) => {
           console.log(response);
-          const result = response.body;
-          if (result.message === this.MANUFACTURER_BATCH_NUMBER_VALIDATION_FAILED) {
-            // logic
+        }, (error) => {
+          console.log(error);
+          if (error.error && error.error.message) {
+            this.commonService.displayPopUp({
+              message: error.error.message,
+              type: AlertType.ERROR
+            });
           }
-        }, (error) => {console.log(error); });
+        });
       }
     }
 
@@ -208,22 +249,29 @@ export class WorkJobOrderComponent implements OnInit {
         this.workJobOrderService.validateManufacturerBatchSize(this.mapWorkJobOrder()).
         subscribe((response) => {
           console.log(response);
-          const result = response.body;
-          if (result.message === this.MANUFACTURER_BATCH_SIZE_VALIDATION_FAILED) {
-            // batch
-          }
         }, (error) => {
           console.log(error);
-          if (error.error.message === this.MATCH_SIZE_EXCEEDS_LOT_SIZE) {
-            this.commonService.displayPopUp({
-              message: this.MATCH_SIZE_EXCEEDS_LOT_SIZE,
-              type: AlertType.ERROR
-            });
+          if (error.error && error.error.message) {
+            if (error.error.message === this.FULL_BATCH_SIZE_PRODUCED) {
+              this.openConfirmationDialog(<WorkJobOrderDialog>{
+                title: 'WARNING',
+                content: this.FULL_BATCH_SIZE_PRODUCED,
+                message: 'Other Batch Number',
+                confirm: false,
+                fomControlName: 'workJobOrderNumber',
+                actionControlText: 'Exit',
+                enableControlsOrExit: true
+              });
+            } else {
+              this.commonService.displayPopUp({
+                message: error.error.message,
+                type: AlertType.ERROR
+              });
+            }
             batchSize.setErrors({batchSizeExceeds: true});
           }
         }, () => {
           if (batchSize.valid) {
-            console.log('clearing batch size errors');
             batchSize.setErrors(null);
           }
         });
