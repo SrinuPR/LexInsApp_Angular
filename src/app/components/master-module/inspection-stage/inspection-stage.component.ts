@@ -102,7 +102,7 @@ export class InspectionStageComponent implements OnInit {
     mapInspectionStage(): InspectionStage {
       return <InspectionStage>{
         subscriberId: this.subscriber.subscriberId,
-        inspStageId: this.inspectionStageForm.get('inspectionStageID').value,
+        inspStageId: Number(this.inspectionStageForm.get('inspectionStageID').value),
         inspStageName: this.inspectionStageForm.get('inspectionStageName').value,
         createdBy: this.commonService.userDtls.userName
       };
