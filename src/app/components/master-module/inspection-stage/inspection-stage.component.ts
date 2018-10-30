@@ -18,11 +18,12 @@ export class InspectionStageComponent implements OnInit {
     resource = 'inspectionstage/';
     inspectionStageID = new FormControl('', [Validators.required]);
     inspectionTerm$ = this.inspectionStageID.valueChanges;
+
     inspectionTypeIdNotUnique =  this.inspectionTerm$.pipe(
       debounceTime(800),
       distinctUntilChanged(),
       switchMap(id =>
-        this.commonService.validateResourceIdentifier(this.resource, Number(id))
+        this.commonService.validateResourceIdentifier(this.resource, id)
         )
     );
     example = this.inspectionTypeIdNotUnique.subscribe((response) => {
