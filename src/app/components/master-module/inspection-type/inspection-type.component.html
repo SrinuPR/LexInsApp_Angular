@@ -11,18 +11,23 @@
             <div class="form-control-field-left">
                 <mat-form-field>
                     <input matInput placeholder="Inspection Type ID" [formControl]="inspectionTypeID" type="text" required formControlName="inspectionTypeID"
-                        name="inspectionTypeID" > <!-- (blur)="verifyInspectionType()" -->
+                        name="inspectionTypeID"
+                        pattern="^[0-9]{5}$" > <!-- (blur)="verifyInspectionType()" -->
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('inspectionTypeID') && !inspectionTypeForm.get('inspectionTypeID').hasError('inspectionTypeIdNotUnique')">Please Enter Inspection Type ID</div>
+                <div class="error-message" *ngIf="displayErrorMessages('inspectionTypeID') && inspectionTypeForm.get('inspectionTypeID').value != null">Max allowed digits are 5 only </div>
+                <div class="error-message" *ngIf="displayErrorMessages('inspectionTypeID') && !inspectionTypeForm.get('inspectionTypeID').hasError('inspectionTypeIdNotUnique') && inspectionTypeForm.get('inspectionTypeID').value == null">Please Enter Inspection Type ID</div>
                 <div class="error-message" *ngIf="inspectionTypeForm.get('inspectionTypeID').touched && inspectionTypeForm.get('inspectionTypeID').hasError('inspectionTypeIdNotUnique')">Inspection Type ID already exists, Please enter
                     a unique Inspection Type ID</div>
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
                     <input matInput placeholder="Inspection Type Name" type="inspectionTypeName" required
-                        formControlName="inspectionTypeName" name="inspectionTypeName">
+                        formControlName="inspectionTypeName" name="inspectionTypeName"
+                        pattern="^[A-Za-z]*[A-Za-z0-9-]*$" >
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('inspectionTypeName')">Please Enter Inspection Type Name</div>
+                
+                <div class="error-message" *ngIf="displayErrorMessages('inspectionTypeName') && inspectionTypeForm.get('inspectionTypeName').value != null">Special Characters other than '-' are not allowed</div>
+                <div class="error-message" *ngIf="displayErrorMessages('inspectionTypeName') && inspectionTypeForm.get('inspectionTypeName').value == null">Please Enter Inspection Type Name</div>
             </div>
         </div> 
         <div class="padding-top-10">
