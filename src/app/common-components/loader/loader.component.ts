@@ -19,6 +19,7 @@ export class LoaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.loaderService.loaderState
     .subscribe((state: LoaderState) => {
+      window.scrollTo(0, 0);
       this.show = state.show;
     });
   }

@@ -1,3 +1,5 @@
+import { AlertType } from "./alert";
+
 export interface WorkJobOrder {
     workJobOrderNumber?: string;
     workJobOrderDate?: string;
@@ -23,6 +25,7 @@ export interface WorkJobOrderDialog {
     fomControlName?: string;
     actionControlText: string;
     enableControlsOrExit?: boolean;
+    type?: AlertType;
 }
 
 export interface WorkJobOrderConfirm {

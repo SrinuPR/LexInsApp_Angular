@@ -99,7 +99,6 @@ export class WorkJobOrderComponent implements OnInit {
       this.componentData = this.componentDataList.find((data: ComponentProductMaster) => {
         return data.componentProductDrawNumber === drawNumber;
       });
-      console.log(this.componentData);
       this.workJobOrderForm.get('lotSizeUnits').setValue(this.componentData.componentProductManufacturerUnits);
       this.workJobOrderForm.get('manufacturingBatchUnits').setValue(this.componentData.componentProductManufacturerUnits);
     }
@@ -113,7 +112,6 @@ export class WorkJobOrderComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed', result);
         if (dialogData.enableControlsOrExit) {
           if (!(<WorkJobOrderDialog>result).confirm) {
             this.workJobOrderForm.get(dialogData.fomControlName).enable();
@@ -145,7 +143,8 @@ export class WorkJobOrderComponent implements OnInit {
               confirm: false,
               fomControlName: 'workJobOrderNumber',
               actionControlText: this.OOPS_REENTER,
-              enableControlsOrExit: false
+              enableControlsOrExit: false,
+              type: AlertType.WARNING
             });
           }
         }, (error) => {console.log(error); });
@@ -168,7 +167,8 @@ export class WorkJobOrderComponent implements OnInit {
               confirm: false,
               fomControlName: 'lotNumber',
               actionControlText: this.OOPS_REENTER,
-              enableControlsOrExit: false
+              enableControlsOrExit: false,
+              type: AlertType.WARNING
             });
           }
           if (result.lotSize) {
@@ -206,7 +206,8 @@ export class WorkJobOrderComponent implements OnInit {
                 confirm: false,
                 fomControlName: 'lotNumber',
                 actionControlText: 'Exit',
-                enableControlsOrExit: true
+                enableControlsOrExit: true,
+                type: AlertType.ERROR
               });
             } else {
               this.commonService.displayPopUp({
@@ -254,13 +255,14 @@ export class WorkJobOrderComponent implements OnInit {
           if (error.error && error.error.message) {
             if (error.error.message === this.FULL_BATCH_SIZE_PRODUCED) {
               this.openConfirmationDialog(<WorkJobOrderDialog>{
-                title: 'WARNING',
+                title: 'ERROR',
                 content: this.FULL_BATCH_SIZE_PRODUCED,
                 message: 'Other Batch Number',
                 confirm: false,
                 fomControlName: 'workJobOrderNumber',
                 actionControlText: 'Exit',
-                enableControlsOrExit: true
+                enableControlsOrExit: true,
+                type: AlertType.ERROR
               });
             } else {
               this.commonService.displayPopUp({
