@@ -22,7 +22,7 @@ export class InspectionTypeComponent implements OnInit {
       debounceTime(800),
       distinctUntilChanged(),
       switchMap(id =>
-        this.commonService.validateResourceIdentifier(this.resource, Number(id))
+        this.commonService.validateResourceIdentifier(this.resource, id)
         )
     );
     example = this.inspectionTypeIdNotUnique.subscribe((response) => {

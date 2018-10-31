@@ -18,11 +18,12 @@ export class InspectionStageComponent implements OnInit {
     resource = 'inspectionstage/';
     inspectionStageID = new FormControl('', [Validators.required]);
     inspectionTerm$ = this.inspectionStageID.valueChanges;
+
     inspectionTypeIdNotUnique =  this.inspectionTerm$.pipe(
       debounceTime(800),
       distinctUntilChanged(),
       switchMap(id =>
-        this.commonService.validateResourceIdentifier(this.resource, Number(id))
+        this.commonService.validateResourceIdentifier(this.resource, id)
         )
     );
     example = this.inspectionTypeIdNotUnique.subscribe((response) => {
@@ -102,7 +103,7 @@ export class InspectionStageComponent implements OnInit {
     mapInspectionStage(): InspectionStage {
       return <InspectionStage>{
         subscriberId: this.subscriber.subscriberId,
-        inspStageId: this.inspectionStageForm.get('inspectionStageID').value,
+        inspStageId: Number(this.inspectionStageForm.get('inspectionStageID').value),
         inspStageName: this.inspectionStageForm.get('inspectionStageName').value,
         createdBy: this.commonService.userDtls.userName
       };

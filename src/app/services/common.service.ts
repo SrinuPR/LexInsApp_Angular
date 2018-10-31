@@ -38,13 +38,12 @@ export class CommonService {
   }
 
   async userLogin1(userName: string, pwd: string) {
-    //const url = 'http://10.8.59.41:8888/'
     const body = {
       userId: userName,
       password: pwd
     };
-    let response = await this.httpService.post1('user/login', body);
-    let userData = JSON.stringify(response);
+    const response = await this.httpService.post1('user/login', body);
+    const userData = JSON.stringify(response);
     this.userDtls = JSON.parse(userData);
   }
 
@@ -149,8 +148,19 @@ export class CommonService {
   createFacility(object: Facilities) {
     return this.httpService.post('facilities/create', object);
   }
-  validateResourceIdentifier(resourceUrl: string, resourceId: number): Observable<any> {
-      return this.httpService.get(resourceUrl, resourceId);
+  validateResourceIdentifier(resourceUrl: string, resourceId: string): Observable<any> {
+    if ( resourceId.length < 5 ) {
+      console.log(resourceId.length);
+      return;
+      }
+      let id = 0;
+      try {
+        id = Number(resourceId);
+      } catch ( errorMessage) {
+        console.log(errorMessage);
+        return null;
+      }
+      return this.httpService.get(resourceUrl, id);
   }
   createOrUpdateResource(resourceUrl: string, resourceData: any) {
     return this.httpService.post(resourceUrl, resourceData);

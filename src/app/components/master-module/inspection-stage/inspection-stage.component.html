@@ -12,7 +12,7 @@
                     <mat-form-field>
                         <input matInput placeholder="Inspection Stage ID" type="text" [formControl]="inspectionStageID" required formControlName="inspectionStageID"
                             name="inspectionStageID" (blur)="verifyInspectionStage()"
-                            pattern="^[0-9]{5}$">
+                            pattern="^[0-9]{5}$" maxlength="5">
                     </mat-form-field>
                     <div class="error-message" *ngIf="displayErrorMessages('inspectionStageID') && inspectionStageForm.get('inspectionStageID').value != null">Max 5 digits are allowed </div>
                     <div class="error-message" *ngIf="displayErrorMessages('inspectionStageID') && inspectionStageForm.get('inspectionStageID').value == null">Please Enter Inspection Stage ID</div>
