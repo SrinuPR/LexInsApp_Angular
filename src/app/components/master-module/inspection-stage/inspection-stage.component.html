@@ -23,7 +23,7 @@
                     <mat-form-field>
                         <input matInput placeholder="Inspection Stage Name"
                         pattern="^[A-Za-z]*[A-Za-z0-9-]*$"
-                        type="inspectionStageName" required
+                        type="inspectionStageName" required maxlength="150"
                             formControlName="inspectionStageName" name="inspectionStageName">
                     </mat-form-field>
                     <div class="error-message" *ngIf="displayErrorMessages('inspectionStageName') && inspectionStageForm.get('inspectionStageName').value != null">Special Characters other than '-' are not allowed</div>

@@ -16,7 +16,7 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(
     public router: Router,
     public formBuilder: FormBuilder,
-    public commonService:CommonService
+    public commonService: CommonService
   ) { }
 
   ngOnInit() {
@@ -26,7 +26,7 @@ export class ForgotPasswordComponent implements OnInit {
   buildFormControls() {
     this.forgotPasswordForm = this.formBuilder.group({
       userID: new FormControl('', [Validators.required]),
-      emailID: new FormControl('', [Validators.required,this.passwordConfirming.bind(this)]),
+      emailID: new FormControl('', [Validators.required, this.passwordConfirming.bind(this)]),
       confirmemailID: new FormControl('', [Validators.required, this.passwordConfirming.bind(this)])
     });
   }
@@ -41,10 +41,10 @@ export class ForgotPasswordComponent implements OnInit {
 
   passwordConfirming(control: AbstractControl): { invalid: boolean } {
 
-    if(this.forgotPasswordForm !=null){
-      const email:string = this.forgotPasswordForm.get('emailID').value;
-      const confrimEmail:string = this.forgotPasswordForm.get('confirmemailID').value;
-      if(email === '' && (confrimEmail !==null && confrimEmail!=='') ){
+    if (this.forgotPasswordForm != null) {
+      const email: string = this.forgotPasswordForm.get('emailID').value;
+      const confrimEmail: string = this.forgotPasswordForm.get('confirmemailID').value;
+      if (email === '' && (confrimEmail !== null && confrimEmail !== '') ) {
         console.log('block 1');
         this.emailMismatch = true;
         return { invalid: false };
@@ -64,18 +64,16 @@ export class ForgotPasswordComponent implements OnInit {
       }
     } */
   }
-  async onSubmit(){
+  async onSubmit() {
     if (this.forgotPasswordForm.valid) {
       const user = this.forgotPasswordForm.get('userID').value;
       const emailId = this.forgotPasswordForm.get('emailID').value;
-     
-      await this.commonService.forgotPassword(user,emailId);
-      const userDtls =this.commonService.userDtls;
+      await this.commonService.forgotPassword(user, emailId);
+      const userDtls = this.commonService.userDtls;
       this.errorDesc = userDtls.errorMessage;
-     // if(null != userDtls && userDtls.status == 'Success'){
-      this.commonService.triggerAlerts({message: 'Password was sent successfully to the registred email Kindly check your email!', showAlert: true, isSuccess: true});
-          this.router.navigate(['']);
-      //}
+      this.commonService.triggerAlerts(
+        {message: 'Password was sent successfully to the registred email Kindly check your email!', showAlert: true, isSuccess: true
+      });
     }
   }
 

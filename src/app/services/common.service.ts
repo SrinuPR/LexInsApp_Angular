@@ -95,11 +95,9 @@ export class CommonService {
       errorMessage: 'no'
     };
     const response = await this.httpService.post1('user/change/password', body);
-    /* let userData =  JSON.stringify(response);
-    this.userDtls = JSON.parse(userData); */
-
-    console.log('response' + response);
-    return response;
+     const userData =  JSON.stringify(response);
+     console.log('response:' + userData);
+    return JSON.parse(userData);
   }
 
   async forgotPassword(userName: string, emailId: string) {

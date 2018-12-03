@@ -14,7 +14,7 @@
                         name="inspectionTypeID"
                         pattern="^[0-9]{5}$" maxlength="5"> <!-- (blur)="verifyInspectionType()" -->
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('inspectionTypeID') && inspectionTypeForm.get('inspectionTypeID').value != null">Max allowed digits are 5 only </div>
+                <div class="error-message" *ngIf="displayErrorMessages('inspectionTypeID') && inspectionTypeForm.get('inspectionTypeID').value != null && !inspectionTypeForm.get('inspectionTypeID').length==5">Max allowed digits are 5 only </div>
                 <div class="error-message" *ngIf="displayErrorMessages('inspectionTypeID') && !inspectionTypeForm.get('inspectionTypeID').hasError('inspectionTypeIdNotUnique') && inspectionTypeForm.get('inspectionTypeID').value == null">Please Enter Inspection Type ID</div>
                 <div class="error-message" *ngIf="inspectionTypeForm.get('inspectionTypeID').touched && inspectionTypeForm.get('inspectionTypeID').hasError('inspectionTypeIdNotUnique')">Inspection Type ID already exists, Please enter
                     a unique Inspection Type ID</div>

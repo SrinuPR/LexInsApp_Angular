@@ -44,6 +44,7 @@ export class InspectionTypeComponent implements OnInit {
     ngOnInit() {
         this.subscriber = this.mapSubscriber();
         this.buildFormControls();
+        this.inspectionTypeForm.get('subscriberName').disable();
         this.inspectionTypeForm.addControl('inspectionTypeID', this.inspectionTypeID);
     }
     mapSubscriber(): Subscriber {
@@ -85,7 +86,9 @@ export class InspectionTypeComponent implements OnInit {
         const result = response.body;
         if (result.status === 'Success' && result.message === 'Inspection Type Saved') {
           this.commonService.triggerAlerts({message: 'Inspection Type Saved', showAlert: true, isSuccess: true});
-          this.router.navigate(['../inspection-stage'], {relativeTo: this.activatedRoute} );
+          // setTimeout(() => {
+          //   this.commonService.triggerAlerts({message: '', showAlert: false, isSuccess: true});
+          // }, 1000);
         }
         else {
           this.commonService.triggerAlerts({message: 'Inspection Type NOT saved, please try again', showAlert: true, isSuccess: false});

@@ -7,9 +7,15 @@
       </mat-form-field>
       <div class="alert-message" *ngIf="displayErrorMessages('userName')">Please Enter User ID</div>
       <mat-form-field>
-        <input matInput placeholder="Password" type="password" required formControlName="password" name="password">
+        <input matInput placeholder="Password" type="password"
+        pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}'
+        required formControlName="password" name="password">
       </mat-form-field>
-      <div class="alert-message" *ngIf="displayErrorMessages('password')">Please Enter Password</div>
+     <!-- pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}' -->
+      <div class="alert-message" *ngIf="displayErrorMessages('password') && loginForm.get('password').value == null">Please Enter Password</div>
+      <div class="alert-message" *ngIf="displayErrorMessages('password') && loginForm.get('password').value != null">
+        The password should be of length 8 to 16 characters with at least one uppercase alphabet, one lower case alphabet, one numerical and one special character
+      </div>
       <!-- <div class="alert-message" *ngIf="errorDesc != null">{{errorDesc}}</div> -->
       <div>
         <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">LOGIN</button>

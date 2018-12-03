@@ -19,7 +19,6 @@ export class HeaderComponent {
 
   logout() {
     this.auth.isLoggedIn = false;
-    //this.commonService.userDtls = null;
     this.route.navigate(['']);
   }
 
