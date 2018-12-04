@@ -5,37 +5,8 @@
             <span>Welcome Mr. Admin Jhonson</span>
         </div>
     </header>
-    <nav class="">
-        <a class="left-nav-link" (click)="navigate('subscriber')">
-            <i class="left-nav-link-text material-icons" role="presentation">home</i><span>Subscriber</span></a>
-        <a class="left-nav-link" (click)="navigate('user-type-master')">
-            <i class="left-nav-link-text material-icons" role="presentation">inbox</i>User Type List</a>
-        <a class="left-nav-link" (click)="navigate('user-master')">
-            <i class="left-nav-link-text material-icons" role="presentation">inbox</i>User Master</a>
-        <a class="left-nav-link" (click)="navigate('customer-po')">
-            <i class="left-nav-link-text material-icons" role="presentation">report</i>Customer P.O.</a>
-        <a class="left-nav-link" (click)="navigate('inspection-type')">
-            <i class="left-nav-link-text material-icons" role="presentation">forum</i>Inspection Type</a>
-        <a class="left-nav-link" (click)="navigate('inspection-stage')">
-            <i class="left-nav-link-text material-icons" role="presentation">flag</i>Inspection Stage</a>
-        <a class="left-nav-link" (click)="navigate('facilities')">
-            <i class="left-nav-link-text material-icons" role="presentation">local_offer</i>Facilities</a>
-        <a class="left-nav-link" (click)="navigate('shift')">
-            <i class="left-nav-link-text material-icons" role="presentation">local_offer</i>Shift</a>
-        <a class="left-nav-link" (click)="navigate('component-master')">
-            <i class="left-nav-link-text material-icons" role="presentation">local_offer</i>Component Master</a>
-        <a class="left-nav-link" (click)="navigate('work-job-order')">
-            <i class="left-nav-link-text material-icons" role="presentation">local_offer</i>Work Job Order</a>
-        <a class="left-nav-link" (click)="navigate('inspections')">
-            <i class="left-nav-link-text material-icons" role="presentation">local_offer</i>Inspections</a>
-        <a class="left-nav-link" (click)="navigate('inspection-line-item')">
-            <i class="left-nav-link-text material-icons" role="presentation">local_offer</i>Inspection-line-item</a>
-        <a class="left-nav-link" (click)="navigate('inspection-meaurements')">
-            <i class="left-nav-link-text material-icons" role="presentation">local_offer</i>Inspection Measurements</a>
-        <a class="left-nav-link" (click)="navigate('inspection-report')">
-            <i class="left-nav-link-text material-icons" role="presentation">local_offer</i>Inspection-Report</a>
-        <div class="mdl-layout-spacer"></div>
-        <a class="left-nav-link" (click)="navigate('subscriber')">
-            <i class="left-nav-link-text material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
+    <nav class="min-height">
+        <a class="left-nav-link" (click)="navigate(item.route)" *ngFor="let item of leftNavJSON">
+            <i class="left-nav-link-text material-icons" role="presentation">{{item.icon}}</i><span>{{item.displayText}}</span></a>
     </nav>
 </div>

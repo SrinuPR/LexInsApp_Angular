@@ -9,11 +9,14 @@ import { MaterialModule } from './material.module';
 import { AppRouters } from './app.routes';
 
 import { HomeComponent } from './components/home/home.component';
+import { CreateAdminComponent } from '../app/components/create-admin/create-admin.component';
 import { LoginComponent } from '../app/components/login/login.component';
 import { DashboardComponent } from '../app/components/dashboard/dashboard.component';
+import { AdminDashboardComponent } from '../app/components/admin-dashboard/admin-dashboard.component';
 import { ResetPasswordComponent } from '../app/components/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from '../app/components/forgot-password/forgot-password.component';
 import { SubscriberComponent } from '../app/components/master-module/subscriber/subscriber.component';
+import { SubscribersComponent } from '../app/components/master-module/subcribers/subcribers.component';
 import { UserMasterComponent } from '../app/components/master-module/user-master/user-master.component';
 import { UserTypeMasterComponent } from '../app/components/master-module/user-type-master/user-type-master.component';
 import { CustomerPOComponent } from '../app/components/master-module/customer-po/customer-po.component';
@@ -34,6 +37,7 @@ import { AuthService } from './services/auth.service';
 import { CommonService } from './services/common.service';
 import { DataService } from './services/data.service';
 import { HttpService } from './services/http.service';
+import { SessionService } from './services/session.service';
 import {MatCheckboxModule, MatDatepickerModule, MatNativeDateModule, MatDialogModule,
    MAT_DIALOG_DATA, MAT_DATE_FORMATS, DateAdapter} from '@angular/material';
 
@@ -53,9 +57,12 @@ import { ModalPopUpComponent } from './common-components/alerts/modal-popup.comp
     HomeComponent,
     LoginComponent,
     DashboardComponent,
+    CreateAdminComponent,
+    AdminDashboardComponent,
     ResetPasswordComponent,
     ForgotPasswordComponent,
     SubscriberComponent,
+    SubscribersComponent,
     UserMasterComponent,
     UserTypeMasterComponent,
     CustomerPOComponent,
@@ -99,6 +106,7 @@ import { ModalPopUpComponent } from './common-components/alerts/modal-popup.comp
     SubscriberService,
     UserService,
     LoaderService,
+    SessionService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptorService,

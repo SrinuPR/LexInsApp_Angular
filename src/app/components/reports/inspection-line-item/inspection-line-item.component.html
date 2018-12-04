@@ -11,7 +11,8 @@
                 <mat-form-field>
                     <mat-select matInput placeholder="Component / Product Drawing Number" required formControlName="componentProductDrawingNumber"
                         name="componentProductDrawingNumber">
-                        <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
+                        <!-- <mat-option *ngFor="let sub of productDrawingList" [value]="sub.value"> -->
+                        <mat-option *ngFor="let sub of [{value: 'symphony', text: 'Symphony'}]" [value]="sub.value">
                             {{ sub.text }}
                         </mat-option>
                     </mat-select>
@@ -25,23 +26,45 @@
                 <tr class="table-header">
                     <td class="header-span" *ngFor="let header of headerColumns">{{header}}</td>
                 </tr>
-                <tr class="table-column" *ngFor="let element of dataSource;let index=index;">
-                    <td>{{element.position}}</td>
-                    <td>{{element.name}}</td>
-                    <td>{{element.weight}}</td>
-                    <td>{{element.symbol}}</td>
-                    <td>{{element.symbol1}}</td>
+                <tr class="table-column" formArrayName="measureItems" *ngFor="let measureItem of measureItems.controls;let index=index;">
+                    <td [formGroupName]="index">
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="measurementName" (change)="checkMeasureName(index)" name="measurementName">
+                        </mat-form-field>
+                        <div class="error-message" *ngIf="showMessage(index)">Measurement Name Exists</div>
+                    </td>
+                    <td [formGroupName]="index">
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="baseMeasure" maxlength="5" name="baseMeasure">
+                        </mat-form-field>
+                    </td>
+                    <td [formGroupName]="index">
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="baseMeasureUnits"  maxlength="5" name="baseMeasureUnits">
+                        </mat-form-field>
+                    </td>
+                    <td [formGroupName]="index">
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="upperLimit" maxlength="4" name="upperLimit">
+                        </mat-form-field>
+                    </td>
+                    <td [formGroupName]="index">
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="lowerLimit" maxlength="4" name="lowerLimit">
+                        </mat-form-field>
+                    </td>
                 </tr>
             </table>
         </div>
     </form>
-    <div class="padding-top-10">
+    <div class="padding-top">
         <div style="width: 30%; float: left; padding-left: 3%;">
-            <button mat-raised-button (click)="addNewRow()" class="pull-left" color="primary">Add Row</button>
+            <button mat-raised-button [disabled]="isAddRowDisabaled()"
+                (click)="addNewRow()" class="pull-left" color="primary">Add Row</button>
         </div>
         <div style="width: 30%; float: left;">
-            <button mat-raised-button (click)="addNewRow()" class="pull-right" color="primary">Measure Item Save</button>
+            <button mat-raised-button [disabled]="isMearsureItemDisabled()" (click)="saveMearsureItem(false)" class="pull-right" color="primary">Measure Item Save</button>
         </div>
-        <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">Report Save</button>
+        <button mat-raised-button type="submit" [disabled]="!inspectionLineItemForm.valid" (click)="saveMearsureItem(true)" class="pull-right" color="primary">Report Save</button>
     </div>
 </div>

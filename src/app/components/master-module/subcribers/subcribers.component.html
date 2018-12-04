@@ -1,0 +1,19 @@
+<div class="form-content">
+    <div class="layout-header">
+        <span class="header-span">Subscribers List</span>
+    </div>
+    <table class="table">
+        <tr class="table-header">
+            <td class="header-span">Subscriber ID</td>
+            <td class="header-span">Subscriber Name</td>
+            <td class="header-span">View</td>
+        </tr>
+        <tr class="table-column" *ngFor="let element of subscriberService.allSubscribers;let index=index;">
+            <td>{{element.subscriberId}}</td>
+            <td>{{element.subscriberName}}</td>
+            <td style="text-align: center; padding-top: 5px;">
+                <i class="material-icons" (click)="viewSubscriber(element)">visibility</i>
+            </td>
+        </tr>
+    </table>
+</div>
