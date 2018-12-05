@@ -11,6 +11,9 @@ import * as _ from 'underscore';
 })
 
 export class InspectionLineItemComponent implements OnInit {
+    currentPage = 0;
+    pageSize = 5;
+    pagedResults: Array<any> = [];
     inspectionLineItemForm: FormGroup;
     productDrawingList = [];
     displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'symbol1'];
@@ -43,7 +46,7 @@ export class InspectionLineItemComponent implements OnInit {
     getInspectionLineItemList() {
         this.commonService.getInspectionLineItemList(this.commonService.userDtls.subscriberId).subscribe((response) => {
             if (response.body.status === 'Success') {
-                this.resetMeasureItems(response.body.results);
+                this.resetMeasureItems(response.body.results, false);
             }
         });
     }
@@ -87,6 +90,7 @@ export class InspectionLineItemComponent implements OnInit {
             lowerLimit: new FormControl('', [Validators.required])
         });
         this.measureItems.push(formGroup);
+        this.getPageChanged(true);
     }
 
     isAddRowDisabaled() {
@@ -139,7 +143,7 @@ export class InspectionLineItemComponent implements OnInit {
     saveMearsureItem(isReport) {
         this.commonService.saveMeasureItem(this.getReportData()).subscribe((response) => {
             if (response.body.status === 'Success') {
-                this.resetMeasureItems(response.body.results);
+                this.resetMeasureItems(response.body.results, isReport);
                 this.commonService.triggerAlerts({
                     message: isReport ? 'Inspection Measurement Master Saved.'
                         : 'Inspection Measurement Item Saved.', showAlert: true, isSuccess: true
@@ -163,7 +167,7 @@ export class InspectionLineItemComponent implements OnInit {
         return body;
     }
 
-    resetMeasureItems(data) {
+    resetMeasureItems(data, isReport) {
         const measureItemsList = _.sortBy(data, 'inspectionLineItemId');
         this.measureItems.controls = [];
         _.forEach(measureItemsList, (item: Measurement) => {
@@ -178,6 +182,7 @@ export class InspectionLineItemComponent implements OnInit {
             this.measureItems.push(formGroup);
             this.measureItems.controls[this.measureItems.length - 1].get('measurementName').disable();
         });
+        this.getPageChanged(!isReport);
     }
 
     getMeasureItemObject(measureItem: AbstractControl, isCheck = false) {
@@ -194,6 +199,18 @@ export class InspectionLineItemComponent implements OnInit {
             userId: this.commonService.userDtls.userId,
             userName: this.commonService.userDtls.userName
         };
+    }
+
+    pageChange(event) {
+        this.currentPage = event.pageIndex;
+        this.getPageChanged();
+    }
+
+    getPageChanged(isReport = false) {
+         const page = isReport ? (this.measureItems.controls.length / this.pageSize) - 1 : this.currentPage;
+        const start: number = page * this.pageSize;
+        const end: number = start + this.pageSize;
+        this.pagedResults = this.measureItems.controls.slice(start, end);
     }
 }
 

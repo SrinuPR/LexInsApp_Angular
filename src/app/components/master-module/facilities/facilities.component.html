@@ -9,12 +9,13 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Facility / Machine Number" type="text" (change)="checkDuplicates()"
-                        required formControlName="facilityNumber" name="facilityNumber">
+                    <input matInput placeholder="Facility / Machine Number" type="text" maxlength="10" (change)="checkDuplicates()"
+                s        required formControlName="facilityNumber" name="facilityNumber">
                 </mat-form-field>
                 <div class="error-message" *ngIf="facilityForm.get('facilityNumber').touched && facilityForm.get('facilityNumber').hasError('required')">Please
                     enter Facility / Machine Number</div>
-                <div class="error-message" *ngIf="facilityForm.get('facilityNumber').touched && facilityForm.get('facilityNumber').hasError('notUnique')">Facility / Machine Number Exists</div>
+                <div class="error-message" *ngIf="facilityForm.get('facilityNumber').touched && facilityForm.get('facilityNumber').hasError('notUnique')">Facility
+                    / Machine Number Exists</div>
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
@@ -26,16 +27,22 @@
             </div>
         </div>
         <div class="padding-top-10">
-            <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" [disabled]="!facilityForm.valid" color="primary">SAVE</button>
+                <button mat-raised-button type="button" (click)="reset()" color="primary">RESET</button>
+            <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" [disabled]="!facilityForm.valid"
+                color="primary">SAVE</button>
         </div>
     </form>
     <table class="table">
         <tr class="table-header">
             <td class="header-span" *ngFor="let header of displayColumns">{{header}}</td>
         </tr>
-        <tr class="table-column" *ngFor="let element of facilitiesList;let index=index;">
+        <tr class="table-column" *ngFor="let element of pagedResults;let index=index;">
             <td>{{element.facilityNumber}}</td>
             <td>{{element.facilityName}}</td>
         </tr>
     </table>
+    <div *ngIf="facilitiesList?.length">
+        <app-pagination [dataLength]="facilitiesList.length" [(currentPage)]="currentPage" (pageChange)="pageChange($event)"
+            [pageSize]="pageSize"></app-pagination>
+    </div>
 </div>

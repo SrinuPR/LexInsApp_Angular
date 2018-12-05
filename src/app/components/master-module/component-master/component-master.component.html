@@ -69,8 +69,8 @@
             </div>
         </div>
         <div class="padding-top-10">
-            <button mat-raised-button type="button" *ngIf="isEdit" (click)="cancelEdit()" class="pull-right"
-                color="primary">CANCEL</button>
+            <button mat-raised-button type="button" (click)="cancelEdit()" color="primary">{{isEdit
+                ? 'CANCEL' : 'RESET'}}</button>
             <button mat-raised-button type="button" [disabled]="!componentMasterForm.valid" (click)="onSubmit()" class="pull-right"
                 color="primary">SAVE</button>
         </div>
@@ -81,7 +81,7 @@
             <td class="header-span">Edit</td>
             <td class="header-span">Delete</td>
         </tr>
-        <tr class="table-column" *ngFor="let element of componentProductMasterList;let index=index;">
+        <tr class="table-column" *ngFor="let element of pagedResults;let index=index;">
             <td>{{element.componentProductDrawNumber}}</td>
             <td>{{element.componentProductName}}</td>
             <td>{{element.componentProductNumber}}</td>
@@ -91,4 +91,8 @@
             <td style="text-align: center; padding-top: 5px;"><i class="material-icons" (click)="delete(element)">delete_forever</i></td>
         </tr>
     </table>
+    <div *ngIf="componentProductMasterList?.length">
+        <app-pagination [dataLength]="componentProductMasterList.length" [(currentPage)]="currentPage" (pageChange)="pageChange($event)"
+            [pageSize]="pageSize"></app-pagination>
+    </div>
 </div>

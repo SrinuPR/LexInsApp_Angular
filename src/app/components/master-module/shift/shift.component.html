@@ -23,6 +23,7 @@
             </div>
         </div>
         <div class="padding-top-10">
+                <button mat-raised-button type="button" (click)="reset()" color="primary">RESET</button>
             <button mat-raised-button type="submit" (click)="onSubmit()" [disabled]="!shiftForm.valid" class="pull-right" color="primary">SAVE</button>
         </div>
     </form>
@@ -32,11 +33,14 @@
             <td class="header-span">Edit</td>
             <td class="header-span">Delete</td>
         </tr>
-        <tr class="table-column" *ngFor="let element of shiftList;let index=index;">
+        <tr class="table-column" *ngFor="let element of pagedResults;let index=index;">
             <td>{{element.shiftId}}</td>
             <td>{{element.shiftName}}</td>
             <td style="text-align: center; padding-top: 5px;"><i class="material-icons" (click)="onEdit(element, index)">edit</i></td>
             <td style="text-align: center; padding-top: 5px;"><i class="material-icons" (click)="delete(element)">delete_forever</i></td>
         </tr>
     </table>
+    <div *ngIf="shiftList?.length">
+        <app-pagination [dataLength]="shiftList.length" [(currentPage)]="currentPage" (pageChange)="pageChange($event)" [pageSize]="pageSize"></app-pagination>
+    </div>
 </div>

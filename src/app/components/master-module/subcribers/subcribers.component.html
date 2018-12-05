@@ -8,7 +8,7 @@
             <td class="header-span">Subscriber Name</td>
             <td class="header-span">View</td>
         </tr>
-        <tr class="table-column" *ngFor="let element of subscriberService.allSubscribers;let index=index;">
+        <tr class="table-column" *ngFor="let element of pagedResults;let index=index;">
             <td>{{element.subscriberId}}</td>
             <td>{{element.subscriberName}}</td>
             <td style="text-align: center; padding-top: 5px;">
@@ -16,4 +16,7 @@
             </td>
         </tr>
     </table>
+    <div *ngIf="subscribersList?.length">
+        <app-pagination [dataLength]="subscribersList.length" [(currentPage)]="currentPage" (pageChange)="pageChange($event)" [pageSize]="pageSize"></app-pagination>
+    </div>
 </div>

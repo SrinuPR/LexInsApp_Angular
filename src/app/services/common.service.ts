@@ -119,7 +119,7 @@ export class CommonService {
   }
 
   getShiftList() {
-    return this.httpService.get('createShiftMaster/all');
+    return this.httpService.get('createShiftMaster/all/', this.userDtls.subscriberId);
   }
 
   createShift(object: Shift) {

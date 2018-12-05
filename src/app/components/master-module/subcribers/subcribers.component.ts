@@ -11,6 +11,10 @@ import { SessionService } from 'src/app/services/session.service';
 })
 
 export class SubscribersComponent implements OnInit {
+  currentPage = 0;
+  pageSize = 10;
+  pagedResults: Array<any> = [];
+  subscribersList: Array<any> = [];
   constructor(
     public router: Router,
     public commonService: CommonService,
@@ -18,7 +22,10 @@ export class SubscribersComponent implements OnInit {
     private sessionService: SessionService
   ) { }
   ngOnInit() {
-    this.subscriberService.getAllSubscribers();
+    this.subscriberService.getAllSubscribersLst().subscribe((response) => {
+      this.subscribersList = response.body.subMasterList;
+      this.getPageChanged();
+    });
   }
 
   viewSubscriber(item) {
@@ -27,5 +34,16 @@ export class SubscribersComponent implements OnInit {
     this.commonService.userDtls.subscriberName = item.subscriberName;
     this.sessionService.setSession(this.commonService.userDtls);
     this.router.navigate(['dashboard']);
+  }
+
+  pageChange(event) {
+    this.currentPage = event.pageIndex;
+    this.getPageChanged();
+  }
+
+  getPageChanged() {
+    const start: number = this.currentPage * this.pageSize;
+    const end: number = start + this.pageSize;
+    this.pagedResults = this.subscribersList.slice(start, end);
   }
 }

@@ -30,6 +30,7 @@ import { InspectionsComponent } from './components/master-module/inspections/ins
 import { InspectionLineItemComponent } from './components/reports/inspection-line-item/inspection-line-item.component';
 import { InspectionReportComponent } from './components/reports/inspection-report/inspection-report.component';
 import { LoaderComponent } from './common-components/loader/loader.component';
+import { PaginationComponent } from './common-components/pagination/pagination.component';
 import { LeftNavComponent } from '../app/common-components/left-nav/left-nav.component';
 import { HeaderComponent } from '../app/common-components/header/header.component';
 import { AlertsComponent } from '../app/common-components/alerts/alert.component';
@@ -80,6 +81,7 @@ import { ModalPopUpComponent } from './common-components/alerts/modal-popup.comp
     OnlyNumericDirective,
     AlertsComponent,
     LoaderComponent,
+    PaginationComponent,
     InspectionMeasurementsComponent,
     WorkJobOrderConfirmDialogComponent,
     ModalPopUpComponent
