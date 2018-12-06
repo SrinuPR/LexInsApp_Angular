@@ -1,6 +1,6 @@
 export interface InspectionType {
     subscriberId: number;
-    inspTypeId:number;
-    inspTypeName:string;
-    createdBy:string
+    inspTypeId: number;
+    inspTypeName: string;
+    createdBy: string;
 }
