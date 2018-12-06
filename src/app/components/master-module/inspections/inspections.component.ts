@@ -52,6 +52,7 @@ export class InspectionsComponent implements OnInit {
           this.inspectionTypeList = response.body.inspTypeMasterList;
         });
         this.buildFormControls();
+        this.getInspectionMasterList();
         this.inspectionsForm.get('subscriberName').disable();
         this.inspectionsForm.get('componentProductNumber').disable();
         this.inspectionsForm.get('componentProductName').disable();
