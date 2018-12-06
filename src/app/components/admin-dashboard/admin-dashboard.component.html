@@ -1,0 +1,80 @@
+<div class="dashboard">
+    <app-left-nav [isAdmin]="true" ></app-left-nav>
+    <div>
+        <div class="alert-body">
+            <app-alert></app-alert>
+        </div>
+        <div class="body">
+            <div *ngIf="showContainer()">
+                <div class="layout-header">
+                    <span class="header-span">Inspection Details</span>
+                </div>
+                <div class="width-100" style="padding-top:3%; padding-bottom: 3%;">
+                    <div class="report-box padding-right">
+                        <div class="expand-icon"><i class="material-icons">aspect_ratio</i></div>
+                        <div class=" padding-right card">
+                            <p class="card-category">Subscribers</p>
+                            <div class="width-100">
+                                <div class="card-icon">
+                                    <i class="material-icons">supervisor_account</i>
+                                </div>
+                                <div class="card-div">
+                                    <h3 class="card-title">30</h3>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <p>Last Update on: 05-10-2018</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="report-box padding-right">
+                        <div class="expand-icon"><i class="material-icons">aspect_ratio</i></div>
+                        <div class=" padding-right card">
+                            <p class="card-category">Users</p>
+                            <div class="width-100">
+                                <div class="card-icon">
+                                    <i class="material-icons">supervisor_account</i>
+                                </div>
+                                <div class="card-div">
+                                    <h3 class="card-title">5</h3>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <p>Last Update on: 09-10-2018</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="report-box padding-right">
+                        <div class="expand-icon"><i class="material-icons">aspect_ratio</i></div>
+                        <div class=" padding-right card">
+                            <p class="card-category">Inspection Details</p>
+                            <div class="width-100">
+                                <div class="card-icon">
+                                    <i class="material-icons">assignment</i>
+                                </div>
+                                <div class="card-div">
+                                    <h3 class="card-title">30</h3>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <p>Last Created on: 29-09-2018</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <img src="../../assets/images/dashborad.png" class="dashboard-chart"> -->
+                </div>
+                <div class="width-100" style="padding-top:3%; margin-left: 3%;">
+                    <div class="chart-1">
+                        <img src="../../assets/images/chart1.PNG" class="dashboard-chart">
+                    </div>
+                    <div class="chart-2">
+                        <img src="../../assets/images/chart2.PNG" class="dashboard-chart">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

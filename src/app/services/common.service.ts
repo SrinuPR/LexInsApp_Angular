@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material';
 import { ModalPopUpComponent } from '../common-components/alerts/modal-popup.component';
 import { Alert } from '../interfaces/alert';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,8 @@ export class CommonService {
   constructor(
     public httpService: HttpService,
     public http: HttpClient,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private sessionService: SessionService
   ) { }
 
   triggerAlerts(alertObject: Alert) {
@@ -45,6 +47,7 @@ export class CommonService {
     const response = await this.httpService.post1('user/login', body);
     const userData = JSON.stringify(response);
     this.userDtls = JSON.parse(userData);
+    this.sessionService.setSession(this.userDtls);
   }
 
   getComponentProductMasterList() {
@@ -95,11 +98,9 @@ export class CommonService {
       errorMessage: 'no'
     };
     const response = await this.httpService.post1('user/change/password', body);
-    /* let userData =  JSON.stringify(response);
-    this.userDtls = JSON.parse(userData); */
-
-    console.log('response' + response);
-    return response;
+     const userData =  JSON.stringify(response);
+     console.log('response:' + userData);
+    return JSON.parse(userData);
   }
 
   async forgotPassword(userName: string, emailId: string) {
@@ -118,7 +119,7 @@ export class CommonService {
   }
 
   getShiftList() {
-    return this.httpService.get('createShiftMaster/all');
+    return this.httpService.get('createShiftMaster/all/', this.userDtls.subscriberId);
   }
 
   createShift(object: Shift) {
@@ -173,6 +174,25 @@ export class CommonService {
       disableClose: true,
       hasBackdrop: true
     });
+  }
+
+  getDrawingNumberList(subscriberId) {
+    return this.httpService.get('insplineitem/componentproductdrawNum/', subscriberId);
+  }
+
+  getInspectionLineItemList(subscriberId) {
+    return this.httpService.get('insplineitem/all');
+  }
+  checkMeasureName(object) {
+    return this.httpService.post('insplineitem/validate/measurementname', object);
+  }
+
+  saveMeasureItem(object) {
+    return this.httpService.post('insplineitem/measuresave', object);
+  }
+
+  saveMeasureItemReport(object) {
+    return this.httpService.post('insplineitem/measuresave', object);
   }
 }
 

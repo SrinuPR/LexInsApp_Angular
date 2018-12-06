@@ -21,6 +21,9 @@ export class CustomerPOComponent implements OnInit {
     componentProductDrawingNumberList: ComponentProductMaster[] = [];
     isEdit = false;
     editIndex: number;
+    currentPage = 0;
+    pageSize = 5;
+    pagedResults: Array<CustomerPO> = [];
     constructor(
         public router: Router,
         public formBuilder: FormBuilder,
@@ -32,9 +35,19 @@ export class CustomerPOComponent implements OnInit {
             this.customerPOForm.get('subscriberName').disable();
             this.getcustomerPOList();
             this.setcustomerPObject();
-        } else  {
+        } else {
             this.router.navigate(['']);
         }
+    }
+
+    pageChange(event) {
+        this.currentPage = event.pageIndex;
+        this.getPageChanged();
+    }
+    getPageChanged() {
+        const start: number = this.currentPage * this.pageSize;
+        const end: number = start + this.pageSize;
+        this.pagedResults = this.customerPOList.slice(start, end);
     }
 
     setcustomerPObject() {
@@ -82,6 +95,7 @@ export class CustomerPOComponent implements OnInit {
             .subscribe((response) => {
                 if (response.body.status === 'Success') {
                     this.customerPOList = response.body.result;
+                    this.getPageChanged();
                 }
             });
     }
@@ -126,6 +140,7 @@ export class CustomerPOComponent implements OnInit {
             .subscribe((response) => {
                 if (response.body.status === 'Success') {
                     this.customerPOList = response.body.result;
+                    this.getPageChanged();
                     this.commonService.triggerAlerts({ message: 'Customer P.O. Saved.', showAlert: true, isSuccess: true });
                 }
                 this.resetForm();
@@ -142,6 +157,7 @@ export class CustomerPOComponent implements OnInit {
             .subscribe((response) => {
                 if (response.body.status === 'Success') {
                     this.customerPOList = response.body.result;
+                    this.getPageChanged();
                     this.commonService.triggerAlerts({ message: 'Customer P.O. Saved.', showAlert: true, isSuccess: true });
                     this.resetForm();
                 }
@@ -159,19 +175,32 @@ export class CustomerPOComponent implements OnInit {
         this.customerPObject.componentId = this.customerPOForm.get('componentId').value;
         this.customerPObject.subscriberId = this.commonService.userDtls.subscriberId;
         this.customerPObject.customerPONumber = this.customerPOForm.get('customerPONumber').value;
-        this.customerPObject.customerPODate = this.customerPOForm.get('customerPODate').value;
+        this.customerPObject.customerPODate = this.toLocaleDate(this.customerPOForm.get('customerPODate').value);
         this.customerPObject.customerPOQuantity = this.customerPOForm.get('customerPOQuantity').value;
         this.customerPObject.poNotes = this.customerPOForm.get('poNotes').value;
         return this.customerPObject;
     }
+    toLocaleDate(value: string): string {
+        if (value) {
+            const localDate = new Date(value);
+            return localDate.getDate() + '/' + (localDate.getMonth() + 1) + '/' + localDate.getFullYear();
+        }
+    }
 
     resetForm() {
-        this.customerPOForm.reset();
-        this.customerPOForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
-        this.customerPOForm.get('subscriberName').disable();
-        this.customerPOForm.get('componentId').enable();
-        this.customerPOForm.get('customerPONumber').enable();
-        this.customerPOForm.get('customerPODate').enable();
+        this.customerPOForm.reset({
+            customerPoId: '',
+            componentId: '',
+            customerPONumber: '',
+            customerPODate: '',
+            customerPOQuantity: '',
+            poNotes: ''
+        });
+        // this.customerPOForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
+        // this.customerPOForm.get('subscriberName').disable();
+        // this.customerPOForm.get('componentId').enable();
+        // this.customerPOForm.get('customerPONumber').enable();
+        // this.customerPOForm.get('customerPODate').enable();
     }
 
     cancelEdit() {

@@ -48,6 +48,7 @@ export class InspectionStageComponent implements OnInit {
     prepareInitialData() {
       this.subscriber = this.mapSubscriber();
       this.buildFormControls();
+      this.inspectionStageForm.get('subscriberName').disable();
       this.inspectionStageForm.addControl('inspectionStageID', this.inspectionStageID);
     }
     mapSubscriber(): Subscriber {
@@ -89,8 +90,9 @@ export class InspectionStageComponent implements OnInit {
         const result = response.body;
         if (result.status === 'Success' && result.message === 'Inspection Stage Saved') {
           this.commonService.triggerAlerts({message: 'Inspection Stage Saved', showAlert: true, isSuccess: true});
-          this.router.navigate(['../facilities'], {relativeTo: this.activatedRoute} );
-          console.log('Subscriber saved successfully');
+          setTimeout(() => {
+            this.commonService.triggerAlerts({message: '', showAlert: false, isSuccess: true});
+          }, 1000);
         }
         else {
           this.commonService.triggerAlerts({message: 'Inspection Stage not Saved. Please Try again!', showAlert: true, isSuccess: false});

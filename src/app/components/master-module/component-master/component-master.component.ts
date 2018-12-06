@@ -19,6 +19,9 @@ export class ComponentMasterComponent implements OnInit {
   componentMasterForm: FormGroup;
   componentProductMasterList: ComponentProductMaster[] = [];
   componentProductMasterObject: ComponentProductMaster;
+  currentPage = 0;
+  pageSize = 5;
+  pagedResults: Array<ComponentProductMaster> = [];
   displayColumns = ['Product Draw Number', 'Product Name', 'Product Number', 'Manufacturer Units', 'Address'];
   isEdit = false;
   editIndex: number;
@@ -84,6 +87,7 @@ export class ComponentMasterComponent implements OnInit {
         console.log(response);
         if (response.body.status === 'Success') {
           this.componentProductMasterList = response.body.result;
+          this.getPageChanged();
         }
       },
         (error) => {
@@ -140,6 +144,7 @@ export class ComponentMasterComponent implements OnInit {
         .subscribe((response) => {
           if (response.body.status === 'Success') {
             this.componentProductMasterList = response.body.result;
+            this.getPageChanged();
             this.commonService.triggerAlerts({ message: 'Component / Product Saved.', showAlert: true, isSuccess: true });
           }
         },
@@ -156,6 +161,7 @@ export class ComponentMasterComponent implements OnInit {
       .subscribe((response) => {
         if (response.body.status === 'Success') {
           this.componentProductMasterList = response.body.result;
+          this.getPageChanged();
           this.commonService.triggerAlerts({ message: 'Component / Product Updated.', showAlert: true, isSuccess: true });
         }
       },
@@ -194,5 +200,16 @@ export class ComponentMasterComponent implements OnInit {
   cancelEdit() {
     this.resetForm();
     this.isEdit = false;
+  }
+
+  pageChange(event) {
+    this.currentPage = event.pageIndex;
+    this.getPageChanged();
+  }
+
+  getPageChanged() {
+    const start: number = this.currentPage * this.pageSize;
+    const end: number = start + this.pageSize;
+    this.pagedResults = this.componentProductMasterList.slice(start, end);
   }
 }
