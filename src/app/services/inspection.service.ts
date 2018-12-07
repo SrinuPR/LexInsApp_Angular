@@ -26,7 +26,7 @@ export class InspectionMasterService {
     }
 
     getInspectionMasterList() {
-        return this.httpService.get('inspectiontype/all/');
+        return this.httpService.get('inspectionMaster/all/');
     }
 
     updateInspectionMaster(master: InspectionMaster) {

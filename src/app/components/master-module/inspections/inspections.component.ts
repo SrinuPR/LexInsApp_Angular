@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/services/common.service';
@@ -8,16 +8,36 @@ import { InspectionType } from 'src/app/interfaces/inspection-type';
 import { InspectionStage } from 'src/app/interfaces/inspection-stage';
 import { InspectionMaster } from 'src/app/interfaces/inspection-master';
 import { AlertType } from 'src/app/interfaces/alert';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
+
+export interface TableMap {
+  columnDef?: string;
+  columnName?: string;
+}
 
 @Component({
     selector: 'app-inspections',
     templateUrl: './inspections.component.html',
     styleUrls: ['./inspections.component.scss']
 })
-
 export class InspectionsComponent implements OnInit {
-    headerTitles = ['Component / Product Drawing Number', 'Component Product Number', 'Component Product Name',
-    'Inspection Type', 'Inspection Stage'];
+    tableColumns: TableMap[] = [{
+      columnDef: 'componentProductDrawNumber',
+      columnName: 'Component / Product Drawing Number'
+    }, {
+      columnDef: 'componentProductNumber',
+      columnName: 'Component Product Number'
+    }, {
+      columnDef: 'componentProductName',
+      columnName: 'Component Product Name'
+    }, {
+      columnDef: 'inspectionType',
+      columnName: 'Inspection Type'
+    }, {
+      columnDef: 'inspectionStage',
+      columnName: 'Inspection Stage'
+    }];
+    displayedColumns: string[] = this.tableColumns.map(c => c.columnDef);
     INSPECTION_MASTER_EXISTS = 'Inspection Master Exists';
     INSPECTION_MASTER_NOT_EXISTS = 'Inspection Master Does Not Exist';
     UN_EXPECTED_EXCEPTION = 'UnExpected exception occurred';
@@ -28,6 +48,9 @@ export class InspectionsComponent implements OnInit {
     selectedInspectionMaster: InspectionMaster;
     inspectionMasterList: InspectionMaster[];
     isUpdate = false;
+    dataSource: MatTableDataSource<InspectionMaster>;
+
+    @ViewChild(MatPaginator) paginator: MatPaginator;
     constructor(
         public router: Router,
         public formBuilder: FormBuilder,
@@ -39,6 +62,8 @@ export class InspectionsComponent implements OnInit {
         this.inspectionMasterList = [];
     }
     ngOnInit() {
+      this.displayedColumns.push('edit');
+      this.displayedColumns.push('delete');
         this.inspectionService.getComponentData(this.commonService.userDtls.subscriberId)
         .subscribe((response) => {
           this.componentDataList = response.body.componentData;
@@ -63,13 +88,13 @@ export class InspectionsComponent implements OnInit {
     buildFormControls() {
         this.inspectionsForm = this.formBuilder.group({
             subscriberName: new FormControl(this.commonService.userDtls.subscriberName, [Validators.required]),
-            componentProductDrawingNumber: new FormControl('', [Validators.required]),
-            componentProductName: new FormControl('', [Validators.required]),
-            componentProductNumber: new FormControl('', [Validators.required]),
-            componentProductMaterial: new FormControl('', [Validators.required]),
-            inspectionType: new FormControl('', [Validators.required]),
-            inspectionStage: new FormControl('', [Validators.required]),
-            componentProductNotes: new FormControl('', [Validators.required])
+            componentProductDrawingNumber: new FormControl(this.selectedInspectionMaster.componentProductDrawNumber, [Validators.required]),
+            componentProductName: new FormControl(this.selectedInspectionMaster.componentProductName, [Validators.required]),
+            componentProductNumber: new FormControl(this.selectedInspectionMaster.componentProductNumber, [Validators.required]),
+            componentProductMaterial: new FormControl(this.selectedInspectionMaster.componentProductMaterial, [Validators.required]),
+            inspectionType: new FormControl(this.selectedInspectionMaster.inspectionType, [Validators.required]),
+            inspectionStage: new FormControl(this.selectedInspectionMaster.inspectionStage, [Validators.required]),
+            componentProductNotes: new FormControl(this.selectedInspectionMaster.componentProductNotes, [Validators.required])
         });
     }
 
@@ -182,9 +207,15 @@ export class InspectionsComponent implements OnInit {
           const result = response.body;
           if (result.status === 'Success') {
             this.inspectionMasterList = result.results;
-            console.log(this.inspectionMasterList);
+            this.dataSource = new MatTableDataSource<InspectionMaster>(this.inspectionMasterList);
+            this.dataSource.paginator = this.paginator;
           }
         });
+      }
+
+      resetInspectionMaster() {
+        this.selectedInspectionMaster = {};
+        this.inspectionsForm.reset();
       }
 
 }

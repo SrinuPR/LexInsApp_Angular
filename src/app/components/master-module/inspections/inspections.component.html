@@ -76,24 +76,30 @@
             <textarea matInput placeholder="Component / Product Notes" formControlName="componentProductNotes"
                 name="workJobOrderNotes"></textarea>
         </mat-form-field>
-        <div class="padding-top-10">
-            <button mat-raised-button type="submit" [disabled]="!inspectionsForm.valid" (click)="isUpdate ? updateInspectionMaster() : saveInspectionMaster()" class="pull-right" color="primary">SAVE</button>
+        <div class="padding-top-10 form-actions">
+            <button mat-raised-button type="submit" [disabled]="!inspectionsForm.valid" (click)="isUpdate ? updateInspectionMaster() : saveInspectionMaster()" color="primary">SAVE</button>
+            <button mat-raised-button type="submit" (click)="resetInspectionMaster()" color="primary">CANCEL</button>
         </div>
-    </form>
-    <table class="table" *ngIf="inspectionMasterList.length">
-        <tr class="table-header">
-            <td class="header-span" *ngFor="let title of headerTitles">{{title}}</td>
-            <td class="header-span">Edit</td>
-            <td class="header-span">Delete</td>
-        </tr>
-        <tr class="table-column" *ngFor="let master of inspectionMasterList;let index=index;">
-            <td>{{master.componentProductDrawNumber}}</td>
-            <td>{{master.componentProductNumber}}</td>
-            <td>{{master.componentProductDrawName}}</td>
-            <td>{{master.inspectionType}}</td>
-            <td>{{master.inspectionStage}}</td>
-            <td style="text-align: center; padding-top: 5px;"><i class="material-icons" (click)="editInspectionMaster(master)">edit</i></td>
-            <td style="text-align: center; padding-top: 5px;"><i class="material-icons" (click)="deleteInspectionMaster(master)">delete_forever</i></td>
-        </tr>
-    </table>
+    </form> 
+</div>
+<div class="inspecion-master-list">
+    <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">      
+            <ng-container *ngFor="let column of tableColumns; let colIndex = index" matColumnDef="{{column.columnDef}}">
+                <th mat-header-cell *matHeaderCellDef>{{column.columnName}}</th>
+                <td mat-cell *matCellDef="let element "> {{element[column.columnDef]}}</td>
+            </ng-container>
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element "><mat-icon (click)="editInspectionMaster(element)">edit</mat-icon></td>
+            </ng-container>
+            <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element "><mat-icon (click)="deleteInspectionMaster(element)">delete</mat-icon></td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [hidePageSize]="true" [pageSize]="5" showFirstLastButtons></mat-paginator>
+    </div>
 </div>
