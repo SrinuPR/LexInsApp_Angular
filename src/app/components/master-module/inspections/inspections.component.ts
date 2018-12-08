@@ -78,24 +78,25 @@ export class InspectionsComponent implements OnInit {
         });
         this.buildFormControls();
         this.getInspectionMasterList();
-        this.inspectionsForm.get('subscriberName').disable();
-        this.inspectionsForm.get('componentProductNumber').disable();
-        this.inspectionsForm.get('componentProductName').disable();
-        this.inspectionsForm.get('componentProductMaterial').disable();
-        this.inspectionsForm.get('componentProductNotes').disable();
     }
 
     buildFormControls() {
         this.inspectionsForm = this.formBuilder.group({
             subscriberName: new FormControl(this.commonService.userDtls.subscriberName, [Validators.required]),
-            componentProductDrawingNumber: new FormControl(this.selectedInspectionMaster.componentProductDrawNumber, [Validators.required]),
+            componentProductDrawNumber: new FormControl(this.selectedInspectionMaster.componentProductDrawNumber, [Validators.required]),
             componentProductName: new FormControl(this.selectedInspectionMaster.componentProductName, [Validators.required]),
             componentProductNumber: new FormControl(this.selectedInspectionMaster.componentProductNumber, [Validators.required]),
             componentProductMaterial: new FormControl(this.selectedInspectionMaster.componentProductMaterial, [Validators.required]),
             inspectionType: new FormControl(this.selectedInspectionMaster.inspectionType, [Validators.required]),
             inspectionStage: new FormControl(this.selectedInspectionMaster.inspectionStage, [Validators.required]),
-            componentProductNotes: new FormControl(this.selectedInspectionMaster.componentProductNotes, [Validators.required])
+            componentProductNotes: new FormControl(this.selectedInspectionMaster.componentProductNotes, [Validators.required]),
+            inspectionMasterId: new FormControl(this.selectedInspectionMaster.inspectionMasterId, [])
         });
+        this.inspectionsForm.get('subscriberName').disable();
+        this.inspectionsForm.get('componentProductNumber').disable();
+        this.inspectionsForm.get('componentProductName').disable();
+        this.inspectionsForm.get('componentProductMaterial').disable();
+        this.inspectionsForm.get('componentProductNotes').disable();
     }
 
     displayErrorMessages(field: string) {
@@ -107,7 +108,7 @@ export class InspectionsComponent implements OnInit {
     }
 
     onProdDrawNumberChange() {
-        const chosenDrawNum = this.inspectionsForm.get('componentProductDrawingNumber').value;
+        const chosenDrawNum = this.inspectionsForm.get('componentProductDrawNumber').value;
         const component = this.componentDataList.find((compData: ComponentProductMaster) => {
             return compData.componentProductDrawNumber === chosenDrawNum;
         });
@@ -119,7 +120,8 @@ export class InspectionsComponent implements OnInit {
 
     mapInspectionMaster() {
         return <InspectionMaster> {
-          componentProductDrawNumber: this.inspectionsForm.get('componentProductDrawingNumber').value,
+          inspectionMasterId: this.inspectionsForm.get('inspectionMasterId').value,
+          componentProductDrawNumber: this.inspectionsForm.get('componentProductDrawNumber').value,
           componentProductName: this.inspectionsForm.get('componentProductName').value,
           componentProductNumber: this.inspectionsForm.get('componentProductNumber').value,
           componentProductMaterial: this.inspectionsForm.get('componentProductMaterial').value,
@@ -136,8 +138,9 @@ export class InspectionsComponent implements OnInit {
         this.inspectionService.saveInspectionMaster(inspectionMaster).
           subscribe((response) => {
             console.log(response);
-            this.selectedInspectionMaster = {};
+            this.resetSelectedMaster();
             this.inspectionMasterList.push(inspectionMaster);
+            this.buildFormControls();
             this.commonService.displayPopUp({
               message: response.body.message,
               type: AlertType.INFO
@@ -152,8 +155,15 @@ export class InspectionsComponent implements OnInit {
           });
       }
 
+      resetSelectedMaster() {
+        this.selectedInspectionMaster = {};
+        this.selectedInspectionMaster.subscriberName = this.commonService.userDtls.subscriberName;
+        this.selectedInspectionMaster.subscriberId = this.commonService.userDtls.subscriberId;
+      }
+
       validateInspectionStage() {
         const inspectionMaster = this.mapInspectionMaster();
+        const stageControl = this.inspectionsForm.get('inspectionStage');
         this.inspectionService.validateInspectionStage(inspectionMaster).
           subscribe((response) => {
             console.log(response);
@@ -163,6 +173,9 @@ export class InspectionsComponent implements OnInit {
                     message: response.body.message,
                     type: AlertType.ERROR
                 });
+                stageControl.setErrors({inspectionMasterExists: true});
+            } else {
+              stageControl.setErrors({inspectionMasterExists: null});
             }
           }, (error) => {
             if (error && error.error) {
@@ -175,7 +188,30 @@ export class InspectionsComponent implements OnInit {
       }
 
       updateInspectionMaster() {
-
+        const inspectionMaster = this.mapInspectionMaster();
+        this.inspectionService.updateInspectionMaster(inspectionMaster).
+          subscribe((response) => {
+            console.log(response);
+            const index = this.inspectionMasterList.findIndex((data: InspectionMaster) => {
+              return data.inspectionMasterId === inspectionMaster.inspectionMasterId;
+            });
+            this.inspectionMasterList[index] = inspectionMaster;
+            this.isUpdate = false;
+            this.resetSelectedMaster();
+            this.buildFormControls();
+            this.dataSource.data = this.inspectionMasterList;
+            this.commonService.displayPopUp({
+              message: response.body.message,
+              type: AlertType.INFO
+            });
+          }, (error) => {
+            if (error && error.error) {
+              this.commonService.displayPopUp({
+                message: error.error.message,
+                type: AlertType.ERROR
+              });
+            }
+          });
       }
 
       editInspectionMaster(master: InspectionMaster) {
@@ -185,8 +221,18 @@ export class InspectionsComponent implements OnInit {
         this.commonService.clearAlerts();
       }
 
+      setFormControls() {
+        Object.keys(this.inspectionsForm.controls).forEach(key => {
+          const control = this.inspectionsForm.get(key);
+          if (control) {
+            control.setValue(this.selectedInspectionMaster[key]);
+            control.updateValueAndValidity();
+          }
+        });
+      }
+
       deleteInspectionMaster(master: InspectionMaster) {
-        this.inspectionService.deleteInspectionMaster(master.inspectionMasterId)
+        this.inspectionService.deleteInspectionMaster(master)
         .subscribe((response) => {
           const result = response.body;
           if (result && result.status === 'Success') {
@@ -194,6 +240,7 @@ export class InspectionsComponent implements OnInit {
               return data.inspectionMasterId === master.inspectionMasterId;
             });
             this.inspectionMasterList.splice(index, 1);
+            this.dataSource.data = this.inspectionMasterList;
             this.commonService.displayPopUp({
               message: result.message,
               type: AlertType.INFO
@@ -214,8 +261,9 @@ export class InspectionsComponent implements OnInit {
       }
 
       resetInspectionMaster() {
+        this.isUpdate = false;
         this.selectedInspectionMaster = {};
-        this.inspectionsForm.reset();
+        this.buildFormControls();
       }
 
 }

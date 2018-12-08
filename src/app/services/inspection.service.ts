@@ -37,8 +37,8 @@ export class InspectionMasterService {
         return this.httpService.post('inspectionMaster/validateStage/', master);
     }
 
-    deleteInspectionMaster(masterId: number) {
-        return this.httpService.get('inspectionMaster/delete/' + masterId);
+    deleteInspectionMaster(master: InspectionMaster) {
+        return this.httpService.post('inspectionMaster/delete', master);
     }
 
 }

@@ -25,7 +25,7 @@ export class LeftNavComponent implements OnInit {
     {id: '5', displayText: 'Shift', route: 'shift', icon: 'home'},
     {id: '6', displayText: 'Component Master', route: 'component-master', icon: 'home'},
     {id: '7', displayText: 'Work Job Order', route: 'work-job-order', icon: 'home'},
-    {id: '8', displayText: 'Inspections', route: 'inspections', icon: 'home'},
+    {id: '8', displayText: 'Inspection Master', route: 'inspections', icon: 'home'},
     {id: '9', displayText: 'Inspection-line-item', route: 'inspection-line-item', icon: 'home'},
     {id: '10', displayText: 'Inspection Measurements', route: 'inspection-meaurements', icon: 'home'},
     {id: '11', displayText: 'Inspection-Report', route: 'inspection-report', icon: 'home'}

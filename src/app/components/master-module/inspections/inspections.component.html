@@ -9,14 +9,14 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <mat-select matInput placeholder="Component / Product Drawing Number" required formControlName="componentProductDrawingNumber"
-                        name="componentProductDrawingNumber" (selectionChange)="onProdDrawNumberChange()">
+                    <mat-select matInput [disabled]="isUpdate" placeholder="Component / Product Drawing Number" required formControlName="componentProductDrawNumber"
+                        name="componentProductDrawNumber" (selectionChange)="onProdDrawNumberChange()">
                         <mat-option *ngFor="let component of componentDataList" [value]="component.componentProductDrawNumber">
                             {{ component.componentProductDrawNumber }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('componentProductDrawingNumber')">Please select
+                <div class="error-message" *ngIf="displayErrorMessages('componentProductDrawNumber')">Please select
                     Component / Product Drawing Number</div>
             </div>
             <div class="form-control-field-right">
@@ -49,7 +49,7 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <mat-select matInput placeholder="Inspection Type" required formControlName="inspectionType" name="inspectionType">
+                    <mat-select matInput [disabled]="isUpdate" placeholder="Inspection Type" required formControlName="inspectionType" name="inspectionType">
                         <mat-option *ngFor="let type of inspectionTypeList" [value]="type.inspTypeId">
                             {{ type.inspTypeName }}
                         </mat-option>
