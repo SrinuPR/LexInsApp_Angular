@@ -13,6 +13,7 @@ import { CreateAdminComponent } from '../app/components/create-admin/create-admi
 import { LoginComponent } from '../app/components/login/login.component';
 import { DashboardComponent } from '../app/components/dashboard/dashboard.component';
 import { AdminDashboardComponent } from '../app/components/admin-dashboard/admin-dashboard.component';
+import { AdminHomeComponent } from '../app/components/admin-home/admin-home.component';
 import { ResetPasswordComponent } from '../app/components/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from '../app/components/forgot-password/forgot-password.component';
 import { SubscriberComponent } from '../app/components/master-module/subscriber/subscriber.component';
@@ -84,7 +85,8 @@ import { ModalPopUpComponent } from './common-components/alerts/modal-popup.comp
     PaginationComponent,
     InspectionMeasurementsComponent,
     WorkJobOrderConfirmDialogComponent,
-    ModalPopUpComponent
+    ModalPopUpComponent,
+    AdminHomeComponent
   ],
   imports: [
     BrowserModule,

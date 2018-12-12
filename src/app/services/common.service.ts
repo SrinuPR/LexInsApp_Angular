@@ -18,6 +18,27 @@ import { SessionService } from './session.service';
   providedIn: 'root'
 })
 export class CommonService {
+  adminJSON = [
+    {id: '1', displayText: 'Subscribers', route: 'subscribers', isActive: false },
+    {id: '2', displayText: 'Create Admin', route: 'create-admin', isActive: false },
+    {id: '3', displayText: 'Create Subscriber', route: 'create-subscriber', isActive: false },
+    {id: '4', displayText: 'User Type List', route: 'user-type-master', isActive: false },
+    {id: '5', displayText: 'User Master', route: 'user-master', icon: 'home'}
+  ];
+  userJSON = [
+    {id: '1', displayText: 'Home', route: 'home', isActive: false },
+    {id: '2', displayText: 'Customer P.O.', route: 'customer-po', isActive: false },
+    {id: '3', displayText: 'Inspection Type', route: 'inspection-type', isActive: false },
+    {id: '4', displayText: 'Inspection Stage', route: 'inspection-stage', isActive: false },
+    {id: '5', displayText: 'Facilities', route: 'facilities', isActive: false },
+    {id: '6', displayText: 'Shift', route: 'shift', isActive: false },
+    {id: '7', displayText: 'Component Master', route: 'component-master', isActive: false },
+    {id: '8', displayText: 'Work Job Order', route: 'work-job-order', isActive: false },
+    {id: '9', displayText: 'Inspection Master', route: 'inspections', isActive: false },
+    {id: '10', displayText: 'Inspection-line-item', route: 'inspection-line-item', isActive: false },
+    {id: '11', displayText: 'Inspection Measurements', route: 'inspection-meaurements', isActive: false },
+    {id: '12', displayText: 'Inspection-Report', route: 'inspection-report', isActive: false }
+  ];
   showAlerts = new Subject<Alert>();
   clearOrHideAlerts = new Subject<{}>();
   showAlertsTrigger = this.showAlerts.asObservable();
@@ -84,6 +105,14 @@ export class CommonService {
 
   deleteCustomerPO(customerPoId: number) {
     return this.httpService.get('purchaseOrder/delete/' + customerPoId.toString());
+  }
+
+  createAdmin(object) {
+    return this.httpService.post('user/admin/create', object);
+  }
+
+  validateAdmin(adminId) {
+    return this.httpService.get('/user/admin/vaidate/' + adminId);
   }
 
   async resetPassword(userName: string, pwd: string, newPwd: string, confNewPwd: string) {

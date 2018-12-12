@@ -22,10 +22,12 @@ import { InspectionMeasurementsComponent } from './components/master-module/insp
 import { InspectionReportComponent } from './components/reports/inspection-report/inspection-report.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { CreateAdminComponent } from './components/create-admin/create-admin.component';
+import { AdminHomeComponent } from './components/admin-home/admin-home.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'admin-dashboard', component: AdminDashboardComponent,
+  {
+    path: 'admin-dashboard', component: AdminDashboardComponent,
     canActivateChild: [AuthGuard],
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'subscribers' },
@@ -36,21 +38,25 @@ const routes: Routes = [
       { path: 'user-type-master', component: UserTypeMasterComponent },
     ]
   },
-  { path: 'dashboard', component: DashboardComponent,
+  {
+    path: 'dashboard', component: DashboardComponent,
     canActivateChild: [AuthGuard],
     children: [
-          { path: 'customer-po', component: CustomerPOComponent },
-          { path: 'inspection-type', component: InspectionTypeComponent },
-          { path: 'inspection-stage', component: InspectionStageComponent },
-          { path: 'facilities', component: FacilitiesComponent },
-          { path: 'shift', component: ShiftComponent },
-          { path: 'component-master', component: ComponentMasterComponent },
-          { path: 'work-job-order', component: WorkJobOrderComponent },
-          { path: 'inspections', component: InspectionsComponent },
-          { path: 'inspection-line-item', component: InspectionLineItemComponent },
-          { path: 'inspection-meaurements', component: InspectionMeasurementsComponent },
-          { path: 'inspection-report', component: InspectionReportComponent }
-        ]},
+      { path: '', pathMatch: 'full', redirectTo: 'home' },
+      { path: 'home', component: AdminHomeComponent },
+      { path: 'customer-po', component: CustomerPOComponent },
+      { path: 'inspection-type', component: InspectionTypeComponent },
+      { path: 'inspection-stage', component: InspectionStageComponent },
+      { path: 'facilities', component: FacilitiesComponent },
+      { path: 'shift', component: ShiftComponent },
+      { path: 'component-master', component: ComponentMasterComponent },
+      { path: 'work-job-order', component: WorkJobOrderComponent },
+      { path: 'inspections', component: InspectionsComponent },
+      { path: 'inspection-line-item', component: InspectionLineItemComponent },
+      { path: 'inspection-meaurements', component: InspectionMeasurementsComponent },
+      { path: 'inspection-report', component: InspectionReportComponent }
+    ]
+  },
   { path: 'resetpassword', component: ResetPasswordComponent },
   { path: 'forgotpassword', component: ForgotPasswordComponent }
 ];
@@ -60,7 +66,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRouters {
-  resetMessages () {
+  resetMessages() {
 
   }
 }

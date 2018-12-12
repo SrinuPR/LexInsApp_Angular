@@ -2,11 +2,14 @@
     <header class="demo-drawer-header">
         <img src="../../assets/images/admin.png" class="demo-avatar">
         <div class="left-nav-header">
-            <span>Welcome Mr. Admin Jhonson</span>
+            <span>Welcome {{userName}}</span>
         </div>
     </header>
     <nav class="min-height">
         <a class="left-nav-link" (click)="navigate(item.route)" *ngFor="let item of leftNavJSON">
-            <i class="left-nav-link-text material-icons" role="presentation">{{item.icon}}</i><span>{{item.displayText}}</span></a>
+            <i class="left-nav-link-text material-icons" role="presentation">{{item.isActive ? 'fiber_smart_record' :
+                'panorama_fish_eye'}}</i>
+            <span>{{item.displayText}}</span>
+        </a>
     </nav>
 </div>
