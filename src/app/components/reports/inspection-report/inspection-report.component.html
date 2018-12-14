@@ -2,106 +2,145 @@
     <div class="layout-header">
         <span class="header-span">Inspection Report</span>
     </div>
-    <form class="form">
+    <form [formGroup]="InspectionReportForm" class="form">
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Subscriber Name" onlyNumeric type="text" required maxlength="50" name="componentProductDrawNumber">
+                    <input matInput placeholder="Subscriber Name" type="text" required formControlName="subscriberName"
+                    name="subscriberName">
                 </mat-form-field>
             </div>
             <div class="form-control-field-right">
+                    <mat-form-field>
+                        <input matInput placeholder="Inspection Report Number"  autocomplete="off" maxlength="10"
+                         type="text" name="inspectionReportNumber" formControlName="inspectionReportNumber">
+                    </mat-form-field>
+                    <div class="error-message" *ngIf="InspectionReportForm.get('inspectionReportNumber').touched && InspectionReportForm.get('inspectionReportNumber').hasError('ReportNumExists')">Inspection Report Num already exists, Please enter
+                            a unique Report Num</div>
+            </div>
+        </div>
+        <div class="width-100">
+            <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Inspection Report Number" maxlength="50" type="text" required name="componentProductName">
+                    <mat-select matInput placeholder="Component / Product Drawing Number" formControlName="productDrawingNumberionTypeID"
+                        name="productDrawingNumberionTypeID" (selectionChange)="selectComponentData()">
+                        <mat-option *ngFor="let componentData of componentDataList" [value]="componentData.componentProductDrawNumber">
+                            {{ componentData.componentProductDrawNumber }}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('productDrawingNumberionTypeID')">Please Enter
+                    Component / Product Drawing Number</div>
+            </div>
+            <div class="form-control-field-right">
+                <mat-form-field>
+                    <input matInput disabled placeholder="Component / Product Name" onlyNumeric type="text" required maxlength="50" name="productDrawingName"
+                    formControlName="productDrawingName">
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('customerPONumber')">Please Enter Component / Product Name</div>
             </div>
         </div>
         <mat-form-field>
-            <input matInput placeholder="Component / Product Drawing Number" onlyNumeric type="text" required maxlength="50"
-                name="componentProductDrawNumber">
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Component / Product Name" onlyNumeric type="text" required maxlength="50" name="componentProductDrawNumber">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-select matInput placeholder="Work / Job Order Number" required name="subscriberName">
-                <mat-option value="1">option 1</mat-option>
-                <mat-option value="2">option 2</mat-option>
+            <mat-select matInput placeholder="Work / Job Order Number" required name="subscriberName" 
+            formControlName ="workJobOrderNumber" (selectionChange)="selectWorkOrJobOrder()">
+                <mat-option *ngFor="let jobOrder of workJobOrderList" [value]="jobOrder.wjOrderId">
+                    {{ jobOrder.wjOrderId }}
+                </mat-option>
             </mat-select>
         </mat-form-field>
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Lot Number" onlyNumeric type="text" required maxlength="50" name="componentProductDrawNumber">
+                    <input matInput disabled placeholder="Lot Number" onlyNumeric type="text" required maxlength="50" name="lotNumber"
+                    formControlName ="lotNumber">
                 </mat-form-field>
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <input matInput placeholder="Lot Size" maxlength="50" type="text" required name="componentProductName">
+                    <input matInput  disabled placeholder="Lot Size" maxlength="50" type="text" required name="lotSize"
+                    formControlName ="lotSize">
                 </mat-form-field>
             </div>
         </div>
+            <div class="width-100">
+                    <div class="form-control-field-left">
+                            <mat-form-field>
+                                    <input matInput disabled placeholder="Manufacturing Batch Number" onlyNumeric type="text" required maxlength="50"
+                                        name="manufacturingBatchNumber" formControlName ="manufacturingBatchNumber">
+                                </mat-form-field>
+                    </div>
+                    <div class="form-control-field-right">
+                            <mat-form-field>
+                                    <mat-select matInput placeholder="Inspection Type" required name="inspectionType" 
+                                    formControlName ="inspectionType">
+                                        <mat-option *ngFor="let iType of inspectionTypes" [value]="iType">
+                                            {{ iType }}
+                                        </mat-option>
+                                    </mat-select>
+                            </mat-form-field>
+                        </div>
+            </div>
+            <div class="width-100">
+                    <div class="form-control-field-left">
+                            <mat-form-field>
+                                    <input matInput disabled placeholder="Customer PO Number" onlyNumeric type="text" required maxlength="50"
+                                        name="customerPONumber" formControlName ="customerPONumber">
+                                </mat-form-field>
+                    </div>
+                    <div class="form-control-field-right">
+                            <mat-form-field>
+                                    <mat-select matInput placeholder="Inspection Stage" required name="inspectionType" 
+                                    formControlName ="inspectionStage">
+                                        <mat-option *ngFor="let iStage of inspectionStages" [value]="iStage">
+                                            {{ iStage }}
+                                        </mat-option>
+                                    </mat-select>
+                            </mat-form-field>
+                        </div>
+                </div>
+     
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <mat-select matInput placeholder="Inspection Type" required name="subscriberName">
-                        <mat-option value="1">option 1</mat-option>
-                        <mat-option value="2">option 2</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="form-control-field-right">
-                <mat-form-field>
-                    <mat-select matInput placeholder="Inspection Stage" required name="subscriberName">
-                        <mat-option value="1">option 1</mat-option>
-                        <mat-option value="2">option 2</mat-option>
-                    </mat-select>
+                    <input matInput disabled placeholder="ComponManufacturing Batch Size" onlyNumeric type="text" required
+                        maxlength="50" name="manufacturingBatchSize" formControlName ="manufacturingBatchSize">
                 </mat-form-field>
             </div>
         </div>
         <div class="width-100">
-            <div class="form-control-field-left">
-                <mat-form-field>
-                    <input matInput placeholder="Manufacturing Batch Number" onlyNumeric type="text" required maxlength="50"
-                        name="componentProductDrawNumber">
-                </mat-form-field>
+                <div class="form-control-field-left">
+                        <mat-form-field>
+                                <input disabled matInput class="date-picker" [matDatepicker]="picker" readonly (click)="picker.open()" placeholder="PO Date" formControlName="customerPoDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker [disabled]="isUpdate"></mat-datepicker>
+                            </mat-form-field>
+                        <div class="error-message" *ngIf="displayErrorMessages('customerPoDate')">Please Enter Work / Job
+                            Order Date</div>
+                </div>
+                <div class="form-control-field-right">
+                        <mat-form-field>
+                                <input disabled matInput placeholder="Customer PO Qunatity" onlyNumeric type="text" required maxlength="50"
+                                    name="customerPoQuantity" formControlName ="customerPoQuantity">
+                        </mat-form-field>
+                </div>
             </div>
-            <div class="form-control-field-right">
-                <mat-form-field>
-                    <input matInput placeholder="ComponManufacturing Batch Size" onlyNumeric type="text" required
-                        maxlength="50" name="componentProductDrawNumber">
-                </mat-form-field>
-            </div>
-        </div>
-        <mat-form-field>
-            <input matInput placeholder="Customer P.O. Number" onlyNumeric type="text" required maxlength="50" name="componentProductDrawNumber">
-        </mat-form-field>
+        
         <div class="width-100">
-            <div class="form-control-field-left">
-                <mat-form-field>
-                    <input matInput placeholder="Customer P.O. Date" onlyNumeric type="text" required maxlength="50"
-                        name="componentProductDrawNumber">
-                </mat-form-field>
-            </div>
-            <div class="form-control-field-right">
-                <mat-form-field>
-                    <input matInput placeholder="Customer P.O. Quantity" onlyNumeric type="text" required maxlength="50"
-                        name="componentProductDrawNumber">
-                </mat-form-field>
-            </div>
-        </div>
-        <div class="width-100">
-            <table class="table">
+            <table class="table" *ngIf = "componentSelected">
                 <tr class="table-header">
                     <td class="header-span" *ngFor="let header of headerColumns">{{header}}</td>
                 </tr>
                 <tr class="table-column" *ngFor="let element of dataSource;let index=index;">
-                    <td>{{element.position}}</td>
-                    <td>{{element.name}}</td>
-                    <td>{{element.weight}}</td>
-                    <td>{{element.symbol}}</td>
-                    <td>{{element.symbol1}}</td>
+                    <td>{{element.measurementName}}</td>
+                    <td>{{element.baseMeasure}}</td>
+                    <td>{{element.baseMeasureUnits}}</td>
+                    <td>{{element.upperLimit}}</td>
+                    <td>{{element.lowerLimit}}</td>
                 </tr>
             </table>
         </div>
+        <div class="padding-top-10">
+                <button mat-raised-button type="submit" [disabled]="!InspectionReportForm.valid" (click)="createWorkJobOrder()" class="pull-right" color="primary">SAVE</button>
+            </div>
     </form>
 </div>
