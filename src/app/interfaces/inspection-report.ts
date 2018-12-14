@@ -1,25 +1,26 @@
-import { AlertType } from "./alert";
+import { AlertType } from './alert';
 
-export interface WorkJobOrder {
+export interface InspectionReport {
+    inspReportNumber?: string;
     workJobOrderNumber?: string;
-    workJobOrderDate?: string;
     lotNumber?: string;
     lotSize?: number;
-    lotSizeUnits?: string;
+    inspectionTypeId?: string;
+    inspectionStageId?: string;
     manufacturingBatchNumber?: string;
     manufacturingBatchSize?: number;
-    manufacturingBatchUnits?: string;
-    workOrderJobNotes?: string;
     subscriberId?: number;
     subscriberName?: string;
     componentProductDrawNumber?: string;
+    componentProdcuctName?: string;
     customerPONumber?: string;
-    wjOrderId?: number;
-    customerPODate?: string;
-    customerPOQuantity?: number;
+    customerPoDate?: string;
+    customerPoQuantity?: string;
+    userId?: string;
 }
 
-export interface WorkJobOrderDialog {
+
+export interface InspectionReportDialog {
     title?: string;
     content?: string;
     confirm?: boolean;
@@ -30,7 +31,8 @@ export interface WorkJobOrderDialog {
     type?: AlertType;
 }
 
-export interface WorkJobOrderConfirm {
+export interface InspectionReportConfirm {
+    reportNumber?: boolean;
     workNumberConfirm?: boolean;
     lotNumberConfirm?: boolean;
     lotSizeConfirm?: boolean;

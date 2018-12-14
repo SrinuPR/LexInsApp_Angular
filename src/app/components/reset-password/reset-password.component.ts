@@ -91,7 +91,7 @@ export class ResetPasswordComponent implements OnInit {
         this.commonService.triggerAlerts({message: 'Password changed successfully', showAlert: true, isSuccess: true});
         this.router.navigate(['']);
       }
-      else  {
+      else {
         this.commonService.triggerAlerts(
           {message: response , showAlert: true, isSuccess: false
         });
