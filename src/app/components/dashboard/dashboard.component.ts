@@ -15,13 +15,4 @@ export class DashboardComponent {
     public route: Router
   ) { }
 
-  showContainer() {
-    return (this.route.url === '/dashboard' && this.auth.activeLink === '');
-  }
-
-  navigate(url) {
-    this.route.navigate(['/dashboard/' + url]);
-    // this.auth.activeLink = url;
-  }
-
 }

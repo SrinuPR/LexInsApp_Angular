@@ -21,6 +21,9 @@ export class FacilitiesComponent implements OnInit {
   facilityForm: FormGroup;
   facilitiesList: Facilities[] = [];
   facilitiesObject: Facilities;
+  currentPage = 0;
+  pageSize = 5;
+  pagedResults: Array<Facilities> = [];
   displayColumns = ['Facility/Machine Number', 'Facility/Machine Name'];
   isEdit = false;
   editIndex: number;
@@ -39,6 +42,17 @@ export class FacilitiesComponent implements OnInit {
     } else {
       this.router.navigate(['']);
     }
+  }
+
+  pageChange(event) {
+    this.currentPage = event.pageIndex;
+    this.getPageChanged();
+  }
+
+  getPageChanged() {
+    const start: number = this.currentPage * this.pageSize;
+    const end: number = start + this.pageSize;
+    this.pagedResults = this.facilitiesList.slice(start, end);
   }
 
   buildFormControls() {
@@ -65,6 +79,7 @@ export class FacilitiesComponent implements OnInit {
       .subscribe((response) => {
         if (response.body.status === 'Success') {
           this.facilitiesList = response.body.result;
+          this.getPageChanged();
         }
       },
         (error) => {
@@ -82,6 +97,7 @@ export class FacilitiesComponent implements OnInit {
       .subscribe((response) => {
         if (response.body.status === 'Success') {
           this.facilitiesList = response.body.result;
+          this.getPageChanged();
           this.commonService.triggerAlerts({ message: 'Facility / Machine Saved.', showAlert: true, isSuccess: true });
         }
       },
@@ -126,6 +142,14 @@ export class FacilitiesComponent implements OnInit {
           }
         });
     }
+  }
+
+  reset() {
+    this.facilityForm.reset({
+      facilityId: '',
+      facilityNumber: '',
+      facilityName: ''
+    });
   }
 }
 

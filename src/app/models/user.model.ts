@@ -12,4 +12,5 @@ export class UserDetailsModel {
     public status: string;
     public errorMessage: string;
     public firstTimeLogin: boolean;
+    public isAdmin: string;
 }

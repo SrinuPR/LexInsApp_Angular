@@ -24,6 +24,9 @@ export class ShiftComponent implements OnInit {
   displayColumns = ['Shift ID', 'Shift Name'];
   isEdit = false;
   editIndex: number;
+  currentPage = 0;
+  pageSize = 5;
+  pagedResults: Array<Shift> = [];
   constructor(
     public router: Router,
     public formBuilder: FormBuilder,
@@ -62,6 +65,7 @@ export class ShiftComponent implements OnInit {
       .subscribe((response) => {
         if (response.body.status === 'Success') {
           this.shiftList = response.body.result;
+          this.getPageChanged();
         }
       },
         (error) => {
@@ -104,6 +108,7 @@ export class ShiftComponent implements OnInit {
       .subscribe((response) => {
         if (response.body.status === 'Success') {
           this.shiftList = response.body.result;
+          this.getPageChanged();
           this.commonService.triggerAlerts({ message: 'Shift Saved.', showAlert: true, isSuccess: true });
         }
         this.resetForm();
@@ -120,6 +125,7 @@ export class ShiftComponent implements OnInit {
       .subscribe((response) => {
         if (response.body.status === 'Success') {
           this.shiftList = response.body.result;
+          this.getPageChanged();
           this.commonService.triggerAlerts({ message: 'Shift Updated.', showAlert: true, isSuccess: true });
         }
         this.resetForm();
@@ -171,5 +177,23 @@ export class ShiftComponent implements OnInit {
           }
         });
     }
+  }
+
+  pageChange(event) {
+    this.currentPage = event.pageIndex;
+    this.getPageChanged();
+  }
+
+  getPageChanged() {
+    const start: number = this.currentPage * this.pageSize;
+    const end: number = start + this.pageSize;
+    this.pagedResults = this.shiftList.slice(start, end);
+  }
+
+  reset() {
+    this.shiftForm.reset({
+      shiftId: '',
+      shiftName: ''
+    });
   }
 }

@@ -24,4 +24,8 @@ export class SubscriberService {
         });
     }
 
+    getAllSubscribersLst() {
+        return this.httpService.get('subscriber/all');
+    }
+
 }

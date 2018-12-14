@@ -12,11 +12,33 @@ import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material';
 import { ModalPopUpComponent } from '../common-components/alerts/modal-popup.component';
 import { Alert } from '../interfaces/alert';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
+  adminJSON = [
+    {id: '1', displayText: 'Subscribers', route: 'subscribers', isActive: false },
+    {id: '2', displayText: 'Create Admin', route: 'create-admin', isActive: false },
+    {id: '3', displayText: 'Create Subscriber', route: 'create-subscriber', isActive: false },
+    {id: '4', displayText: 'User Type List', route: 'user-type-master', isActive: false },
+    {id: '5', displayText: 'User Master', route: 'user-master', icon: 'home'}
+  ];
+  userJSON = [
+    {id: '1', displayText: 'Home', route: 'home', isActive: false },
+    {id: '2', displayText: 'Customer P.O.', route: 'customer-po', isActive: false },
+    {id: '3', displayText: 'Inspection Type', route: 'inspection-type', isActive: false },
+    {id: '4', displayText: 'Inspection Stage', route: 'inspection-stage', isActive: false },
+    {id: '5', displayText: 'Facilities', route: 'facilities', isActive: false },
+    {id: '6', displayText: 'Shift', route: 'shift', isActive: false },
+    {id: '7', displayText: 'Component Master', route: 'component-master', isActive: false },
+    {id: '8', displayText: 'Work Job Order', route: 'work-job-order', isActive: false },
+    {id: '9', displayText: 'Inspection Master', route: 'inspections', isActive: false },
+    {id: '10', displayText: 'Inspection-line-item', route: 'inspection-line-item', isActive: false },
+    {id: '11', displayText: 'Inspection Measurements', route: 'inspection-meaurements', isActive: false },
+    {id: '12', displayText: 'Inspection-Report', route: 'inspection-report', isActive: false }
+  ];
   showAlerts = new Subject<Alert>();
   clearOrHideAlerts = new Subject<{}>();
   showAlertsTrigger = this.showAlerts.asObservable();
@@ -26,7 +48,8 @@ export class CommonService {
   constructor(
     public httpService: HttpService,
     public http: HttpClient,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private sessionService: SessionService
   ) { }
 
   triggerAlerts(alertObject: Alert) {
@@ -45,6 +68,7 @@ export class CommonService {
     const response = await this.httpService.post1('user/login', body);
     const userData = JSON.stringify(response);
     this.userDtls = JSON.parse(userData);
+    this.sessionService.setSession(this.userDtls);
   }
 
   getComponentProductMasterList() {
@@ -83,6 +107,14 @@ export class CommonService {
     return this.httpService.get('purchaseOrder/delete/' + customerPoId.toString());
   }
 
+  createAdmin(object) {
+    return this.httpService.post('user/admin/create', object);
+  }
+
+  validateAdmin(adminId) {
+    return this.httpService.get('/user/admin/vaidate/' + adminId);
+  }
+
   async resetPassword(userName: string, pwd: string, newPwd: string, confNewPwd: string) {
 
     // const url = 'http://10.8.59.41:8888/';
@@ -116,7 +148,7 @@ export class CommonService {
   }
 
   getShiftList() {
-    return this.httpService.get('createShiftMaster/all');
+    return this.httpService.get('createShiftMaster/all/', this.userDtls.subscriberId);
   }
 
   createShift(object: Shift) {
@@ -171,6 +203,25 @@ export class CommonService {
       disableClose: true,
       hasBackdrop: true
     });
+  }
+
+  getDrawingNumberList(subscriberId) {
+    return this.httpService.get('insplineitem/componentproductdrawNum/', subscriberId);
+  }
+
+  getInspectionLineItemList(subscriberId) {
+    return this.httpService.get('insplineitem/all');
+  }
+  checkMeasureName(object) {
+    return this.httpService.post('insplineitem/validate/measurementname', object);
+  }
+
+  saveMeasureItem(object) {
+    return this.httpService.post('insplineitem/measuresave', object);
+  }
+
+  saveMeasureItemReport(object) {
+    return this.httpService.post('insplineitem/measuresave', object);
   }
 }
 

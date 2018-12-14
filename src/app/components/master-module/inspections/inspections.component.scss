@@ -1,0 +1,31 @@
+table {
+    width: 100%;
+    background-color: transparent !important;
+}
+
+.mat-header-cell {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+td.mat-cell, th.mat-header-cell {
+    border-right: 1px solid grey;
+    text-align: center;
+    border-right-color: rgba(0,0,0,.12);
+}
+
+.inspecion-master-list {
+    margin-top: 50px;
+}
+
+mat-icon {
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.form-actions {
+    text-align: right;
+    button {
+        margin: 5px;
+    }
+}

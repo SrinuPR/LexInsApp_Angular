@@ -85,7 +85,7 @@
                     <input matInput placeholder="Manufacturing Batch Size" autocomplete="off" (blur)="validateManufacturerBatchSize()" maxlength="5" onlyNumeric type="text" formControlName="manufacturingBatchSize"
                         name="manufacturingBatchSize">
                 </mat-form-field>
-                <div class="error-message" *ngIf="workJobOrderForm.get('manufacturingBatchSize').touched && workJobOrderForm.get('manufacturingBatchSize').hasError('')">Please Enter
+                <div class="error-message" *ngIf="workJobOrderForm.get('manufacturingBatchSize').touched && workJobOrderForm.get('manufacturingBatchSize').hasError('required')">Please Enter
                     Manufacturing Batch Size</div>
                 <!-- <div class="error-message" *ngIf="workJobOrderForm.get('manufacturingBatchSize')?.hasError('batchSizeExceeds')">
                     {{MATCH_SIZE_EXCEEDS_LOT_SIZE}}</div> -->

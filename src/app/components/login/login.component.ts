@@ -50,7 +50,12 @@ export class LoginComponent implements OnInit {
         if (userDtls.firstTimeLogin) {
           this.router.navigate(['/resetpassword']);
         } else {
-          this.router.navigate(['/dashboard']);
+          if (userDtls.isAdmin === 'Y') {
+            this.commonService.adminJSON[0].isActive = true;
+            this.router.navigate(['/admin-dashboard']);
+          } else {
+            this.router.navigate(['/dashboard']);
+          }
         }
       }
     }

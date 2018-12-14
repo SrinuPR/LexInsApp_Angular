@@ -1,6 +1,6 @@
 <div class="form-content">
     <div class="layout-header">
-        <span class="header-span">Maintain Inspection</span>
+        <span class="header-span">Maintain Inspection Master</span>
     </div>
     <form [formGroup]="inspectionsForm" class="form">
         <mat-form-field>
@@ -9,14 +9,14 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <mat-select matInput placeholder="Component / Product Drawing Number" required formControlName="componentProductDrawingNumber"
-                        name="componentProductDrawingNumber">
-                        <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
-                            {{ sub.text }}
+                    <mat-select matInput [disabled]="isUpdate" placeholder="Component / Product Drawing Number" required formControlName="componentProductDrawNumber"
+                        name="componentProductDrawNumber" (selectionChange)="onProdDrawNumberChange()">
+                        <mat-option *ngFor="let component of componentDataList" [value]="component.componentProductDrawNumber">
+                            {{ component.componentProductDrawNumber }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('componentProductDrawingNumber')">Please select
+                <div class="error-message" *ngIf="displayErrorMessages('componentProductDrawNumber')">Please select
                     Component / Product Drawing Number</div>
             </div>
             <div class="form-control-field-right">
@@ -49,9 +49,9 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <mat-select matInput placeholder="Inspection Type" required formControlName="inspectionType" name="inspectionType">
-                        <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
-                            {{ sub.text }}
+                    <mat-select matInput [disabled]="isUpdate" placeholder="Inspection Type" required formControlName="inspectionType" name="inspectionType">
+                        <mat-option *ngFor="let type of inspectionTypeList" [value]="type.inspTypeId">
+                            {{ type.inspTypeName }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -60,9 +60,11 @@
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <mat-select matInput placeholder="Inspection Stage" required formControlName="inspectionStage" name="inspectionStage">
-                        <mat-option *ngFor="let sub of subscribersList" [value]="sub.value">
-                            {{ sub.text }}
+                    <mat-select matInput placeholder="Inspection Stage" required name="inspectionStage"  
+                    formControlName="inspectionStage" (selectionChange)="validateInspectionStage()"> 
+                        <!--multiple (onSelectionChange)="validateInspectionStage()"-->
+                        <mat-option *ngFor="let stage of inspectionStageList" [value]="stage.inspStageId">
+                            {{ stage.inspStageName }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -71,11 +73,33 @@
             </div>
         </div>
         <mat-form-field>
-            <textarea matInput placeholder="Component / Product Notes" required formControlName="componentProductNotes"
+            <textarea matInput placeholder="Component / Product Notes" formControlName="componentProductNotes"
                 name="workJobOrderNotes"></textarea>
         </mat-form-field>
-        <div class="padding-top-10">
-            <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE</button>
+        <div class="padding-top-10 form-actions">
+            <button mat-raised-button type="submit" [disabled]="!inspectionsForm.valid" (click)="isUpdate ? updateInspectionMaster() : saveInspectionMaster()" color="primary">SAVE</button>
+            <button mat-raised-button type="submit" (click)="resetInspectionMaster()" color="primary">CANCEL</button>
         </div>
-    </form>
+    </form> 
+</div>
+<div class="inspecion-master-list">
+    <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">      
+            <ng-container *ngFor="let column of tableColumns; let colIndex = index" matColumnDef="{{column.columnDef}}">
+                <th mat-header-cell *matHeaderCellDef>{{column.columnName}}</th>
+                <td mat-cell *matCellDef="let element "> {{element[column.columnDef]}}</td>
+            </ng-container>
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element "><mat-icon (click)="editInspectionMaster(element)">edit</mat-icon></td>
+            </ng-container>
+            <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element "><mat-icon (click)="deleteInspectionMaster(element)">delete</mat-icon></td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [hidePageSize]="true" [pageSize]="5" showFirstLastButtons></mat-paginator>
+    </div>
 </div>
