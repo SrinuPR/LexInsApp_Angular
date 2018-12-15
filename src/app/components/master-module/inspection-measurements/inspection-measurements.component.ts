@@ -1,6 +1,11 @@
-import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
+import { InspectionType } from 'src/app/interfaces/inspection-type';
+import { InspectionStage } from 'src/app/interfaces/inspection-stage';
+import { ComponentProductMaster } from 'src/app/interfaces/component-product-master';
+import { InspectionMeasurementService } from 'src/app/services/inspection-measurement.service';
+import { CommonService } from 'src/app/services/common.service';
 
 
 @Component({
@@ -9,20 +14,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./inspection-measurements.component.css']
 })
 export class InspectionMeasurementsComponent implements OnInit {
-
-  inspectionsForm: FormGroup;
+    inspectionTypeList: InspectionType[];
+    inspectionStageList: InspectionStage[];
+    componentDataList: ComponentProductMaster[];
+    inspectionsForm: FormGroup;
     measurementNamesForm: FormArray = new FormArray([]);
-    subscribersList = [
-        { text: 'Deloitte', value: 1 },
-        { text: 'Symphony', value: 2 }
-    ];
     measurementNamesList = [
       {name: 'length', value: 24},
       {name: 'breadth', value: 24.01}
     ];
     constructor(
         public router: Router,
-        public formBuilder: FormBuilder
+        public formBuilder: FormBuilder,
+        public inspectionService: InspectionMeasurementService,
+        public commonService: CommonService
     ) { }
     ngOnInit() {
         if (this.measurementNamesList != null) {
@@ -36,20 +41,24 @@ export class InspectionMeasurementsComponent implements OnInit {
           }
         }
         this.buildFormControls();
+        this.inspectionService.getCompDrawNumList(this.commonService.userDtls.subscriberId)
+        .subscribe((response) => {
+          this.componentDataList = response.body.componentData;
+        });
     }
 
     buildFormControls() {
         this.inspectionsForm = this.formBuilder.group({
             componentProductDrawingNumber: new FormControl('', [Validators.required]),
             inspectionReportNumber: new FormControl('', [Validators.required]),
-            MachineID: new FormControl('', [Validators.required]),
+            machineID: new FormControl('', [Validators.required]),
             shiftID: new FormControl('', [Validators.required]),
             shiftName: new FormControl('', [Validators.required]),
             machineName: new FormControl('', [Validators.required]),
             batchNumber: new FormControl('', [Validators.required]),
             userName: new FormControl('', [Validators.required]),
-            componentProductNumber: new FormControl('', [Validators.required]),
-            componentProductMaterial: new FormControl('', [Validators.required]),
+            // componentProductNumber: new FormControl('', [Validators.required]),
+            // componentProductMaterial: new FormControl('', [Validators.required]),
             inspectionType: new FormControl('', [Validators.required]),
             inspectionStage: new FormControl('', [Validators.required]),
             inspectionDate: new FormControl('', [Validators.required]),
@@ -57,15 +66,6 @@ export class InspectionMeasurementsComponent implements OnInit {
             mNames: this.measurementNamesForm,
             measuredValue: new FormControl('', [Validators.required]),
             status: new FormControl('', [Validators.required]),
-            1_1: new FormControl('', [Validators.required]),
-            1_2: new FormControl('', [Validators.required]),
-            1_3: new FormControl('', [Validators.required]),
-            2_1: new FormControl('', [Validators.required]),
-            2_2: new FormControl('', [Validators.required]),
-            2_3: new FormControl('', [Validators.required]),
-            3_1: new FormControl('', [Validators.required]),
-            3_2: new FormControl('', [Validators.required]),
-            3_3: new FormControl('', [Validators.required]),
             partStatus: new FormControl('', [Validators.required])
         });
     }
@@ -76,6 +76,10 @@ export class InspectionMeasurementsComponent implements OnInit {
             return (control.touched && control.invalid);
         }
         return false;
+    }
+
+    onProdDrawNumberChange() {
+
     }
 
 }

@@ -141,6 +141,7 @@ export class InspectionsComponent implements OnInit {
             this.resetSelectedMaster();
             this.inspectionMasterList.push(inspectionMaster);
             this.buildFormControls();
+            this.dataSource.data = this.inspectionMasterList;
             this.commonService.displayPopUp({
               message: response.body.message,
               type: AlertType.INFO
