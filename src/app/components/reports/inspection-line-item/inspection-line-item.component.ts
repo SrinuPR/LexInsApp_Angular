@@ -55,7 +55,7 @@ export class InspectionLineItemComponent implements OnInit {
         this.commonService.getDrawingNumberList(this.commonService.userDtls.subscriberId)
             .subscribe((response) => {
                 if (response.body.status === 'Success') {
-                    this.productDrawingList = response.body.result;
+                    this.productDrawingList = response.body.componentDrawNumbers;
                 }
             },
                 (error) => {
