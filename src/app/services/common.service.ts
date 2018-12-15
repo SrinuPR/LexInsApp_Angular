@@ -18,26 +18,28 @@ import { SessionService } from './session.service';
   providedIn: 'root'
 })
 export class CommonService {
-  adminJSON = [
-    {id: '1', displayText: 'Subscribers', route: 'subscribers', isActive: false },
-    {id: '2', displayText: 'Create Admin', route: 'create-admin', isActive: false },
-    {id: '3', displayText: 'Create Subscriber', route: 'create-subscriber', isActive: false },
-    {id: '4', displayText: 'User Type List', route: 'user-type-master', isActive: false },
-    {id: '5', displayText: 'User Master', route: 'user-master', icon: 'home'}
+  masterScreensDataList = [
+    { id: 'T01', displayText: 'Home', route: 'home', isChecked: false },
+    { id: 'T02', displayText: 'Customer P.O.', route: 'customer-po', isChecked: false },
+    { id: 'T03', displayText: 'Inspection Type', route: 'inspection-type', isChecked: false },
+    { id: 'T04', displayText: 'Inspection Stage', route: 'inspection-stage', isChecked: false },
+    { id: 'T05', displayText: 'Facilities', route: 'facilities', isChecked: false },
+    { id: 'T06', displayText: 'Shift', route: 'shift', isChecked: false },
+    { id: 'T07', displayText: 'Component Master', route: 'component-master', isChecked: false },
+    { id: 'T08', displayText: 'Work Job Order', route: 'work-job-order', isChecked: false },
+    { id: 'T09', displayText: 'Inspection Master', route: 'inspections', isChecked: false },
+    { id: 'T10', displayText: 'Inspection-line-item', route: 'inspection-line-item', isChecked: false },
+    { id: 'T11', displayText: 'Inspection Measurements', route: 'inspection-meaurements', isChecked: false },
+    { id: 'T12', displayText: 'Inspection-Report', route: 'inspection-report', isChecked: false }
   ];
-  userJSON = [
-    {id: '1', displayText: 'Home', route: 'home', isActive: false },
-    {id: '2', displayText: 'Customer P.O.', route: 'customer-po', isActive: false },
-    {id: '3', displayText: 'Inspection Type', route: 'inspection-type', isActive: false },
-    {id: '4', displayText: 'Inspection Stage', route: 'inspection-stage', isActive: false },
-    {id: '5', displayText: 'Facilities', route: 'facilities', isActive: false },
-    {id: '6', displayText: 'Shift', route: 'shift', isActive: false },
-    {id: '7', displayText: 'Component Master', route: 'component-master', isActive: false },
-    {id: '8', displayText: 'Work Job Order', route: 'work-job-order', isActive: false },
-    {id: '9', displayText: 'Inspection Master', route: 'inspections', isActive: false },
-    {id: '10', displayText: 'Inspection-line-item', route: 'inspection-line-item', isActive: false },
-    {id: '11', displayText: 'Inspection Measurements', route: 'inspection-meaurements', isActive: false },
-    {id: '12', displayText: 'Inspection-Report', route: 'inspection-report', isActive: false }
+  adminJSON = [
+    { id: 'T01', displayText: 'Subscribers', route: 'subscribers', isActive: false },
+    { id: 'T02', displayText: 'Create Admin', route: 'create-admin', isActive: false },
+    { id: 'T03', displayText: 'Create Subscriber', route: 'create-subscriber', isActive: false },
+    { id: 'T04', displayText: 'User Type List', route: 'user-type-master', isActive: false },
+    { id: 'T05', displayText: 'User Master', route: 'user-master', isActive: false },
+    { id: 'T06', displayText: 'Subscriber Screens', route: 'subscriber-master-screens', isActive: false },
+    { id: 'T07', displayText: 'Users Screens', route: 'subscriber-user-screens', isActive: false }
   ];
   showAlerts = new Subject<Alert>();
   clearOrHideAlerts = new Subject<{}>();
@@ -127,8 +129,8 @@ export class CommonService {
       errorMessage: 'no'
     };
     const response = await this.httpService.post1('user/change/password', body);
-     const userData =  JSON.stringify(response);
-     console.log('response:' + userData);
+    const userData = JSON.stringify(response);
+    console.log('response:' + userData);
     return JSON.parse(userData);
   }
 
@@ -179,18 +181,18 @@ export class CommonService {
     return this.httpService.post('facilities/create', object);
   }
   validateResourceIdentifier(resourceUrl: string, resourceId: string): Observable<any> {
-    if ( resourceId.length < 5 ) {
+    if (resourceId.length < 5) {
       console.log(resourceId.length);
       return;
-      }
-      let id = 0;
-      try {
-        id = Number(resourceId);
-      } catch ( errorMessage) {
-        console.log(errorMessage);
-        return null;
-      }
-      return this.httpService.get(resourceUrl, id);
+    }
+    let id = 0;
+    try {
+      id = Number(resourceId);
+    } catch (errorMessage) {
+      console.log(errorMessage);
+      return null;
+    }
+    return this.httpService.get(resourceUrl, id);
   }
   createOrUpdateResource(resourceUrl: string, resourceData: any) {
     return this.httpService.post(resourceUrl, resourceData);
@@ -222,6 +224,42 @@ export class CommonService {
 
   saveMeasureItemReport(object) {
     return this.httpService.post('insplineitem/measuresave', object);
+  }
+
+  saveSubscriberScreens(object) {
+    return this.httpService.post('mloss/saveData', object);
+  }
+
+  saveSubscribersUserScreens(object) {
+    return this.httpService.post('accessControl/save', object);
+  }
+
+  deepCopy(data: any) {
+    let node;
+    if (Array.isArray(data)) {
+      node = data.length > 0 ? data.slice(0) : [];
+      node.forEach((e, i) => {
+        if (
+          (typeof e === 'object' && e !== {}) ||
+          (Array.isArray(e) && e.length > 0)
+        ) {
+          node[i] = this.deepCopy(e);
+        }
+      });
+    } else if (data && typeof data === 'object') {
+      node = data instanceof Date ? data : Object.assign({}, data);
+      Object.keys(node).forEach((key) => {
+        if (
+          (typeof node[key] === 'object' && node[key] !== {}) ||
+          (Array.isArray(node[key]) && node[key].length > 0)
+        ) {
+          node[key] = this.deepCopy(node[key]);
+        }
+      });
+    } else {
+      node = data;
+    }
+    return node;
   }
 }
 

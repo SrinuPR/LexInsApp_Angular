@@ -34,12 +34,12 @@ export class UserMasterComponent implements OnInit {
             userID: new FormControl('', [Validators.required]),
             userName: new FormControl('', [Validators.required]),
             newPassword: new FormControl('', [Validators.required,
-                Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
+            Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
             confirmPassword: new FormControl('', [Validators.required])
-        }, {validator: this.checkPasswords});
+        }, { validator: this.checkPasswords });
     }
 
-    checkPasswords(group: FormGroup): {[key: string]: any} | null {
+    checkPasswords(group: FormGroup): { [key: string]: any } | null {
         const password = group.get('newPassword').value;
         const cnfPassword = group.get('confirmPassword').value;
         return (password && cnfPassword && password !== cnfPassword) ? { notSame: true } : null;
@@ -65,18 +65,22 @@ export class UserMasterComponent implements OnInit {
         const user = this.mapUserMaster();
         user.createdBy = this.commonService.userDtls.userName;
         this.userService.createOrUpdateUser(user).subscribe((response) => {
-          const result = response.body;
+            const result = response.body;
             console.log('User Master saved successfully');
             this.commonService.triggerAlerts(
                 { message: 'User Saved', showAlert: true, isSuccess: true });
         }, (error) => {
+            let message = 'User NOT saved, please try again';
+            if (error.error.errorMessage === 'Subscriber already have the users of  5') {
+                message = 'No. of Users count exceed for this Subscriber';
+            }
             this.commonService.triggerAlerts(
-                { message: 'User NOT saved, please try again', showAlert: true, isSuccess: false });
+                { message: message, showAlert: true, isSuccess: false });
         });
     }
 
     mapUserMaster(): User {
-        return <User> {
+        return <User>{
             subscriberId: Number(this.userMasterForm.get('subscriberID').value),
             userTypeId: Number(this.userMasterForm.get('userTypeID').value),
             userId: this.userMasterForm.get('userID').value,
@@ -95,7 +99,7 @@ export class UserMasterComponent implements OnInit {
             }
         }, (error) => {
             console.log('Error while validating user id');
-            control.setErrors({'userIdNotUnique': true });
+            control.setErrors({ 'userIdNotUnique': true });
         });
     }
 }

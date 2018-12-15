@@ -1,0 +1,54 @@
+<div class="form-content">
+    <div class="layout-header">
+        <span class="header-span">Subscriber Master Screen List</span>
+    </div>
+    <form [formGroup]="subscriberForm" class="form">
+        <div class="width-100">
+            <div class="form-control-field-left">
+                <mat-form-field>
+                    <mat-select matInput placeholder="Subscriber ID" (selectionChange)="subscriberChange()" required
+                        formControlName="subscriberID" name="subscriberID">
+                        <mat-option *ngFor="let subscriber of subscribersList" [value]="subscriber.subscriberId">
+                            {{ subscriber.subscriberName }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('componentProductDrawNumber')">Please select
+                    Subscriber</div>
+            </div>
+        </div>
+        <div class="width-100">
+            <div class="form-control-field-left">
+                <mat-form-field>
+                    <mat-select matInput placeholder="User Type" (selectionChange)="userChange()" required
+                        formControlName="userId" name="userId">
+                        <mat-option *ngFor="let user of usersList" [value]="user">
+                            {{ user.userTypeName }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="error-message" *ngIf="displayErrorMessages('componentProductDrawNumber')">Please select
+                    User</div>
+            </div>
+        </div>
+        <table class="table" *ngIf="masterScreenList.length > 0">
+            <tr class="table-header">
+                <td class="header-span"></td>
+                <td class="header-span">Screen Id</td>
+                <td class="header-span">Screen Name</td>
+            </tr>
+            <tr class="table-column" *ngFor="let item of masterScreenList;let index=index;">
+                <td class="align-center">
+                    <mat-checkbox labelPosition="after" (change)="screenSelected(index)" [checked]="item.isChecked"
+                        [value]="item.id">
+                    </mat-checkbox>
+                </td>
+                <td class="td-padding-left">{{item.id}}</td>
+                <td class="td-padding-left">{{item.displayText}}</td>
+            </tr>
+        </table>
+        <div class="padding-top-10">
+            <button mat-raised-button type="submit" (click)="save()" class="pull-right" color="primary">SAVE</button>
+        </div>
+    </form>
+</div>

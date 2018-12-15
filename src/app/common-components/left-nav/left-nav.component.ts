@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/services/common.service';
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-left-nav',
@@ -20,7 +21,21 @@ export class LeftNavComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.leftNavJSON = this.isAdmin ? this.commonService.adminJSON : this.commonService.userJSON;
+    if (this.isAdmin) {
+      this.leftNavJSON = this.commonService.adminJSON;
+    } else {
+      this.leftNavJSON = [];
+      const menuJSON = this.commonService.masterScreensDataList;
+      if (this.commonService.userDtls.screenList) {
+        _.forEach(this.commonService.masterScreensDataList, (item) => {
+          if (this.commonService.userDtls.screenList.indexOf(item.id) > -1) {
+            this.leftNavJSON.push(item);
+          }
+        });
+      } else {
+        this.leftNavJSON = menuJSON;
+      }
+    }
     this.userName = this.commonService.userDtls.userName || '';
   }
 
