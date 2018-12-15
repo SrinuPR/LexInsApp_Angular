@@ -26,11 +26,15 @@ export class LeftNavComponent implements OnInit {
     } else {
       this.leftNavJSON = [];
       const menuJSON = this.commonService.masterScreensDataList;
-      _.forEach(this.commonService.masterScreensDataList, (item) => {
-        if (this.commonService.userDtls.screenList.indexOf(item.id) > -1) {
-          this.leftNavJSON.push(item);
-        }
-      });
+      if (this.commonService.userDtls.screenList) {
+        _.forEach(this.commonService.masterScreensDataList, (item) => {
+          if (this.commonService.userDtls.screenList.indexOf(item.id) > -1) {
+            this.leftNavJSON.push(item);
+          }
+        });
+      } else {
+        this.leftNavJSON = menuJSON;
+      }
     }
     this.userName = this.commonService.userDtls.userName || '';
   }
