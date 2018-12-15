@@ -9,4 +9,8 @@ export interface ComponentProductMaster {
     componentProductManufacturerUnits?: string;
     customerNameAddress?: string;
     componentProductNotes?: string;
+    inspectionType?: string;
+    inspectionStage?: string;
+    inspectionTypeName?: string;
+    inspectionStageName?: string;
 }

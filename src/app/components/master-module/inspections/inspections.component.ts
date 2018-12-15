@@ -167,18 +167,14 @@ export class InspectionsComponent implements OnInit {
         this.inspectionService.validateInspectionStage(inspectionMaster).
           subscribe((response) => {
             console.log(response);
-            const result = response.body;
-            if (result.message === this.INSPECTION_MASTER_EXISTS) {
-                this.commonService.displayPopUp({
-                    message: response.body.message,
-                    type: AlertType.ERROR
-                });
-                stageControl.setErrors({inspectionMasterExists: true});
-            } else {
-              stageControl.setErrors({inspectionMasterExists: null});
-            }
+            // const result = response.body;
+            stageControl.setErrors(null);
           }, (error) => {
             if (error && error.error) {
+              if (error.error.message === this.INSPECTION_MASTER_EXISTS) {
+                stageControl.setErrors({inspectionMasterExists: true});
+                stageControl.updateValueAndValidity();
+              }
               this.commonService.displayPopUp({
                 message: error.error.message,
                 type: AlertType.ERROR
