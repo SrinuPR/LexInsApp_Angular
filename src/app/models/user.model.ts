@@ -13,4 +13,5 @@ export class UserDetailsModel {
     public errorMessage: string;
     public firstTimeLogin: boolean;
     public isAdmin: string;
+    public screenList: string;
 }

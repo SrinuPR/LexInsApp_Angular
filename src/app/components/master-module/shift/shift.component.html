@@ -9,22 +9,27 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Shift ID" type="text" (change)="checkDuplicates()" required formControlName="shiftId" name="shiftId">
+                    <input matInput placeholder="Shift ID" type="text" maxlength="10" (change)="checkDuplicates()"
+                        required formControlName="shiftId" name="shiftId">
                 </mat-form-field>
-                <div class="error-message" *ngIf="shiftForm.get('shiftId').touched && shiftForm.get('shiftId').hasError('required')">Please enter Shift  ID</div>
-                <div class="error-message" *ngIf="shiftForm.get('shiftId').touched && shiftForm.get('shiftId').hasError('notUnique')">Facility / Machine Number Exists</div>
+                <div class="error-message" *ngIf="shiftForm.get('shiftId').touched && shiftForm.get('shiftId').hasError('required')">Please
+                    enter Shift ID</div>
+                <div class="error-message" *ngIf="shiftForm.get('shiftId').touched && shiftForm.get('shiftId').hasError('notUnique')">Facility
+                    / Machine Number Exists</div>
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>
-                    <input matInput placeholder="Shift Name" type="shiftName" required formControlName="shiftName" name="shiftName">
+                    <input matInput placeholder="Shift Name" type="shiftName" maxlength="10" required formControlName="shiftName"
+                        name="shiftName">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('shiftName')">Please enter Shift
                     Name</div>
             </div>
         </div>
         <div class="padding-top-10">
-                <button mat-raised-button type="button" (click)="reset()" color="primary">RESET</button>
-            <button mat-raised-button type="submit" (click)="onSubmit()" [disabled]="!shiftForm.valid" class="pull-right" color="primary">SAVE</button>
+            <button mat-raised-button type="button" (click)="reset()" color="primary">RESET</button>
+            <button mat-raised-button type="submit" (click)="onSubmit()" [disabled]="!shiftForm.valid" class="pull-right"
+                color="primary">SAVE</button>
         </div>
     </form>
     <table class="table">
@@ -41,6 +46,7 @@
         </tr>
     </table>
     <div *ngIf="shiftList?.length">
-        <app-pagination [dataLength]="shiftList.length" [(currentPage)]="currentPage" (pageChange)="pageChange($event)" [pageSize]="pageSize"></app-pagination>
+        <app-pagination [dataLength]="shiftList.length" [(currentPage)]="currentPage" (pageChange)="pageChange($event)"
+            [pageSize]="pageSize"></app-pagination>
     </div>
 </div>

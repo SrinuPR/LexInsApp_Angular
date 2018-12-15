@@ -22,7 +22,12 @@ import { InspectionMeasurementsComponent } from './components/master-module/insp
 import { InspectionReportComponent } from './components/reports/inspection-report/inspection-report.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { CreateAdminComponent } from './components/create-admin/create-admin.component';
+import {
+  SubscriberMasterScreenListComponent
+} from './components/master-module/subscriber-master-screen-list/subscriber-master-screen-list.component';
 import { AdminHomeComponent } from './components/admin-home/admin-home.component';
+import { SubscriberUserScreenListComponent
+  } from './components/master-module/subscriber-user-screen-list/subscriber-user-screen-list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -36,6 +41,8 @@ const routes: Routes = [
       { path: 'create-subscriber', component: SubscriberComponent },
       { path: 'user-master', component: UserMasterComponent },
       { path: 'user-type-master', component: UserTypeMasterComponent },
+      { path: 'subscriber-master-screens', component: SubscriberMasterScreenListComponent },
+      { path: 'subscriber-user-screens', component: SubscriberUserScreenListComponent },
     ]
   },
   {

@@ -7,7 +7,10 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MaterialModule } from './material.module';
 import { AppRouters } from './app.routes';
-
+import { SubscriberMasterScreenListComponent
+  } from './components/master-module/subscriber-master-screen-list/subscriber-master-screen-list.component';
+  import { SubscriberUserScreenListComponent
+  } from './components/master-module/subscriber-user-screen-list/subscriber-user-screen-list.component';
 import { HomeComponent } from './components/home/home.component';
 import { CreateAdminComponent } from '../app/components/create-admin/create-admin.component';
 import { LoginComponent } from '../app/components/login/login.component';
@@ -86,7 +89,9 @@ import { ModalPopUpComponent } from './common-components/alerts/modal-popup.comp
     InspectionMeasurementsComponent,
     WorkJobOrderConfirmDialogComponent,
     ModalPopUpComponent,
-    AdminHomeComponent
+    AdminHomeComponent,
+    SubscriberMasterScreenListComponent,
+    SubscriberUserScreenListComponent
   ],
   imports: [
     BrowserModule,

@@ -28,4 +28,12 @@ export class SubscriberService {
         return this.httpService.get('subscriber/all');
     }
 
+    getUsersList(subscriberId) {
+        return this.httpService.get('accessControl/userType/' + subscriberId);
+    }
+
+    getMasterScreenList(subscriberId) {
+        return this.httpService.get('mloss/screensList/' + subscriberId);
+    }
+
 }

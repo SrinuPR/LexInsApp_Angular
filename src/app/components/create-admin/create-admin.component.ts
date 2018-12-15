@@ -38,16 +38,10 @@ export class CreateAdminComponent implements OnInit {
                 confirmPassword: this.form.get('confirmPassword').value
             };
             this.commonService.createAdmin(body).subscribe((response) => {
-                if (response.status === '') {
+                if (response.body.errorMessage === `Admin saved`) {
                     this.commonService.triggerAlerts(
                         { message: 'Admin created successfully.', showAlert: true, isSuccess: true });
                     this.resetForm();
-                } else {
-                    this.commonService.triggerAlerts(
-                        {
-                            message: 'Already user exists with same user name, Please try with different user name',
-                            showAlert: true, isSuccess: false
-                        });
                 }
             },
                 (error) => {
