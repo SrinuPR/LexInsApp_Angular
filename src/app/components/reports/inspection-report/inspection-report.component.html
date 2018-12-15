@@ -44,7 +44,7 @@
             <mat-select matInput placeholder="Work / Job Order Number" required name="subscriberName" 
             formControlName ="workJobOrderNumber" (selectionChange)="selectWorkOrJobOrder()">
                 <mat-option *ngFor="let jobOrder of workJobOrderList" [value]="jobOrder.wjOrderId">
-                    {{ jobOrder.wjOrderId }}
+                    {{ jobOrder.workJobOrderNumber }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
@@ -140,7 +140,7 @@
             </table>
         </div>
         <div class="padding-top-10">
-                <button mat-raised-button type="submit" [disabled]="!InspectionReportForm.valid" (click)="createWorkJobOrder()" class="pull-right" color="primary">SAVE</button>
+                <button mat-raised-button type="submit" [disabled]="!InspectionReportForm.valid" (click)="createInspectionReport()" class="pull-right" color="primary">SAVE</button>
             </div>
     </form>
 </div>

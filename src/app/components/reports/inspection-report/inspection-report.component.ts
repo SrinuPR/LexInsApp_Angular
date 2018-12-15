@@ -174,14 +174,8 @@ export class InspectionReportComponent implements OnInit {
           inspReportNumber: this.InspectionReportForm.get('inspectionReportNumber').value,
           inspectionTypeId: this.InspectionReportForm.get('inspectionType').value,
           componentProdcuctName: this.InspectionReportForm.get('productDrawingName').value,
-          //inspectionTypeId: this.tempcomponentDataList.find((ele: ComponentProductMaster) => {
-            //  return ele.inspectionTypeName === this.InspectionReportForm.get('inspectionType').value;
-          //}),
-          //inspectionStageId: this.tempcomponentDataList.find((ele: ComponentProductMaster) => {
-          //  return ele.inspectionStageName === this.InspectionReportForm.get('inspectionStage').value;
-        //}),
           inspectionStageId: this.InspectionReportForm.get('inspectionStage').value,
-          workJobOrderNumber: this.InspectionReportForm.get('workJobOrderNumber').value,
+          workJobOrderId: this.InspectionReportForm.get('workJobOrderNumber').value,
           lotNumber: this.InspectionReportForm.get('lotNumber').value,
           lotSize: Number(this.InspectionReportForm.get('lotSize').value),
           manufacturingBatchNumber: this.InspectionReportForm.get('manufacturingBatchNumber').value,
@@ -196,9 +190,12 @@ export class InspectionReportComponent implements OnInit {
         };
       }
 
-      createWorkJobOrder() {
+      createInspectionReport() {
         const newInspectionReport = this.mapInspectionReport();
-
+        const workJobOrder = this.workJobOrderList.find((order: WorkJobOrder) => {
+          return order.wjOrderId === newInspectionReport.workJobOrderId;
+        });
+        newInspectionReport.workJobOrderNumber = workJobOrder.workJobOrderNumber;
         this.inspectionReportService.createInspectionReport(newInspectionReport).
           subscribe((response) => {
             console.log(response);

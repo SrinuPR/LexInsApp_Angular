@@ -17,6 +17,7 @@ export interface InspectionReport {
     customerPoDate?: string;
     customerPoQuantity?: string;
     userId?: string;
+    workJobOrderId?: number;
 }
 
 
