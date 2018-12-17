@@ -48,7 +48,7 @@
             </tr>
         </table>
         <div class="padding-top-10">
-            <button mat-raised-button type="submit" (click)="save()" class="pull-right" color="primary">SAVE</button>
+            <button mat-raised-button type="submit" (click)="save()" class="pull-right" [disabled]="disableSave()" color="primary">SAVE</button>
         </div>
     </form>
 </div>

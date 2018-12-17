@@ -118,6 +118,8 @@ export class ComponentMasterComponent implements OnInit {
       .subscribe((response) => {
         console.log('success');
         this.componentProductMasterList = _.without(this.componentProductMasterList, element);
+        this.commonService.triggerAlerts(
+          { message: 'Component / Product deleted successfully.', showAlert: true, isSuccess: true });
       },
         (error) => {
           console.log(error);

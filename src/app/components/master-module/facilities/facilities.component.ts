@@ -117,8 +117,12 @@ export class FacilitiesComponent implements OnInit {
   }
 
   resetForm() {
-    this.facilityForm.reset();
-    this.facilityForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
+    this.facilityForm.reset({
+      subscriberName: this.commonService.userDtls.subscriberName,
+      facilityId: '',
+      facilityNumber: '',
+      facilityName: ''
+    });
     this.facilityForm.get('subscriberName').disable();
   }
 

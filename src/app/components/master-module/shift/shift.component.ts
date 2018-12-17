@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
@@ -18,6 +18,7 @@ export interface Shift {
 })
 
 export class ShiftComponent implements OnInit {
+  @ViewChild('f') myNgForm;
   shiftForm: FormGroup;
   shiftList: Shift[] = [];
   shiftObject: Shift;
@@ -85,8 +86,9 @@ export class ShiftComponent implements OnInit {
   delete(element: Shift) {
     this.commonService.deleteShift(element.shiftId)
       .subscribe((response) => {
-        console.log('success');
         this.shiftList = _.without(this.shiftList, element);
+        this.commonService.triggerAlerts(
+          { message: 'Shift deleted successfully.', showAlert: true, isSuccess: true });
       },
         (error) => {
           console.log(error);
@@ -147,6 +149,7 @@ export class ShiftComponent implements OnInit {
 
   resetForm() {
     this.shiftForm.reset();
+    this.myNgForm.resetForm();
     this.shiftForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
     this.shiftForm.get('subscriberName').disable();
     this.shiftForm.get('shiftId').enable();

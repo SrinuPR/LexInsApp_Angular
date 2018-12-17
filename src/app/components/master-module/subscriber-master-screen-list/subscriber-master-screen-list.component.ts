@@ -90,4 +90,9 @@ export class SubscriberMasterScreenListComponent implements OnInit {
             subscriberID: ''
         });
     }
+
+    disableSave() {
+        const selectedScreens = _.find(this.masterScreenList, { isChecked: true });
+        return !(this.subscriberForm.valid && selectedScreens);
+    }
 }

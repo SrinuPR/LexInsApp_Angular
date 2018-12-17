@@ -2,7 +2,7 @@
     <div class="layout-header">
         <span class="header-span">Maintain Shift Master</span>
     </div>
-    <form [formGroup]="shiftForm" class="form">
+    <form [formGroup]="shiftForm" class="form" #f="ngForm">
         <mat-form-field>
             <input matInput placeholder="Subscriber Name" type="subscriberName" formControlName="subscriberName" name="subscriberName">
         </mat-form-field>
@@ -32,7 +32,7 @@
                 color="primary">SAVE</button>
         </div>
     </form>
-    <table class="table">
+    <table class="table" *ngIf="shiftList?.length">
         <tr class="table-header">
             <td class="header-span" *ngFor="let header of displayColumns">{{header}}</td>
             <td class="header-span">Edit</td>

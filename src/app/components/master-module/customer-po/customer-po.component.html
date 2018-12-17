@@ -2,7 +2,7 @@
     <div class="layout-header">
         <span class="header-span">Maintain Customer P.O.</span>
     </div>
-    <form [formGroup]="customerPOForm">
+    <form [formGroup]="customerPOForm"  #f="ngForm">
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
@@ -13,7 +13,7 @@
             <div class="form-control-field-right">
                 <mat-form-field>
                     <mat-select matInput placeholder="Customer Component/Product Drawing Number" (selectionChange)="onDrawNumberChange()"
-                        required formControlName="componentId" name="componentId">
+                        formControlName="componentId" name="componentId">
                         <mat-option *ngFor="let sub of componentProductDrawingNumberList" [value]="sub.componentId">
                             {{ sub.componentProductDrawNumber }}
                         </mat-option>
@@ -27,9 +27,9 @@
             <div class="form-control-field-left">
                 <mat-form-field>
                     <input matInput placeholder="Customer PO Number" type="text" maxlength="30" (change)="checkDuplicates()"
-                        required formControlName="customerPONumber" name="customerPONumber">
+                        formControlName="customerPONumber" name="customerPONumber">
                 </mat-form-field>
-                <div class="error-message" *ngIf="customerPOForm.get('customerPONumber').touched && customerPOForm.get('customerPONumber').hasError('required')">Please
+                <div class="error-message" *ngIf="customerPOForm.get('customerPONumber').touched && customerPOForm.get('customerPONumber').hasError('')">Please
                     enter Customer PO Number</div>
                 <div class="error-message" *ngIf="customerPOForm.get('customerPONumber').touched && customerPOForm.get('customerPONumber').hasError('notUnique')">Customer
                     P.O. Exists</div>
@@ -41,14 +41,14 @@
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker [disabled]="isUpdate"></mat-datepicker>
                 </mat-form-field>
-                <div class="error-message" *ngIf="customerPOForm.get('customerPODate').touched && customerPOForm.get('customerPODate').hasError('required')">Please
+                <div class="error-message" *ngIf="customerPOForm.get('customerPODate').touched && customerPOForm.get('customerPODate').hasError('')">Please
                     enter Customer PO Date</div>
             </div>
         </div>
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <input matInput placeholder="Customer PO Quantity" maxlength="5" type="text" onlyNumeric required
+                    <input matInput placeholder="Customer PO Quantity" maxlength="5" type="text" onlyNumeric
                         formControlName="customerPOQuantity" name="customerPOQuantity">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('customerPOQuantity')">Please
@@ -61,7 +61,8 @@
             </mat-form-field>
         </div>
         <div class="padding-top-30">
-            <button mat-raised-button type="button" (click)="cancelEdit()" color="primary">{{isEdit ? 'CANCEL' : 'RESET'}}</button>
+            <button mat-raised-button type="button" (click)="cancelEdit()" color="primary">{{isEdit ? 'CANCEL' :
+                'RESET'}}</button>
             <button mat-raised-button type="submit" [disabled]="!customerPOForm.valid" (click)="onSubmit()" class="pull-right"
                 color="primary">SAVE</button>
         </div>
@@ -82,6 +83,7 @@
         </tr>
     </table>
     <div *ngIf="customerPOList?.length">
-        <app-pagination [dataLength]="customerPOList.length" [(currentPage)]="currentPage" (pageChange)="pageChange($event)" [pageSize]="pageSize"></app-pagination>
+        <app-pagination [dataLength]="customerPOList.length" [(currentPage)]="currentPage" (pageChange)="pageChange($event)"
+            [pageSize]="pageSize"></app-pagination>
     </div>
 </div>

@@ -24,6 +24,7 @@ export class InspectionLineItemComponent implements OnInit {
         'Upper Limit (+ Tolerance)',
         'Lower Limit (- Tolerance)'];
     dataSource = [];
+    inspectionLineItemList = [];
     get measureItems(): FormArray {
         return <FormArray>this.inspectionLineItemForm.get('measureItems');
     }
@@ -46,7 +47,7 @@ export class InspectionLineItemComponent implements OnInit {
     getInspectionLineItemList() {
         this.commonService.getInspectionLineItemList(this.commonService.userDtls.subscriberId).subscribe((response) => {
             if (response.body.status === 'Success') {
-                this.resetMeasureItems(response.body.results, false);
+                this.inspectionLineItemList = response.body.results;
             }
         });
     }
@@ -148,6 +149,8 @@ export class InspectionLineItemComponent implements OnInit {
                     message: isReport ? 'Inspection Measurement Master Saved.'
                         : 'Inspection Measurement Item Saved.', showAlert: true, isSuccess: true
                 });
+                this.inspectionLineItemForm.reset();
+                this.measureItems.controls = [];
             }
         },
             (error) => {
@@ -183,6 +186,16 @@ export class InspectionLineItemComponent implements OnInit {
             this.measureItems.controls[this.measureItems.length - 1].get('measurementName').disable();
         });
         this.getPageChanged(!isReport);
+    }
+
+    drawingChange() {
+        const drawingValue = this.inspectionLineItemForm.get('componentProductDrawingNumber').value;
+        const data = _.filter(this.inspectionLineItemList, { 'componentProductDrawNumber': drawingValue });
+        if (data) {
+            this.resetMeasureItems(data, false);
+        } else {
+            this.inspectionLineItemList = [];
+        }
     }
 
     getMeasureItemObject(measureItem: AbstractControl, isCheck = false) {

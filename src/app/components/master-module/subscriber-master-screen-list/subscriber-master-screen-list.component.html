@@ -6,7 +6,8 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <mat-select matInput placeholder="Subscriber ID" required formControlName="subscriberID" (selectionChange)="subscriberChange()" name="subscriberID">
+                    <mat-select matInput placeholder="Subscriber ID" required formControlName="subscriberID"
+                        (selectionChange)="subscriberChange()" name="subscriberID">
                         <mat-option *ngFor="let subscriber of subscribersList" [value]="subscriber.subscriberId">
                             {{ subscriber.subscriberName }}
                         </mat-option>
@@ -24,7 +25,8 @@
             </tr>
             <tr class="table-column" *ngFor="let item of masterScreenList;let index=index;">
                 <td class="align-center">
-                    <mat-checkbox labelPosition="after" (change)="screenSelected($event, index)" [checked]="item.isChecked" [value]="item.id">
+                    <mat-checkbox labelPosition="after" (change)="screenSelected($event, index)" [checked]="item.isChecked"
+                        [value]="item.id">
                     </mat-checkbox>
                 </td>
                 <td class="td-padding-left">{{item.id}}</td>
@@ -32,7 +34,8 @@
             </tr>
         </table>
         <div class="padding-top-10">
-            <button mat-raised-button type="submit" (click)="createOrUpdateSubscriber()" class="pull-right" color="primary">SAVE</button>
+            <button mat-raised-button type="submit" (click)="createOrUpdateSubscriber()" [disabled]="disableSave()"
+                class="pull-right" color="primary">SAVE</button>
         </div>
     </form>
 </div>

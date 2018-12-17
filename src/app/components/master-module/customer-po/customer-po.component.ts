@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonService } from '../../../services/common.service';
@@ -14,6 +14,7 @@ import { ComponentProductMaster } from 'src/app/interfaces/component-product-mas
 })
 
 export class CustomerPOComponent implements OnInit {
+    @ViewChild('f') myNgForm;
     customerPOForm: FormGroup;
     displayColumns = ['Product Draw Number', 'Customer PO Number', 'Customer PO Date', 'Customer PO Quantity'];
     customerPOList: CustomerPO[] = [];
@@ -141,9 +142,9 @@ export class CustomerPOComponent implements OnInit {
                 if (response.body.status === 'Success') {
                     this.customerPOList = response.body.result;
                     this.getPageChanged();
+                    this.resetForm();
                     this.commonService.triggerAlerts({ message: 'Customer P.O. Saved.', showAlert: true, isSuccess: true });
                 }
-                this.resetForm();
             }, (error) => {
                 this.commonService.triggerAlerts(
                     { message: 'Customer P.O. NOT Saved. Please try again.', showAlert: true, isSuccess: false });
@@ -188,19 +189,13 @@ export class CustomerPOComponent implements OnInit {
     }
 
     resetForm() {
-        this.customerPOForm.reset({
-            customerPoId: '',
-            componentId: '',
-            customerPONumber: '',
-            customerPODate: '',
-            customerPOQuantity: '',
-            poNotes: ''
-        });
-        // this.customerPOForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
-        // this.customerPOForm.get('subscriberName').disable();
-        // this.customerPOForm.get('componentId').enable();
-        // this.customerPOForm.get('customerPONumber').enable();
-        // this.customerPOForm.get('customerPODate').enable();
+        this.myNgForm.resetForm();
+        this.customerPOForm.reset();
+        this.customerPOForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
+        this.customerPOForm.get('subscriberName').disable();
+        this.customerPOForm.get('componentId').enable();
+        this.customerPOForm.get('customerPONumber').enable();
+        this.customerPOForm.get('customerPODate').enable();
     }
 
     cancelEdit() {
@@ -208,9 +203,12 @@ export class CustomerPOComponent implements OnInit {
         this.isEdit = false;
     }
 
-    onDrawNumberChange(componentId: string) {
+    onDrawNumberChange() {
+        const componentId = this.customerPOForm.get('componentId').value;
         const data = _.where(this.componentProductDrawingNumberList, { componentId: componentId });
-        this.customerPObject.componentProductDrawNum = data[0].componentProductDrawNumber;
+        if (data) {
+            this.customerPObject.componentProductDrawNum = data[0].componentProductDrawNumber;
+        }
     }
 
     checkDuplicates() {

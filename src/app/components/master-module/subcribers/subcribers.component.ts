@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SubscriberService } from 'src/app/services/subscriber.service';
 import { CommonService } from 'src/app/services/common.service';
 import { SessionService } from 'src/app/services/session.service';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-subscribers',
@@ -19,7 +20,8 @@ export class SubscribersComponent implements OnInit {
     public router: Router,
     public commonService: CommonService,
     public subscriberService: SubscriberService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    public dialog: MatDialog
   ) { }
   ngOnInit() {
     this.subscriberService.getAllSubscribersLst().subscribe((response) => {
