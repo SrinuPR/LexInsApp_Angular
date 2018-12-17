@@ -8,10 +8,9 @@
       <div class="alert-message" *ngIf="displayErrorMessages('userName')">Please Enter User ID</div>
       <mat-form-field>
         <input matInput placeholder="Password" type="password" 
-        pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$$_$!%*?&])[A-Za-z\d$@$$_$!%*?&].{8,}'
+        pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$$_$!%*?&])[A-Za-z\d$@$$_$!%*?&].{7,}'
         required formControlName="password" name="password">
       </mat-form-field>
-     <!-- pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}' -->
       <div class="alert-message" *ngIf="displayErrorMessages('password') && loginForm.get('password').value == null">Please Enter Password</div>
       <div class="alert-message" *ngIf="displayErrorMessages('password') && loginForm.get('password').value != null">
         The password should be of length 8 to 16 characters with at least one uppercase alphabet, one lower case alphabet, one numerical and one special character

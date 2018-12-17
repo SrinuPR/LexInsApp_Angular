@@ -12,12 +12,20 @@
                 <mat-form-field>
                     <input matInput placeholder="Inspection Type ID" [formControl]="inspectionTypeID" type="text" required formControlName="inspectionTypeID"
                         name="inspectionTypeID"
-                        pattern="^[0-9]{5}$" maxlength="5"> <!-- (blur)="verifyInspectionType()" -->
+                        pattern="^[0-9]{5}$" maxlength="5" (blur)="verifyInspectionType()">  
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('inspectionTypeID') && inspectionTypeForm.get('inspectionTypeID').value != null && !inspectionTypeForm.get('inspectionTypeID').length==5">Max allowed digits are 5 only </div>
-                <div class="error-message" *ngIf="displayErrorMessages('inspectionTypeID') && !inspectionTypeForm.get('inspectionTypeID').hasError('inspectionTypeIdNotUnique') && inspectionTypeForm.get('inspectionTypeID').value == null">Please Enter Inspection Type ID</div>
-                <div class="error-message" *ngIf="inspectionTypeForm.get('inspectionTypeID').touched && inspectionTypeForm.get('inspectionTypeID').hasError('inspectionTypeIdNotUnique')">Inspection Type ID already exists, Please enter
+                <div class="error-message" *ngIf="(displayErrorMessages('inspectionTypeID') && 
+                inspectionTypeForm.get('inspectionTypeID').value != null && 
+                !inspectionTypeForm.get('inspectionTypeID').length==5) || 
+                inspectionTypeForm.get('inspectionTypeID').hasError('lengthConstarint')">
+                Max allowed digits are 5 only </div>
+                <div class="error-message" *ngIf="inspectionTypeForm.get('inspectionTypeID').touched && inspectionTypeForm.get('inspectionTypeID').hasError('inspectionTypeIdNotUnique');">Inspection Type ID already exists, Please enter
                     a unique Inspection Type ID</div>
+                    <div class="error-message" *ngIf="inspectionTypeForm.get('inspectionTypeID').touched && inspectionTypeForm.get('inspectionTypeID').value.length == 0">
+                        Please Enter Inspection Type ID
+                </div>
+                <!-- <div class="error-message" *ngIf="displayErrorMessages('inspectionTypeID') && !inspectionTypeForm.get('inspectionTypeID').hasError('inspectionTypeIdNotUnique') && inspectionTypeForm.get('inspectionTypeID').value == null">Please Enter Inspection Type ID</div> -->
+                
             </div>
             <div class="form-control-field-right">
                 <mat-form-field>

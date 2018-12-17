@@ -17,24 +17,6 @@ export class InspectionTypeComponent implements OnInit {
     subscriber: Subscriber;
     resource = 'inspectiontype/';
     inspectionTypeID = new FormControl('', [Validators.required]);
-    inspectionTerm$ = this.inspectionTypeID.valueChanges;
-    inspectionTypeIdNotUnique =  this.inspectionTerm$.pipe(
-      debounceTime(800),
-      distinctUntilChanged(),
-      switchMap(id =>
-        this.commonService.validateResourceIdentifier(this.resource, id)
-        )
-    );
-    example = this.inspectionTypeIdNotUnique.subscribe((response) => {
-      console.log('Entered in debounce loop!');
-      const control = this.inspectionTypeForm.get('inspectionTypeID');
-      const inspectionTypeExists: boolean = (response.body.inspTypeId !== null);
-      if (!inspectionTypeExists) {
-        control.setErrors(null);
-      } else {
-        control.setErrors({'inspectionTypeIdNotUnique': true });
-      }
-    });
     constructor(
         public router: Router,
         public formBuilder: FormBuilder,
@@ -68,6 +50,9 @@ export class InspectionTypeComponent implements OnInit {
     }
     verifyInspectionType() {
       const control = this.inspectionTypeForm.get('inspectionTypeID');
+      if (control.value && control.value.length > 0 && control.value.length < 5) {
+        control.setErrors({'lengthConstarint' : true});
+      }
       if (control.value && control.value.length > 0) {
         this.commonService.validateResourceIdentifier(this.resource, control.value).subscribe((response) => {
           const inspectionTypeExists: boolean = (response.body.inspTypeId !== null);
