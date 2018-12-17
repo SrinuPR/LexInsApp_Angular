@@ -8,13 +8,13 @@ export interface InspectionMeasurement {
     componentProductDrawNumber?: string;
     lotNumber?: string;
     lotSize?: number;
-    manBatchNum?: string;
-    manBatchSize?: number;
+    manufacturingBatchNumber?: string;
+    manufacturingBatchSize?: number;
     componentProductName?: string;
     inspectionType?: number;
     inspectionStage?: number;
-    machineNumber?: string;
-    machineName?: string;
+    facilityMachineNumber?: string;
+    facilityMachineName?: string;
     userName?: string;
     inspectionDate?: Date;
     shiftId?: string;
@@ -23,4 +23,11 @@ export interface InspectionMeasurement {
     customerPOQuantity?: number;
     customerPODate?: Date;
     customerNameAddress?: string;
+    workOrderId?: number;
+    workJobOrderNumber?: string;
+    partIdentificationNumber?: string;
+    measurementName?: string;
+    measuredValue?: number;
+    actualBaseMeasure?: string;
+    actualUpperLimit?: number;
 }

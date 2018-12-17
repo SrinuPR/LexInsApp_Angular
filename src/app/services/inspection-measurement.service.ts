@@ -17,6 +17,10 @@ export class InspectionMeasurementService {
         return this.httpService.get('inspectionMeasurement/worJobkOrder/' + compDrawNum);
     }
 
+    getInspectionReportList(compDrawNum: string) {
+        return this.httpService.get('inspectionMeasurement/inspectionReport/' + compDrawNum);
+    }
+
     getInspectionTypesList(compDrawNum: string) {
         return this.httpService.get('inspectionMeasurement/insptypes/' + compDrawNum);
     }

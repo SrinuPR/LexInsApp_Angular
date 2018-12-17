@@ -6,7 +6,7 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <mat-select matInput [disabled]="isUpdate" placeholder="Component / Product Drawing Number" required formControlName="componentProductDrawNumber"
+                    <mat-select matInput [disabled]="isUpdate" placeholder="Component / Product Drawing Number" required formControlName="componentProductDrawingNumber"
                         name="componentProductDrawingNumber" (selectionChange)="onProdDrawNumberChange()">
                         <mat-option *ngFor="let component of componentDataList" [value]="component.componentProductDrawNumber">
                             {{ component.componentProductDrawNumber }}
@@ -19,9 +19,9 @@
             <div class="form-control-field">
                 <mat-form-field>
                     <mat-select matInput placeholder="Inspection Report Number" required formControlName="inspectionReportNumber"
-                        name="inspectionReportNumber">
-                        <mat-option *ngFor="let pdn of pdnList" [value]="pdn.value">
-                            {{ pdn.text }}
+                        name="inspectionReportNumber" (selectionChange)="onInspectionReportNumberChange()">
+                        <mat-option *ngFor="let report of inpectionReportList" [value]="report.inspReportNumber">
+                            {{ report.inspReportNumber }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -30,33 +30,19 @@
             </div>
         </div>
         <div class="width-100">
-            <div class="form-control-field" style="width: 32%;float:left;padding-right: 10px;">
+            <div class="form-control-field">
                 <mat-form-field>
-                    <input matInput placeholder="Facility/ Machine ID" type="text" required formControlName="machineID"
-                        name="machineID">
+                    <mat-select matInput placeholder="Facility/ Machine ID" required formControlName="machineID"
+                        name="machineID" (selectionChange)="onFacilityNumberSelection()">
+                        <mat-option *ngFor="let facility of facilities" [value]="facility.facilityId">
+                            {{ facility.facilityNumber }}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('componentProductNumber')">Please Enter
                     Facility / machineID</div>
             </div>
-            <div class="form-control-field" style="width: 33%;float:left;padding-right: 10px;">
-                <mat-form-field>
-                    <input matInput placeholder="Shift ID" type="text" required formControlName="shiftID"
-                        name="shiftID">
-                </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('shiftID')">Please Enter
-                    Shift ID</div>
-            </div>
-            <div class="form-control-field" style="width: 33%;float:left;">
-                <mat-form-field>
-                    <input matInput placeholder="Shift Name" type="text" required formControlName="shiftName"
-                        name="shiftName">
-                </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('shiftName')">Please Enter
-                    Shift Name</div>
-            </div>
-        </div>
-        <div class="width-100">
-            <div class="form-control-field" style="width:50%">
+            <div class="form-control-field">
                 <mat-form-field>
                     <input matInput placeholder="Facility/ Machine Name" required formControlName="machineName"
                         name="machineName">
@@ -64,6 +50,28 @@
                 <div class="error-message" *ngIf="displayErrorMessages('machineName')">Please select
                     Facility / Machine Name</div>
             </div>
+        </div>
+        <div class="width-100">
+                <div class="form-control-field col-md-4">
+                    <mat-form-field>
+                        <mat-select matInput placeholder="Shift ID" required formControlName="shiftID"
+                            name="shiftID" (selectionChange)="onShiftIDSelection()">
+                            <mat-option *ngFor="let shift of shifts" [value]="shift.shiftId">
+                                {{ shift.shiftId}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <div class="error-message" *ngIf="displayErrorMessages('shiftID')">Please Enter
+                        Shift ID</div>
+                </div>
+                <div class="form-control-field" style="width: 33%;float:left;">
+                    <mat-form-field>
+                        <input matInput placeholder="Shift Name" type="text" required formControlName="shiftName"
+                            name="shiftName">
+                    </mat-form-field>
+                    <div class="error-message" *ngIf="displayErrorMessages('shiftName')">Please Enter
+                        Shift Name</div>
+                </div>
             <div class="form-control-field" style="width:50%">
                 <mat-form-field>
                     <input matInput placeholder="Manufacturing Batch Size" required formControlName="batchNumber"
@@ -117,7 +125,7 @@
           </div>
           <div class="width-100" style="border: 2px black;">
               
-                    <div  formArrayName="mNames" style="width: 32%;float:left;padding-right: 10px;">
+                    <!--div  formArrayName="mNames" style="width: 32%;float:left;padding-right: 10px;">
                         <mat-label >Measurement Name</mat-label>
                       <div 
                       *ngFor="let ingredientCtrl of inspectionsForm.get('mNames').controls; 
@@ -129,7 +137,7 @@
                           </mat-form-field>
                       </mat-checkbox>
                   </div>
-              </div>
+              </div-->
               <div id="measuredValue" style="width: 32%;float:left;padding-right: 10px;">
                   <mat-label style="display: block;">Measured Value</mat-label>
                   <mat-form-field>
@@ -148,7 +156,7 @@
             </div>
             <div >
               <div class="width-100" style="float: left;">
-                <table style="background-color:#f4f4f4;">
+                <!--table style="background-color:#f4f4f4;">
                   <tr>
                         <th>
                         </th>
@@ -243,7 +251,7 @@
                             </mat-form-field>
                         </td>
                       </tr>
-                    </table>
+                    </table-->
               </div>
             </div>
         <div class="padding-top-10">
