@@ -116,8 +116,14 @@ export class ComponentMasterComponent implements OnInit {
   delete(element: ComponentProductMaster) {
     this.commonService.deleteComponentProductMaster(element.componentId)
       .subscribe((response) => {
-        console.log('success');
-        this.componentProductMasterList = _.without(this.componentProductMasterList, element);
+        console.log(response);
+        const result = response.body;
+        if (result && result.status === 'Success') {
+          this.componentProductMasterList = _.without(this.componentProductMasterList, element);
+          this.getPageChanged();
+          this.commonService.triggerAlerts(
+            { message: result.message, showAlert: true, isSuccess: true });
+        }
       },
         (error) => {
           console.log(error);
