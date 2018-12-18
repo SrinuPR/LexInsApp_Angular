@@ -110,7 +110,7 @@ export class CustomerPOComponent implements OnInit {
         this.customerPOForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
         this.customerPOForm.get('customerPONumber').setValue(element.customerPONumber);
         this.customerPOForm.get('customerPONumber').disable();
-        this.customerPOForm.get('customerPODate').setValue(element.customerPODate);
+        this.customerPOForm.get('customerPODate').setValue(new Date(element.customerPODate).toISOString());
         this.customerPOForm.get('customerPODate').disable();
         this.customerPOForm.get('customerPOQuantity').setValue(element.customerPOQuantity);
         this.customerPOForm.get('poNotes').setValue(element.poNotes);
