@@ -21,6 +21,7 @@ export interface TableMap {
     styleUrls: ['./inspections.component.scss']
 })
 export class InspectionsComponent implements OnInit {
+    @ViewChild('inspMaterForm') inspMaterForm;
     tableColumns: TableMap[] = [{
       columnDef: 'componentProductDrawNumber',
       columnName: 'Component / Product Drawing Number'
@@ -160,6 +161,8 @@ export class InspectionsComponent implements OnInit {
                 type: AlertType.ERROR
               });
             }
+          }, () => {
+            this.resetForm();
           });
       }
 
@@ -202,7 +205,6 @@ export class InspectionsComponent implements OnInit {
             this.inspectionMasterList[index] = inspectionMaster;
             this.isUpdate = false;
             this.resetSelectedMaster();
-            this.buildFormControls();
             this.dataSource.data = this.inspectionMasterList;
             this.commonService.displayPopUp({
               message: response.body.message,
@@ -215,6 +217,8 @@ export class InspectionsComponent implements OnInit {
                 type: AlertType.ERROR
               });
             }
+          }, () => {
+            this.resetForm();
           });
       }
 
@@ -265,7 +269,19 @@ export class InspectionsComponent implements OnInit {
       resetInspectionMaster() {
         this.isUpdate = false;
         this.selectedInspectionMaster = {};
-        this.buildFormControls();
+        this.resetForm();
+      }
+
+      resetForm() {
+        this.inspMaterForm.resetForm();
+        this.inspectionsForm.reset();
+        this.resetSelectedMaster();
+        this.inspectionsForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
+        this.inspectionsForm.get('subscriberName').disable();
+        this.inspectionsForm.get('componentProductNumber').disable();
+        this.inspectionsForm.get('componentProductName').disable();
+        this.inspectionsForm.get('componentProductMaterial').disable();
+        this.inspectionsForm.get('componentProductNotes').disable();
       }
 
 }

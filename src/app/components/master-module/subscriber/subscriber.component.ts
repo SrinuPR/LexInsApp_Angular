@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SubscriberService } from 'src/app/services/subscriber.service';
@@ -12,6 +12,7 @@ import { CommonService } from 'src/app/services/common.service';
 })
 
 export class SubscriberComponent implements OnInit {
+  @ViewChild('subForm') subForm;
   subscriberForm: FormGroup;
   constructor(
     public router: Router,
@@ -65,6 +66,8 @@ export class SubscriberComponent implements OnInit {
     }, (error) => {
       this.commonService.triggerAlerts(
           { message: 'Subscriber NOT saved, please try again', showAlert: true, isSuccess: false });
+    }, () => {
+      this.resetForm();
     });
   }
 
@@ -75,6 +78,11 @@ export class SubscriberComponent implements OnInit {
       subscriberAddress: this.subscriberForm.get('subscriberAddress').value,
       createdBy: this.commonService.userDtls.userName
     };
+  }
+
+  resetForm() {
+    this.subForm.resetForm();
+    this.subscriberForm.reset();
   }
 }
 

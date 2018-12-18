@@ -16,6 +16,7 @@ import { AlertType } from 'src/app/interfaces/alert';
 })
 
 export class WorkJobOrderComponent implements OnInit {
+    @ViewChild('wjoForm') wjoForm;
     workJobOrderForm: FormGroup;
     componentDataList: ComponentProductMaster[];
     componentData: ComponentProductMaster;
@@ -60,9 +61,6 @@ export class WorkJobOrderComponent implements OnInit {
         });
         this.buildFormControls();
         this.getWorkJobOrderList();
-        this.workJobOrderForm.get('subscriberName').disable();
-        this.workJobOrderForm.get('lotSizeUnits').disable();
-        this.workJobOrderForm.get('manufacturingBatchUnits').disable();
     }
 
     buildFormControls() {
@@ -82,8 +80,12 @@ export class WorkJobOrderComponent implements OnInit {
         manufacturingBatchSize: new FormControl(this.selectedWorkJobOrder.manufacturingBatchSize, [Validators.required]),
         manufacturingBatchUnits: new FormControl({value: this.selectedWorkJobOrder.manufacturingBatchUnits,
            disabled: this.isUpdate}, [Validators.required]),
-        workJobOrderNotes: new FormControl(this.selectedWorkJobOrder.workOrderJobNotes, [])
+        workJobOrderNotes: new FormControl(this.selectedWorkJobOrder.workOrderJobNotes, []),
+        wjOrderId: new FormControl(this.selectedWorkJobOrder.wjOrderId, [])
       });
+      this.workJobOrderForm.get('subscriberName').disable();
+      this.workJobOrderForm.get('lotSizeUnits').disable();
+      this.workJobOrderForm.get('manufacturingBatchUnits').disable();
     }
 
     displayErrorMessages(field: string) {
@@ -294,7 +296,8 @@ export class WorkJobOrderComponent implements OnInit {
         subscriberName: this.workJobOrderForm.get('subscriberName').value,
         componentProductDrawNumber: this.workJobOrderForm.get('productDrawingNumberionTypeID').value,
         customerPONumber: this.workJobOrderForm.get('customerPONumber').value,
-        workOrderJobNotes: this.workJobOrderForm.get('workJobOrderNotes').value
+        workOrderJobNotes: this.workJobOrderForm.get('workJobOrderNotes').value,
+        wjOrderId: this.workJobOrderForm.get('wjOrderId').value
       };
     }
 
@@ -312,12 +315,14 @@ export class WorkJobOrderComponent implements OnInit {
           console.log(response);
           this.selectedWorkJobOrder = {};
           this.workJobOrderList.push(newWorkJobOrder);
+          this.resetForm();
           this.commonService.displayPopUp({
             message: response.body.message,
             type: AlertType.INFO
           });
         }, (error) => {
           if (error && error.error) {
+            this.resetForm();
             this.commonService.displayPopUp({
               message: error.error.message,
               type: AlertType.ERROR
@@ -336,12 +341,13 @@ export class WorkJobOrderComponent implements OnInit {
           this.workJobOrderList[index] = existingWorkJobOrder;
           this.isUpdate = false;
           this.selectedWorkJobOrder = {};
-          this.buildFormControls();
+          this.resetForm();
           this.commonService.displayPopUp({
             message: response.body.message,
             type: AlertType.INFO
           });
         }, (error) => {
+          this.resetForm();
           if (error && error.error) {
             this.commonService.displayPopUp({
               message: error.error.message,
@@ -352,6 +358,7 @@ export class WorkJobOrderComponent implements OnInit {
     }
 
     editWorkJobOrder(wjOrder: WorkJobOrder) {
+      console.log('wjorder', wjOrder);
       this.selectedWorkJobOrder = wjOrder;
       this.isUpdate = true;
       this.buildFormControls();
@@ -394,4 +401,13 @@ export class WorkJobOrderComponent implements OnInit {
       }
       return list;
     }
+
+    resetForm() {
+      this.wjoForm.resetForm();
+      this.workJobOrderForm.reset();
+      this.workJobOrderForm.get('subscriberName').setValue(this.commonService.userDtls.subscriberName);
+      this.workJobOrderForm.get('subscriberName').disable();
+      this.workJobOrderForm.get('lotSizeUnits').disable();
+      this.workJobOrderForm.get('manufacturingBatchUnits').disable();
+  }
 }

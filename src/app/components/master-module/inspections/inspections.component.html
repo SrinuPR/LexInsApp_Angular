@@ -2,7 +2,7 @@
     <div class="layout-header">
         <span class="header-span">Maintain Inspection Master</span>
     </div>
-    <form [formGroup]="inspectionsForm" class="form">
+    <form [formGroup]="inspectionsForm" #inspMaterForm="ngForm" class="form">
         <mat-form-field>
             <input matInput placeholder="Subscriber Name" type="text" formControlName="subscriberName" name="subscriberName">
         </mat-form-field>
