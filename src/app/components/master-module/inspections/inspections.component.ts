@@ -64,20 +64,28 @@ export class InspectionsComponent implements OnInit {
     ngOnInit() {
       this.displayedColumns.push('edit');
       this.displayedColumns.push('delete');
-        this.inspectionService.getComponentData(this.commonService.userDtls.subscriberId)
-        .subscribe((response) => {
-          this.componentDataList = response.body.componentData;
+      // this.getInspectionMasterList();
+      //   this.inspectionService.getComponentData(this.commonService.userDtls.subscriberId)
+      //   .subscribe((response) => {
+      //     this.componentDataList = response.body.componentData;
+      //   });
+      //   this.inspectionService.getInspectionStageList()
+      //   .subscribe((response) => {
+      //     this.inspectionStageList = response.body.inspStageMasterList;
+      //   });
+      //   this.inspectionService.getInspectionTypeList()
+      //   .subscribe((response) => {
+      //     this.inspectionTypeList = response.body.inspTypeMasterList;
+      //   });
+      this.inspectionService.getAllData(this.commonService.userDtls.subscriberId)
+        .subscribe((responseList) => {
+          console.log(responseList);
+          this.handleInspectionMasterList(responseList[0]);
+          this.componentDataList = responseList[1].body.componentData;
+          this.inspectionStageList = responseList[3].body.inspStageMasterList;
+          this.inspectionTypeList = responseList[2].body.inspTypeMasterList;
         });
-        this.inspectionService.getInspectionStageList()
-        .subscribe((response) => {
-          this.inspectionStageList = response.body.inspStageMasterList;
-        });
-        this.inspectionService.getInspectionTypeList()
-        .subscribe((response) => {
-          this.inspectionTypeList = response.body.inspTypeMasterList;
-        });
-        this.buildFormControls();
-        this.getInspectionMasterList();
+      this.buildFormControls();
     }
 
     buildFormControls() {
@@ -140,7 +148,6 @@ export class InspectionsComponent implements OnInit {
             console.log(response);
             this.resetSelectedMaster();
             this.inspectionMasterList.push(inspectionMaster);
-            this.buildFormControls();
             this.dataSource.data = this.inspectionMasterList;
             this.commonService.displayPopUp({
               message: response.body.message,
@@ -246,15 +253,13 @@ export class InspectionsComponent implements OnInit {
         });
       }
 
-      getInspectionMasterList() {
-        this.inspectionService.getInspectionMasterList().subscribe((response) => {
-          const result = response.body;
-          if (result.status === 'Success') {
-            this.inspectionMasterList = result.results;
-            this.dataSource = new MatTableDataSource<InspectionMaster>(this.inspectionMasterList);
-            this.dataSource.paginator = this.paginator;
-          }
-        });
+      handleInspectionMasterList(response) {
+        const result = response.body;
+        if (result.status === 'Success') {
+          this.inspectionMasterList = result.results;
+          this.dataSource = new MatTableDataSource<InspectionMaster>(this.inspectionMasterList);
+          this.dataSource.paginator = this.paginator;
+        }
       }
 
       resetInspectionMaster() {

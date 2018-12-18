@@ -61,7 +61,6 @@ export class SubscriberComponent implements OnInit {
         console.log('Subscriber saved successfully');
         this.commonService.triggerAlerts(
           { message: result.message, showAlert: true, isSuccess: true });
-        this.subscriberForm.reset();
       }
     }, (error) => {
       this.commonService.triggerAlerts(
