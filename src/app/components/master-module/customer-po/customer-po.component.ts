@@ -143,11 +143,11 @@ export class CustomerPOComponent implements OnInit {
                     this.customerPOList = response.body.result;
                     this.getPageChanged();
                     this.resetForm();
-                    this.commonService.triggerAlerts({ message: 'Customer P.O. Saved.', showAlert: true, isSuccess: true });
+                    this.commonService.triggerAlerts({ message: 'Customer PO Saved.', showAlert: true, isSuccess: true });
                 }
             }, (error) => {
                 this.commonService.triggerAlerts(
-                    { message: 'Customer P.O. NOT Saved. Please try again.', showAlert: true, isSuccess: false });
+                    { message: 'Customer PO NOT Saved. Please try again.', showAlert: true, isSuccess: false });
                 this.resetForm();
             });
 
@@ -159,13 +159,13 @@ export class CustomerPOComponent implements OnInit {
                 if (response.body.status === 'Success') {
                     this.customerPOList = response.body.result;
                     this.getPageChanged();
-                    this.commonService.triggerAlerts({ message: 'Customer P.O. Saved.', showAlert: true, isSuccess: true });
+                    this.commonService.triggerAlerts({ message: 'Customer PO Saved.', showAlert: true, isSuccess: true });
                     this.resetForm();
                 }
             },
                 (error) => {
                     this.commonService.triggerAlerts(
-                        { message: 'Customer P.O. NOT Saved. Please try again.', showAlert: true, isSuccess: false });
+                        { message: 'Customer PO NOT Saved. Please try again.', showAlert: true, isSuccess: false });
                     this.resetForm();
                 });
     }
