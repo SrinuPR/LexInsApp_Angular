@@ -20,7 +20,7 @@ import { SessionService } from './session.service';
 export class CommonService {
   masterScreensDataList = [
     { id: 'T01', displayText: 'Home', route: 'home', isChecked: false },
-    { id: 'T02', displayText: 'Customer P.O.', route: 'customer-po', isChecked: false },
+    { id: 'T02', displayText: 'Customer PO', route: 'customer-po', isChecked: false },
     { id: 'T03', displayText: 'Inspection Type', route: 'inspection-type', isChecked: false },
     { id: 'T04', displayText: 'Inspection Stage', route: 'inspection-stage', isChecked: false },
     { id: 'T05', displayText: 'Facilities', route: 'facilities', isChecked: false },
