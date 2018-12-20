@@ -280,5 +280,8 @@ export class CommonService {
     }
     return node;
   }
+  logout() {
+    return this.httpService.get('user/logout/', + this.userDtls.userId);
+  }
 }
 

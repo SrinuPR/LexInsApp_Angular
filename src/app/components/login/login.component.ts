@@ -43,6 +43,10 @@ export class LoginComponent implements OnInit {
         console.log('inside trigger alert!');
         this.commonService.triggerAlerts({ message: this.errorDesc, showAlert: true, isSuccess: false });
       }
+      if (this.errorDesc != null || this.errorDesc !== 'You are already logged in from a different session. Please logout first.') {
+        console.log('inside trigger alert!');
+        this.commonService.triggerAlerts({ message: this.errorDesc, showAlert: true, isSuccess: false });
+      }
       console.log('error msg' + this.errorDesc);
       if (null != userDtls && userDtls.status === 'Success') {
         this.commonService.triggerAlerts({ message: '', showAlert: false, isSuccess: false });
