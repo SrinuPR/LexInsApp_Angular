@@ -6,9 +6,9 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <mat-select matInput placeholder="Subscriber Name" formControlName="subscriberID" name="subscriberID" (selectionChange)="getApplicableUserTypes()">
+                    <mat-select matInput placeholder="Subscriber ID" formControlName="subscriberID" name="subscriberID" (selectionChange)="getApplicableUserTypes()">
                         <mat-option *ngFor="let sub of subscriberService.allSubscribers" [value]="sub.subscriberId">
-                            {{ sub.subscriberName }}
+                            {{ sub.subscriberId }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>

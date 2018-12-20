@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { SubscriberService } from 'src/app/services/subscriber.service';
 import * as _ from 'underscore';
@@ -16,7 +16,7 @@ export class SubscriberUserScreenListComponent implements OnInit {
     usersList = [];
     subscriberScreens: string;
     masterScreenList = [];
-
+    @ViewChild('f') myNgForm;
     constructor(
         private formBuilder: FormBuilder,
         public subscriberService: SubscriberService,
@@ -103,6 +103,7 @@ export class SubscriberUserScreenListComponent implements OnInit {
     }
 
     resetForm() {
+        this.myNgForm.resetForm();
         this.masterScreenList = [];
         this.subscriberScreens = '';
         this.subscriberForm.reset({
