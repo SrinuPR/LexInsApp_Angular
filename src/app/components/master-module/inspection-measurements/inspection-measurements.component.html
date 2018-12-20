@@ -123,28 +123,42 @@
                     Part Identification Number</div>
             </div>
           </div>
-          <div class="width-100" style="border: 2px black;">
-              
-                    <!--div  formArrayName="mNames" style="width: 32%;float:left;padding-right: 10px;">
-                        <mat-label >Measurement Name</mat-label>
+            <div class="width-100" style="border: 2px black;">
+                <div  formArrayName="mNames" style="width: 32%;float:left;padding-right: 10px;">
+                        <mat-label >Measurement Name</mat-label> 
                       <div 
-                      *ngFor="let ingredientCtrl of inspectionsForm.get('mNames').controls; 
-                      let i = index" [formGroupName]="i">
+                      *ngFor="let item of measurementsControlMetada; let i = index;" 
+                      let i = "index" [formGroupName]="i">
                       <mat-checkbox labelPosition="after">
                           <mat-form-field>
-                          <input matInput type="text" [formControlName]="measurementNamesList[i].name"
+                          <input matInput type="text" [formControlName]="item.checkboxLabel"
+                          [name]="measurementNamesList[i].name" [value]="item.checkboxLabel">
+                          </mat-form-field>
+                        </mat-checkbox>
+					  
+                  </div>
+                </div> 
+                <!-- <div class="width-100" style="border: 2px black;">
+                     <div  [formArrayName]="mNames" style="width: 32%;float:left;padding-right: 10px;">
+                        <mat-label >Measurement Name</mat-label>
+                      <div
+                      *ngFor="let ingredientCtrl of inspectionsForm.get('mNames').controls; 
+                      let i = index" [formGroupName]="i">
+                      <mat-checkbox labelPosition="after" (change)="onCheckboxChange($event, 'measurementNamesList[i].name')">
+                          <mat-form-field>
+                          <input matInput type="text" [formControlName]="measurementNamesList[i]"
                           [name]="measurementNamesList[i].name" [value]="measurementNamesList[i].name">
                           </mat-form-field>
                       </mat-checkbox>
                   </div>
-              </div-->
+                </div> -->
               <div id="measuredValue" style="width: 32%;float:left;padding-right: 10px;">
                   <mat-label style="display: block;">Measured Value</mat-label>
                   <mat-form-field>
-                      <input matInput  type="text" style="border:1px black;" formControlName="measuredValue" placeholder="value"
-                      name="measuredValue">
-                  </mat-form-field>
-              </div>
+                        <input matInput  type="text" style="border:1px black;" [formControlName]="measuredValue"  
+                        name="measuredValue" [value]="mValue">
+                    </mat-form-field>
+                </div>
               <div id="Measurement status" style="width: 32%;float:left;padding-right: 10px;">
                   <mat-label style="width: 32%;float:left;padding-right: 10px;">Status</mat-label>
                   <mat-form-field>
@@ -154,9 +168,9 @@
                   <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE Measurement</button>
               </div>
             </div>
-            <div >
+            <div>
               <div class="width-100" style="float: left;">
-                <!--table style="background-color:#f4f4f4;">
+                <table style="background-color:#f4f4f4;">
                   <tr>
                         <th>
                         </th>
@@ -251,9 +265,9 @@
                             </mat-form-field>
                         </td>
                       </tr>
-                    </table-->
+                    </table>
               </div>
-            </div>
+            </div> 
         <div class="padding-top-10">
             <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE</button>
         </div>

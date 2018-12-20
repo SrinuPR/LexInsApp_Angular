@@ -284,6 +284,7 @@ export class WorkJobOrderComponent implements OnInit {
 
     mapWorkJobOrder() {
       return <WorkJobOrder>{
+        wjOrderId: this.workJobOrderForm.get('workJobOrderNumber').value,
         workJobOrderNumber: this.workJobOrderForm.get('workJobOrderNumber').value,
         workJobOrderDate: this.toLocaleDate(this.workJobOrderForm.get('workJobOrderDate').value),
         lotNumber: this.workJobOrderForm.get('lotNumber').value,

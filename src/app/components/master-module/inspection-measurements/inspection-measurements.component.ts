@@ -11,6 +11,21 @@ import { InspectionMeasurement } from 'src/app/interfaces/inspection-measurement
 import { Facility } from 'src/app/interfaces/facility';
 import { Shift } from '../shift/shift.component';
 
+class Measurement {
+  constructor(public mName: string ,
+    public  mValue: string) {
+    }
+}
+
+class FormControlMetadata {
+  constructor(
+       public checkboxName: string,
+       public checkboxLabel: string,
+       public associateControlName: string,
+       public associateControlLabel: string,
+       public associateControlType: string,
+       public associateControlData: Array<Measurement>) { }
+}
 
 @Component({
   selector: 'app-inspection-measurements',
@@ -26,9 +41,11 @@ export class InspectionMeasurementsComponent implements OnInit {
     shifts: Shift[];
     inspectionsForm: FormGroup;
     measurementNamesForm: FormArray = new FormArray([]);
+    measurementValuesForm: FormArray = new FormArray([]);
+    measurementsControlMetada: Array<FormControlMetadata> = [];
     measurementNamesList = [
-      {name: 'length', value: 24},
-      {name: 'breadth', value: 24.01}
+      new Measurement('length', '24' ) ,
+      new Measurement('breadth', '24.01' )
     ];
     constructor(
         public router: Router,
@@ -37,17 +54,24 @@ export class InspectionMeasurementsComponent implements OnInit {
         public commonService: CommonService
     ) { }
     ngOnInit() {
-        if (this.measurementNamesList != null) {
-          for (const mName of this.measurementNamesList) {
-            const name = mName.name;
-            this.measurementNamesForm.push(
-              new FormGroup({
-                name : new FormControl(name)
-              })
-            );
-          }
-        }
+        // if (this.measurementNamesList != null) {
+        //   for (const mName of this.measurementNamesList) {
+        //     const name = mName.name;
+        //     const value = mName.value;
+        //     this.measurementNamesForm.push(
+        //       new FormGroup({
+        //         name : new FormControl(name)
+        //       })
+        //     );
+        //     this.measurementValuesForm.push(
+        //       new FormGroup({
+        //         name : new FormControl(name + value)
+        //       })
+        //     );
+        //   }
+        // }
         this.buildFormControls();
+        this.populateMeasurements();
         this.inspectionService.getCompDrawNumList(this.commonService.userDtls.subscriberId)
         .subscribe((response) => {
           const unique = new Set<number>();
@@ -78,15 +102,47 @@ export class InspectionMeasurementsComponent implements OnInit {
             inspectionStage: new FormControl('', [Validators.required]),
             inspectionDate: new FormControl('', [Validators.required]),
             partIdentificationNumber: new FormControl('', [Validators.required]),
-            mNames: this.measurementNamesForm,
-            measuredValue: new FormControl('', [Validators.required]),
+            mNames: this.formBuilder.array([{}]),
+            mValues: this.formBuilder.array([{}]),
             status: new FormControl('', [Validators.required]),
             partStatus: new FormControl('', [Validators.required])
         });
         this.inspectionsForm.get('machineName').disable();
         this.inspectionsForm.get('shiftName').disable();
+      }
+
+    measurements(): FormArray {
+      return this.inspectionsForm.get('mNames') as FormArray;
     }
 
+    populateMeasurements() {
+      // get the property
+      this.measurementNamesForm = this.measurements();
+      // clear
+      this.measurementNamesForm.removeAt(0);
+      let p: Measurement;
+      // loop through the list and create the formarray metadata
+      for (p of this.measurementNamesList) {
+        const control = new FormControlMetadata(null, null, null, null, null, null );
+        const group = this.formBuilder.group({});
+        // create the checkbox and other form element metadata
+        control.checkboxName = p.mName;
+        control.checkboxLabel = p.mName;
+        control.associateControlName = p.mValue;
+        control.associateControlLabel = p.mValue;
+        control.associateControlType = 'textbox';
+        // control.associateControlData = p.mName;
+        // store in array, use by html to loop through
+        this.measurementsControlMetada.push(control);
+        // form contol
+        const checkBoxControl = this.formBuilder.control('');
+        const associateControl = this.formBuilder.control({ value: p.mValue, disabled: true });
+        // add to form group [key, control]
+        group.addControl(p.mName, checkBoxControl);
+        group.addControl(p.mValue, associateControl);
+        this.measurementNamesForm.push(group);
+      }
+    }
     displayErrorMessages (field: string) {
         const control = this.inspectionsForm.get(field);
         if (control) {
