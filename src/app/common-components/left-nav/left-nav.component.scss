@@ -102,3 +102,10 @@ a {
     vertical-align: middle;
    }
    
+   .active-nav {
+     border: 1px solid rgba(255, 255, 255, 0.56);
+     i, span {
+       color: white;
+       font-weight: 700;
+     }
+   }
