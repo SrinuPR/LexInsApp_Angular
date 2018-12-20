@@ -1,4 +1,4 @@
-import { AlertType } from "./alert";
+import { AlertType } from './alert';
 
 export interface WorkJobOrder {
     workJobOrderNumber?: string;

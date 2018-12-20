@@ -70,7 +70,8 @@ export class WorkJobOrderComponent implements OnInit {
         customerPONumber: new FormControl(this.selectedWorkJobOrder.customerPONumber, [Validators.required]),
         workJobOrderNumber: new FormControl({value: this.selectedWorkJobOrder.workJobOrderNumber,
           disabled: this.isUpdate}, [Validators.required]),
-        workJobOrderDate: new FormControl({value: this.selectedWorkJobOrder.workJobOrderDate,
+        workJobOrderDate: new FormControl({value: this.selectedWorkJobOrder.workJobOrderDate
+          ? new Date(Date.parse(this.selectedWorkJobOrder.workJobOrderDate)) : this.selectedWorkJobOrder.workJobOrderDate,
            disabled: this.isUpdate}, [Validators.required]),
         lotNumber: new FormControl({value: this.selectedWorkJobOrder.lotNumber, disabled: this.isUpdate}, [Validators.required]),
         lotSize: new FormControl(this.selectedWorkJobOrder.lotSize, [Validators.required]),
@@ -361,6 +362,8 @@ export class WorkJobOrderComponent implements OnInit {
       console.log('wjorder', wjOrder);
       this.selectedWorkJobOrder = wjOrder;
       this.isUpdate = true;
+      const dateArray = (this.selectedWorkJobOrder.workJobOrderDate).split('/');
+      this.selectedWorkJobOrder.workJobOrderDate = dateArray[1] + '/' + dateArray[0] + '/' + dateArray[2];
       this.buildFormControls();
       this.commonService.clearAlerts();
     }
