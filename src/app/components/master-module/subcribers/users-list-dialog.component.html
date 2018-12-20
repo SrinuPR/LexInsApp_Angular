@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>{{data.subscriberName}}'s User List</h1>
+<div mat-dialog-content>
+    <table class="table">
+        <tr class="table-header">
+            <td class="header-span">User</td>
+        </tr>
+        <tr class="table-column" *ngFor="let element of data.userDetails;let index=index;">
+            <td class="user-label">{{element}}</td>
+        </tr>
+    </table>
+    <div *ngIf="data?.length">
+        <app-pagination [dataLength]="data.length" [(currentPage)]="currentPage" (pageChange)="pageChange($event)"
+            [pageSize]="pageSize"></app-pagination>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>

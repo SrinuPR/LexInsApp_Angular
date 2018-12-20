@@ -4,6 +4,7 @@ import { SubscriberService } from 'src/app/services/subscriber.service';
 import { CommonService } from 'src/app/services/common.service';
 import { SessionService } from 'src/app/services/session.service';
 import { MatDialog } from '@angular/material';
+import { UsersListDialogComponent } from './users-list-dialog.component';
 
 @Component({
   selector: 'app-subscribers',
@@ -30,12 +31,25 @@ export class SubscribersComponent implements OnInit {
     });
   }
 
+  openDialog(usersList, subscriberName): void {
+    const dialogRef = this.dialog.open(UsersListDialogComponent, {
+      width: '500px',
+      data: {
+        subscriberName: subscriberName,
+        userDetails: usersList
+      },
+      hasBackdrop: false
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
   viewSubscriber(item) {
-    this.commonService.userDtls = this.sessionService.getSession();
-    this.commonService.userDtls.subscriberId = item.subscriberId;
-    this.commonService.userDtls.subscriberName = item.subscriberName;
-    this.sessionService.setSession(this.commonService.userDtls);
-    this.router.navigate(['dashboard']);
+    console.log(item.userId);
+    if (item.userId && item.userId.length > 0) {
+      this.openDialog(item.userId, item.subscriberName);
+    }
   }
 
   pageChange(event) {

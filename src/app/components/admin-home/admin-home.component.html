@@ -2,46 +2,46 @@
     <span class="header-span">Dashboard</span>
 </div>
 <div class="width-100" style="padding-top:3%; padding-bottom: 3%;">
-    <div class="report-box padding-right">
-        <div class="expand-icon"><i title="View Subscribers" (click)="navigateTo('subscribers')" class="material-icons">aspect_ratio</i></div>
+    <div class="report-box report-box-1 padding-right">
+        <div class="expand-icon"><i title="View Customer P.O. Details" (click)="navigateTo('customer-po')" class="material-icons">aspect_ratio</i></div>
         <div class=" padding-right card">
-            <p class="card-category">Subscribers</p>
+            <p class="card-category">Customer P.O. Details</p>
             <div class="width-100">
                 <div class="card-icon">
                     <i class="material-icons">supervisor_account</i>
                 </div>
                 <div class="card-div">
-                    <h3 class="card-title">{{subscriberService?.allSubscribers?.length || 0}}</h3>
+                    <h3 class="card-title">{{dashBoardDTOCounts?.customerPOCount || 0}}</h3>
                 </div>
             </div>
             <div class="card-footer"></div>
         </div>
     </div>
-    <div class="report-box padding-right">
-        <div class="expand-icon"><i class="material-icons">aspect_ratio</i></div>
+    <div class="report-box report-box-2 padding-right">
+        <div class="expand-icon"><i title="View Component Master" (click)="navigateTo('component-master')" class="material-icons">aspect_ratio</i></div>
         <div class=" padding-right card">
-            <p class="card-category">Users</p>
+            <p class="card-category">Component Master</p>
             <div class="width-100">
                 <div class="card-icon">
-                    <i class="material-icons">supervisor_account</i>
+                    <i class="material-icons">description</i>
                 </div>
                 <div class="card-div">
-                    <h3 class="card-title">{{usersListCount}}</h3>
+                    <h3 class="card-title">{{dashBoardDTOCounts?.componentCount || 0}}</h3>
                 </div>
             </div>
             <div class="card-footer"></div>
         </div>
     </div>
-    <div class="report-box padding-right">
-        <div class="expand-icon"><i class="material-icons">aspect_ratio</i></div>
+    <div class="report-box report-box-3 padding-right">
+        <div class="expand-icon"><i title="View Work/Job Order Details" (click)="navigateTo('work-job-order')" class="material-icons">aspect_ratio</i></div>
         <div class=" padding-right card">
-            <p class="card-category">Inspection Details</p>
+            <p class="card-category">Work/Job Order Details</p>
             <div class="width-100">
                 <div class="card-icon">
-                    <i class="material-icons">assignment</i>
+                    <i class="material-icons">group_work</i>
                 </div>
                 <div class="card-div">
-                    <h3 class="card-title">{{inspectionTypeList.length}}</h3>
+                    <h3 class="card-title">{{dashBoardDTOCounts?.workJobOrderCount || 0}}</h3>
                 </div>
             </div>
             <div class="card-footer">
@@ -51,46 +51,46 @@
     </div>
 </div>
 <div class="width-100" style="padding-top:3%; padding-bottom: 3%;">
-    <div class="report-box padding-right">
-        <div class="expand-icon"><i title="View Subscribers" (click)="navigateTo('subscribers')" class="material-icons">aspect_ratio</i></div>
+    <div class="report-box report-box-4 padding-right">
+        <div class="expand-icon"><i title="View Inspection Line Item" (click)="navigateTo('inspection-line-item')" class="material-icons">aspect_ratio</i></div>
         <div class=" padding-right card">
-            <p class="card-category">Subscribers</p>
+            <p class="card-category">Inspection Line Item</p>
             <div class="width-100">
                 <div class="card-icon">
-                    <i class="material-icons">supervisor_account</i>
+                    <i class="material-icons">timeline</i>
                 </div>
                 <div class="card-div">
-                    <h3 class="card-title">{{subscriberService?.allSubscribers?.length || 0}}</h3>
+                    <h3 class="card-title">{{dashBoardDTOCounts?.inspectionLineItemCount || 0}}</h3>
                 </div>
             </div>
             <div class="card-footer"></div>
         </div>
     </div>
-    <div class="report-box padding-right">
-        <div class="expand-icon"><i class="material-icons">aspect_ratio</i></div>
+    <div class="report-box report-box-5 padding-right">
+        <div class="expand-icon"><i title="View Inspection Measurements" (click)="navigateTo('inspection-meaurements')" class="material-icons">aspect_ratio</i></div>
         <div class=" padding-right card">
-            <p class="card-category">Users</p>
+            <p class="card-category">Inspection Measurements</p>
             <div class="width-100">
                 <div class="card-icon">
-                    <i class="material-icons">supervisor_account</i>
+                    <i class="material-icons">details</i>
                 </div>
                 <div class="card-div">
-                    <h3 class="card-title">{{usersListCount}}</h3>
+                    <h3 class="card-title">{{dashBoardDTOCounts?.inspectionMeasurementCount || 0}}</h3>
                 </div>
             </div>
             <div class="card-footer"></div>
         </div>
     </div>
-    <div class="report-box padding-right">
-        <div class="expand-icon"><i class="material-icons">aspect_ratio</i></div>
+    <div class="report-box report-box-6 padding-right">
+        <div class="expand-icon"><i title="View Inspection Report" (click)="navigateTo('inspection-report')" class="material-icons">aspect_ratio</i></div>
         <div class=" padding-right card">
-            <p class="card-category">Inspection Details</p>
+            <p class="card-category">Inspection Report</p>
             <div class="width-100">
                 <div class="card-icon">
                     <i class="material-icons">assignment</i>
                 </div>
                 <div class="card-div">
-                    <h3 class="card-title">{{inspectionTypeList.length}}</h3>
+                    <h3 class="card-title">{{dashBoardDTOCounts?.inspectionReportCount || 0}}</h3>
                 </div>
             </div>
             <div class="card-footer">

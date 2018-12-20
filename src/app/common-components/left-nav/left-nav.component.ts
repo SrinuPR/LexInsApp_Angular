@@ -12,7 +12,6 @@ import * as _ from 'underscore';
 })
 export class LeftNavComponent implements OnInit {
   @Input() isAdmin = false;
-  leftNavJSON: Array<any> = [];
   userName: string;
   constructor(
     public auth: AuthService,
@@ -21,20 +20,11 @@ export class LeftNavComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.commonService.leftNavJSON = [];
     if (this.isAdmin) {
-      this.leftNavJSON = this.commonService.adminJSON;
+      this.commonService.leftNavJSON = this.commonService.adminJSON;
     } else {
-      this.leftNavJSON = [];
-      const menuJSON = this.commonService.masterScreensDataList;
-      if (this.commonService.userDtls.screenList) {
-        _.forEach(this.commonService.masterScreensDataList, (item) => {
-          if (this.commonService.userDtls.screenList.indexOf(item.id) > -1) {
-            this.leftNavJSON.push(item);
-          }
-        });
-      } else {
-        this.leftNavJSON = menuJSON;
-      }
+      this.commonService.leftNavJSON = this.commonService.getLeftNavData();
     }
     this.userName = this.commonService.userDtls.userName || '';
   }
@@ -54,7 +44,7 @@ export class LeftNavComponent implements OnInit {
   }
 
   setActiveLink(activeRoute) {
-    this.leftNavJSON.forEach((item) => {
+    this.commonService.leftNavJSON.forEach((item) => {
       item.isActive = (activeRoute === item.route);
     });
   }

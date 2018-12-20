@@ -6,7 +6,7 @@
         </div>
     </header>
     <nav class="min-height">
-        <a class="left-nav-link" (click)="navigate(item.route)" *ngFor="let item of leftNavJSON">
+        <a class="left-nav-link" (click)="navigate(item.route)" *ngFor="let item of commonService?.leftNavJSON">
             <i class="left-nav-link-text material-icons" role="presentation">{{item.isActive ? 'fiber_smart_record' :
                 'panorama_fish_eye'}}</i>
             <span>{{item.displayText}}</span>

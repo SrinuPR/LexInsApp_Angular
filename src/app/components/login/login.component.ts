@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
             this.commonService.adminJSON[0].isActive = true;
             this.router.navigate(['/admin-dashboard']);
           } else {
+            this.commonService.masterScreensDataList[0].isActive = true;
             this.router.navigate(['/dashboard']);
           }
         }

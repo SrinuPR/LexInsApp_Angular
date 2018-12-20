@@ -3,14 +3,16 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MaterialModule } from './material.module';
 import { AppRouters } from './app.routes';
-import { SubscriberMasterScreenListComponent
-  } from './components/master-module/subscriber-master-screen-list/subscriber-master-screen-list.component';
-  import { SubscriberUserScreenListComponent
-  } from './components/master-module/subscriber-user-screen-list/subscriber-user-screen-list.component';
+import {
+  SubscriberMasterScreenListComponent
+} from './components/master-module/subscriber-master-screen-list/subscriber-master-screen-list.component';
+import {
+  SubscriberUserScreenListComponent
+} from './components/master-module/subscriber-user-screen-list/subscriber-user-screen-list.component';
 import { HomeComponent } from './components/home/home.component';
 import { CreateAdminComponent } from '../app/components/create-admin/create-admin.component';
 import { LoginComponent } from '../app/components/login/login.component';
@@ -21,6 +23,7 @@ import { ResetPasswordComponent } from '../app/components/reset-password/reset-p
 import { ForgotPasswordComponent } from '../app/components/forgot-password/forgot-password.component';
 import { SubscriberComponent } from '../app/components/master-module/subscriber/subscriber.component';
 import { SubscribersComponent } from '../app/components/master-module/subcribers/subcribers.component';
+import { UsersListDialogComponent } from '../app/components/master-module/subcribers/users-list-dialog.component';
 import { UserMasterComponent } from '../app/components/master-module/user-master/user-master.component';
 import { UserTypeMasterComponent } from '../app/components/master-module/user-type-master/user-type-master.component';
 import { CustomerPOComponent } from '../app/components/master-module/customer-po/customer-po.component';
@@ -43,8 +46,10 @@ import { CommonService } from './services/common.service';
 import { DataService } from './services/data.service';
 import { HttpService } from './services/http.service';
 import { SessionService } from './services/session.service';
-import {MatCheckboxModule, MatDatepickerModule, MatNativeDateModule, MatDialogModule,
-   MAT_DIALOG_DATA, MAT_DATE_FORMATS, DateAdapter} from '@angular/material';
+import {
+  MatCheckboxModule, MatDatepickerModule, MatNativeDateModule, MatDialogModule,
+  MAT_DIALOG_DATA, MAT_DATE_FORMATS, DateAdapter
+} from '@angular/material';
 
 import { OnlyNumericDirective } from './directives/only-numeric';
 import { InspectionMeasurementsComponent } from './components/master-module/inspection-measurements/inspection-measurements.component';
@@ -68,6 +73,7 @@ import { ModalPopUpComponent } from './common-components/alerts/modal-popup.comp
     ForgotPasswordComponent,
     SubscriberComponent,
     SubscribersComponent,
+    UsersListDialogComponent,
     UserMasterComponent,
     UserTypeMasterComponent,
     CustomerPOComponent,
@@ -127,11 +133,11 @@ import { ModalPopUpComponent } from './common-components/alerts/modal-popup.comp
     },
     AuthGuard
   ],
-  entryComponents: [WorkJobOrderConfirmDialogComponent, WorkJobOrderComponent, ModalPopUpComponent],
+  entryComponents: [WorkJobOrderConfirmDialogComponent, WorkJobOrderComponent, ModalPopUpComponent, UsersListDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(private dateAdapter: DateAdapter<Date>) {
     dateAdapter.setLocale('en-in'); // DD/MM/YYYY
   }
- }
+}

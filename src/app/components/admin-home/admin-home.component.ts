@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SubscriberService } from 'src/app/services/subscriber.service';
 import * as _ from 'underscore';
 import { InspectionMasterService } from 'src/app/services/inspection.service';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
     selector: 'app-admin-home',
@@ -10,32 +11,44 @@ import { InspectionMasterService } from 'src/app/services/inspection.service';
     styleUrls: ['./admin-home.component.scss']
 })
 export class AdminHomeComponent implements OnInit {
-    usersListCount = 0;
-    inspectionTypeList = [];
+    dashBoardDTOCounts: DashBoardDTO;
     constructor(
         private route: Router,
-        public subscriberService: SubscriberService,
-        public inspectionService: InspectionMasterService
-    ) {}
+        public commonService: CommonService
+    ) { }
 
     ngOnInit() {
-        this.subscriberService.getAllSubscribers();
-        this.getInspectionTypeList();
-        this.getUsersList();
+        this.getdashboardDeatils();
     }
 
-    getUsersList() {
-        this.usersListCount = 4;
+    getdashboardDeatils() {
+        this.commonService.getMSubscriberDashBoardDetails()
+            .subscribe((response) => {
+                this.dashBoardDTOCounts = response.body.dashBoardDTO;
+                console.log(this.dashBoardDTOCounts);
+            });
     }
 
-    getInspectionTypeList() {
-        this.inspectionService.getInspectionTypeList()
-        .subscribe((response) => {
-          this.inspectionTypeList = response.body.inspTypeMasterList;
+    setActiveLink(activeRoute) {
+        this.commonService.leftNavJSON.forEach((item) => {
+            item.isActive = (activeRoute === item.route);
         });
     }
 
     navigateTo(path: string) {
-        this.route.navigate(['admin-dashboard/' + path]);
+        const isAccessable = _.find(this.commonService.leftNavJSON, { 'route': path });
+        if (isAccessable) {
+            this.setActiveLink(path);
+            this.route.navigate(['dashboard/' + path]);
+        }
     }
+}
+
+export interface DashBoardDTO {
+    componentCount?: Number;
+    customerPOCount?: Number;
+    inspectionLineItemCount?: Number;
+    inspectionMeasurementCount?: Number;
+    inspectionReportCount?: Number;
+    workJobOrderCount?: Number;
 }

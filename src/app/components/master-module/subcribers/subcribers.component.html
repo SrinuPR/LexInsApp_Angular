@@ -12,7 +12,7 @@
             <td>{{element.subscriberId}}</td>
             <td>{{element.subscriberName}}</td>
             <td style="text-align: center; padding-top: 5px;">
-                <i class="material-icons" title="View Users" (click)="viewSubscriber(element)">visibility</i>
+                <i class="material-icons" [title]="element?.userId ? 'View Users' : 'No Users'" (click)="viewSubscriber(element)">visibility</i>
             </td>
         </tr>
     </table>

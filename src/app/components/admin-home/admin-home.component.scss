@@ -84,12 +84,30 @@ a {
      height: 100%;
      border-radius: 5px;
    }
+   .report-box-1 {
+     background-color: #50F1BD;
+   }
+   .report-box-2 {
+    background-color: #D83C40;
+  }
+  .report-box-3 {
+    background-color: #842A9B;
+  }
+  .report-box-4 {
+    background-color: #FFD832;
+  }
+  .report-box-5 {
+    background-color: #26ADE5;
+  }
+  .report-box-6 {
+    background-color: #28B779;
+  }
    .report-box {
+     color: #ffffff;
      width: 29%;
      height: 160px;
      float: left;
-     background: #ffffff;
-     border: 1px solid #999;
+     border: 0;
      border-radius: 5%;
    }
    .expand-icon {
@@ -97,7 +115,6 @@ a {
      margin-right: 3%;
      .material-icons {
        font-size: 12px;
-       color: #3c4858;
      }
    }
    .padding-right {
@@ -115,28 +132,26 @@ a {
        }
      }
      .card-category {
-       color: #999;
        font-size: 18px;
      }
      .card-div {
-       border: 1px solid #3c4858;
+       border: 1px solid #ffffff;
        width: 23%;
        text-align: center;
        float: right;
        border-radius: 50%;
        margin-top: -3%;
        .card-title {
-         color: #3c4858;
+         color: #ffffff;
          font-size: 18px;
        }
      }
    }
    .card-footer {
      margin-top: 35%;
-     border-top: 1px solid #eee;
+     border-top: 1px solid #ffffff;
      p {
        margin-top: 4%;
-       color: #999;
        font-size: 14px;
      }
    }

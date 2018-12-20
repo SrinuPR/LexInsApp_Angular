@@ -13,24 +13,25 @@ import { MatDialog } from '@angular/material';
 import { ModalPopUpComponent } from '../common-components/alerts/modal-popup.component';
 import { Alert } from '../interfaces/alert';
 import { SessionService } from './session.service';
+import * as _ from 'underscore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
   masterScreensDataList = [
-    { id: 'T01', displayText: 'Home', route: 'home', isChecked: false },
-    { id: 'T02', displayText: 'Customer P.O.', route: 'customer-po', isChecked: false },
-    { id: 'T03', displayText: 'Inspection Type', route: 'inspection-type', isChecked: false },
-    { id: 'T04', displayText: 'Inspection Stage', route: 'inspection-stage', isChecked: false },
-    { id: 'T05', displayText: 'Facilities', route: 'facilities', isChecked: false },
-    { id: 'T06', displayText: 'Shift', route: 'shift', isChecked: false },
-    { id: 'T07', displayText: 'Component Master', route: 'component-master', isChecked: false },
-    { id: 'T08', displayText: 'Work Job Order', route: 'work-job-order', isChecked: false },
-    { id: 'T09', displayText: 'Inspection Master', route: 'inspections', isChecked: false },
-    { id: 'T10', displayText: 'Inspection-line-item', route: 'inspection-line-item', isChecked: false },
-    { id: 'T11', displayText: 'Inspection Measurements', route: 'inspection-meaurements', isChecked: false },
-    { id: 'T12', displayText: 'Inspection-Report', route: 'inspection-report', isChecked: false }
+    { id: 'T01', displayText: 'Home', route: 'home', isChecked: false, isActive: false },
+    { id: 'T02', displayText: 'Customer P.O.', route: 'customer-po', isChecked: false, isActive: false },
+    { id: 'T03', displayText: 'Inspection Type', route: 'inspection-type', isChecked: false, isActive: false },
+    { id: 'T04', displayText: 'Inspection Stage', route: 'inspection-stage', isChecked: false, isActive: false },
+    { id: 'T05', displayText: 'Facilities', route: 'facilities', isChecked: false, isActive: false },
+    { id: 'T06', displayText: 'Shift', route: 'shift', isChecked: false, isActive: false },
+    { id: 'T07', displayText: 'Component Master', route: 'component-master', isChecked: false, isActive: false },
+    { id: 'T08', displayText: 'Work Job Order', route: 'work-job-order', isChecked: false, isActive: false },
+    { id: 'T09', displayText: 'Inspection Master', route: 'inspections', isChecked: false, isActive: false },
+    { id: 'T10', displayText: 'Inspection-line-item', route: 'inspection-line-item', isChecked: false, isActive: false },
+    { id: 'T11', displayText: 'Inspection Measurements', route: 'inspection-meaurements', isChecked: false, isActive: false },
+    { id: 'T12', displayText: 'Inspection-Report', route: 'inspection-report', isChecked: false, isActive: false }
   ];
   adminJSON = [
     { id: 'T01', displayText: 'Subscribers', route: 'subscribers', isActive: false },
@@ -41,6 +42,7 @@ export class CommonService {
     { id: 'T06', displayText: 'Subscriber Screens', route: 'subscriber-master-screens', isActive: false },
     { id: 'T07', displayText: 'Users Screens', route: 'subscriber-user-screens', isActive: false }
   ];
+  leftNavJSON = [];
   showAlerts = new Subject<Alert>();
   clearOrHideAlerts = new Subject<{}>();
   showAlertsTrigger = this.showAlerts.asObservable();
@@ -53,6 +55,19 @@ export class CommonService {
     public dialog: MatDialog,
     private sessionService: SessionService
   ) { }
+
+  getLeftNavData() {
+    const menuJSON = [];
+    if (this.userDtls.screenList) {
+      _.forEach(this.masterScreensDataList, (item) => {
+        if (this.userDtls.screenList.indexOf(item.id) > -1) {
+          menuJSON.push(item);
+        }
+      });
+      return menuJSON;
+    }
+    return this.masterScreensDataList;
+  }
 
   triggerAlerts(alertObject: Alert) {
     this.showAlerts.next(alertObject);
@@ -232,6 +247,10 @@ export class CommonService {
 
   saveSubscribersUserScreens(object) {
     return this.httpService.post('accessControl/save', object);
+  }
+
+  getMSubscriberDashBoardDetails() {
+    return this.httpService.get('dashboard/userData/' + this.userDtls.userId);
   }
 
   deepCopy(data: any) {
