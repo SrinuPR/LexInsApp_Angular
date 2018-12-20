@@ -6,7 +6,7 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <mat-select matInput placeholder="Subscriber ID" (selectionChange)="subscriberChange()" required
+                    <mat-select matInput placeholder="Subscriber" (selectionChange)="subscriberChange()" required
                         formControlName="subscriberID" name="subscriberID">
                         <mat-option *ngFor="let subscriber of subscribersList" [value]="subscriber.subscriberId">
                             {{ subscriber.subscriberName }}
