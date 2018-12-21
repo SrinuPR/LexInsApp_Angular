@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { SubscriberService } from 'src/app/services/subscriber.service';
 import * as _ from 'underscore';
 import { CommonService } from 'src/app/services/common.service';
+import { AlertType } from 'src/app/interfaces/alert';
 
 @Component({
     selector: 'app-subscriber-user-screen-list',
@@ -54,16 +55,23 @@ export class SubscriberUserScreenListComponent implements OnInit {
     }
 
     getScreensList(masterScreensList: string, userScreenList: string = '') {
-        const arrayList = masterScreensList.split(',');
-        _.forEach(arrayList, (row) => {
-            const screen = _.find(this.commonService.masterScreensDataList, { 'id': row });
-            if (screen) {
-                if (userScreenList.indexOf(row) > -1) {
-                    screen.isChecked = true;
+        if (masterScreensList) {
+            const arrayList = masterScreensList.split(',');
+            _.forEach(arrayList, (row) => {
+                const screen = _.find(this.commonService.masterScreensDataList, { 'id': row });
+                if (screen) {
+                    if (userScreenList.indexOf(row) > -1) {
+                        screen.isChecked = true;
+                    }
+                    this.masterScreenList.push(screen);
                 }
-                this.masterScreenList.push(screen);
-            }
-        });
+            });
+        } else {
+            this.commonService.displayPopUp({
+                message: 'No screens found for the subscriber chosen.',
+                type: AlertType.WARNING
+            });
+        }
     }
 
     displayErrorMessages(field: string) {
