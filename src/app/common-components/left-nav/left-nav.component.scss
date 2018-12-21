@@ -102,7 +102,7 @@ a {
     vertical-align: middle;
    }
    
-   .active-nav {
+   .left-nav-link:hover, .active-nav {
      border: 1px solid rgba(255, 255, 255, 0.56);
      -moz-box-shadow: 0 0 3px 2px #888;
       -webkit-box-shadow: 0 0 3px 2px #888;
