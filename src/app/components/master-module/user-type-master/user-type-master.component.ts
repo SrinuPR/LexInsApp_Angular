@@ -108,6 +108,6 @@ export class UserTypeMasterComponent implements OnInit {
 
       resetForm() {
         this.userTypeForm.resetForm();
-        this.userTypeForm.reset();
+        this.userMasterForm.reset();
       }
 }
