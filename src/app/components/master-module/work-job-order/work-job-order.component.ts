@@ -412,5 +412,5 @@ export class WorkJobOrderComponent implements OnInit {
       this.workJobOrderForm.get('subscriberName').disable();
       this.workJobOrderForm.get('lotSizeUnits').disable();
       this.workJobOrderForm.get('manufacturingBatchUnits').disable();
-  }
+    }
 }

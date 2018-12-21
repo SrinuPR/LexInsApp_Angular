@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SubscriberService } from 'src/app/services/subscriber.service';
@@ -13,6 +13,7 @@ import { CommonService } from 'src/app/services/common.service';
 })
 
 export class UserTypeMasterComponent implements OnInit {
+    @ViewChild('userTypeForm') userTypeForm;
     userMasterForm: FormGroup;
     constructor(
         public router: Router,
@@ -95,7 +96,7 @@ export class UserTypeMasterComponent implements OnInit {
           const result = response.body;
           if (result.message === 'User Type Master Saved') {
             console.log('User Type Master saved successfully');
-            this.userMasterForm.reset();
+            this.resetForm();
             this.commonService.triggerAlerts(
                 { message: 'User Type Saved', showAlert: true, isSuccess: true });
           }
@@ -103,5 +104,10 @@ export class UserTypeMasterComponent implements OnInit {
             this.commonService.triggerAlerts(
                 { message: 'User Type NOT saved, please try again', showAlert: true, isSuccess: false });
         });
+      }
+
+      resetForm() {
+        this.userTypeForm.resetForm();
+        this.userTypeForm.reset();
       }
 }
