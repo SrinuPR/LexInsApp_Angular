@@ -12,4 +12,8 @@ export class SessionService {
         const userDetails = sessionStorage.getItem('userDetails');
         return JSON.parse(userDetails);
     }
+
+    clearSession() {
+        sessionStorage.removeItem('userDetails');
+    }
 }

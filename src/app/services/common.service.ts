@@ -83,6 +83,7 @@ export class CommonService {
       password: pwd
     };
     const response = await this.httpService.post1('user/login', body);
+    console.log(response);
     const userData = JSON.stringify(response);
     this.userDtls = JSON.parse(userData);
     this.sessionService.setSession(this.userDtls);
@@ -279,6 +280,10 @@ export class CommonService {
       node = data;
     }
     return node;
+  }
+
+  clearSession() {
+    return this.httpService.get('user/logout/' + this.userDtls.userId);
   }
 }
 
