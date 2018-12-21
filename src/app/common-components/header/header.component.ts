@@ -21,13 +21,8 @@ export class HeaderComponent {
 
   logout() {
     this.auth.isLoggedIn = false;
-    // this.sessionService.clearSession();
-    // this.route.navigate(['']);
-    this.commonService.clearSession().subscribe((response) => {
-      console.log(response);
-      this.sessionService.clearSession();
-      this.route.navigate(['']);
-    });
+    this.sessionService.clearSession();
+    this.route.navigate(['']);
   }
 
   navigatetoHome() {
