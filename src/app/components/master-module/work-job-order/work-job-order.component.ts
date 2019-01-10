@@ -297,8 +297,7 @@ export class WorkJobOrderComponent implements OnInit {
         subscriberName: this.workJobOrderForm.get('subscriberName').value,
         componentProductDrawNumber: this.workJobOrderForm.get('productDrawingNumberionTypeID').value,
         customerPONumber: this.workJobOrderForm.get('customerPONumber').value,
-        workOrderJobNotes: this.workJobOrderForm.get('workJobOrderNotes').value,
-        wjOrderId: this.workJobOrderForm.get('wjOrderId').value
+        workOrderJobNotes: this.workJobOrderForm.get('workJobOrderNotes').value
       };
     }
 

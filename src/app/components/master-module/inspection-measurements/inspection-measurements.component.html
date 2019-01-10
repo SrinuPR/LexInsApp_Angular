@@ -2,7 +2,7 @@
     <div class="layout-header">
         <span class="header-span">Inspection Measurements</span>
     </div>
-    <form [formGroup]="inspectionsForm" class="form">
+    <form [formGroup]="inspectionsForm" #formDirective="ngForm" classs="form">
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
@@ -44,7 +44,7 @@
             </div>
             <div class="form-control-field">
                 <mat-form-field>
-                    <input matInput placeholder="Facility/ Machine Name" required formControlName="machineName"
+                    <input matInput placeholder="Facility/ Machine Name"  required formControlName="machineName"
                         name="machineName">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('machineName')">Please select
@@ -74,10 +74,10 @@
                 </div>
             <div class="form-control-field" style="width:50%">
                 <mat-form-field>
-                    <input matInput placeholder="Manufacturing Batch Size" required formControlName="batchNumber"
-                        name="batchNumber">
+                    <input matInput placeholder="Manufacturing Batch Size"  required formControlName="manBatchSize"
+                        name="manBatchSize">
                 </mat-form-field>
-                <div class="error-message" *ngIf="displayErrorMessages('batchNumber')">Please select
+                <div class="error-message" *ngIf="displayErrorMessages('manBatchSize')">Please select
                     Manufacturing Batch Number</div>
             </div>
             <div class="form-control-field" style="width:50%">
@@ -99,7 +99,7 @@
             </div>
             <div class="form-control-field" style="width: 33%;float:left;padding-right: 10px;">
                 <mat-form-field>
-                    <input matInput placeholder="Inspection Stage" required formControlName="inspectionStage" name="inspectionStage">
+                    <input matInput placeholder="Inspection Stage"  required formControlName="inspectionStage" name="inspectionStage">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('inspectionStage')">Please Select Inspection
                     Stage</div>
@@ -113,163 +113,277 @@
             </div>
         </div>
         <div class="width-100">
-            <button mat-raised-button type="submit" (click)="onSubmit()" style="float:left;" color="primary" >Add Part</button>
+            <button mat-raised-button type="submit" [disabled]="!addPartButtonEnableCheck()" (click)="partNumberSwitch()" style="float:left;" color="primary" >Add Part</button>
             <div class="form-control-field-right">
                 <mat-form-field>
                     <input matInput placeholder="Part Identification Number" type="text" required formControlName="partIdentificationNumber"
-                        name="partIdentificationNumber">
+                        name="partIdentificationNumber" (focus)="clearMeasurementsData()">
                 </mat-form-field>
                 <div class="error-message" *ngIf="displayErrorMessages('partIdentificationNumber')">Please Enter
                     Part Identification Number</div>
             </div>
           </div>
-            <div class="width-100" style="border: 2px black;">
-                <div  formArrayName="mNames" style="width: 32%;float:left;padding-right: 10px;">
-                        <mat-label >Measurement Name</mat-label> 
-                      <div 
-                      *ngFor="let item of measurementsControlMetada; let i = index;" 
-                      let i = "index" [formGroupName]="i">
-                      <mat-checkbox labelPosition="after">
+          <div *ngIf = "partNumberSw"> 
+                <div  class="width-100" style="border: 2px black;">
+                        <div  formArrayName="mNames" style="width: 32%;float:left;padding-right: 10px;">
+                                <mat-label >Measurement Name</mat-label> 
+                                <mat-radio-group>
+                                    <div 
+                                    *ngFor="let item of measurementsControlMetada; let i = index;" 
+                                     [formGroupName]="i">
+                                    <mat-radio-button  style="padding-bottom: 15px;" labelPosition="after" [value] = "item.checkboxLabel" (change)="checkedEvent($event)">
+                                        {{item.checkboxLabel}}
+                                    </mat-radio-button>
+                                        <!-- <mat-form-field>
+                                        <input matInput type="text" [formControlName]="item.checkboxLabel"
+                                        [name]="measurementNamesList[i].name" [value]="item.checkboxLabel">
+                                        </mat-form-field> -->
+                                      
+                                    
+                                </div>
+                                </mat-radio-group>
+                        </div> 
+                        <!-- <div class="width-100" style="border: 2px black;">
+                             <div  [formArrayName]="mNames" style="width: 32%;float:left;padding-right: 10px;">
+                                <mat-label >Measurement Name</mat-label>
+                              <div
+                              *ngFor="let ingredientCtrl of inspectionsForm.get('mNames').controls; 
+                              let i = index" [formGroupName]="i">
+                              <mat-checkbox labelPosition="after" (change)="onCheckboxChange($event, 'measurementNamesList[i].name')">
+                                  <mat-form-field>
+                                  <input matInput type="text" [formControlName]="measurementNamesList[i]"
+                                  [name]="measurementNamesList[i].name" [value]="measurementNamesList[i].name">
+                                  </mat-form-field>
+                              </mat-checkbox>
+                          </div>
+                        </div> -->
+                      <div id="measuredValue" style="width: 32%;float:left;padding-right: 10px;padding-bottom: 10px;">
+                          <mat-label style="display: block;">Measured Value</mat-label>
                           <mat-form-field>
-                          <input matInput type="text" [formControlName]="item.checkboxLabel"
-                          [name]="measurementNamesList[i].name" [value]="item.checkboxLabel">
-                          </mat-form-field>
-                        </mat-checkbox>
-					  
-                  </div>
-                </div> 
-                <!-- <div class="width-100" style="border: 2px black;">
-                     <div  [formArrayName]="mNames" style="width: 32%;float:left;padding-right: 10px;">
-                        <mat-label >Measurement Name</mat-label>
-                      <div
-                      *ngFor="let ingredientCtrl of inspectionsForm.get('mNames').controls; 
-                      let i = index" [formGroupName]="i">
-                      <mat-checkbox labelPosition="after" (change)="onCheckboxChange($event, 'measurementNamesList[i].name')">
-                          <mat-form-field>
-                          <input matInput type="text" [formControlName]="measurementNamesList[i]"
-                          [name]="measurementNamesList[i].name" [value]="measurementNamesList[i].name">
-                          </mat-form-field>
-                      </mat-checkbox>
-                  </div>
-                </div> -->
-              <div id="measuredValue" style="width: 32%;float:left;padding-right: 10px;">
-                  <mat-label style="display: block;">Measured Value</mat-label>
-                  <mat-form-field>
-                        <input matInput  type="text" style="border:1px black;" [formControlName]="measuredValue"  
-                        name="measuredValue" [value]="mValue">
-                    </mat-form-field>
-                </div>
-              <div id="Measurement status" style="width: 32%;float:left;padding-right: 10px;">
-                  <mat-label style="width: 32%;float:left;padding-right: 10px;">Status</mat-label>
-                  <mat-form-field>
-                      <input matInput  type="text" style="border:1px;" formControlName="status" placeholder="status"
-                      name="status">
-                  </mat-form-field>
-                  <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE Measurement</button>
-              </div>
-            </div>
-            <div>
-              <div class="width-100" style="float: left;">
-                <table style="background-color:#f4f4f4;">
-                  <tr>
-                        <th>
-                        </th>
-                        <th style="margin-bottom: 10px; width:10%;background-color: #263238;color: white;">
-                            <mat-label >Base Measure</mat-label>
-                        </th>
-                        <th style="margin-bottom: 10px; width:10%;background-color: #263238;color: white;">
-                            <mat-label >Upper Limit(+Tolerance)</mat-label>
-                        </th>
-                        <th style="margin-bottom: 10px; width:10%;background-color: #263238;color: white;">
-                            <mat-label >Lower Limit(-Tolerance)</mat-label>
-                        </th>
-                        <th style="margin-bottom: 10px; width:10%;">
-                            <mat-label >Part Status</mat-label>
-                        </th>
-                  </tr>
-                  <tr>
-                    <th style=" width:10%;background-color: darkcyan">
-                        <mat-label >Desired</mat-label>
-                    </th>
-                    <td>
-                        <mat-form-field>
-                            <input matInput  type="text"  formControlName="1_1" placeholder=""
-                            name="1_1">
-                        </mat-form-field>
-                    </td>
-                    <td>
-                        <mat-form-field>
-                            <input matInput  type="text"  formControlName="1_2" placeholder=""
-                            name="1_2">
-                        </mat-form-field>
-                    </td>
-                    <td>
-                        <mat-form-field>
-                            <input matInput  type="text"  formControlName="1_3" placeholder=""
-                            name="1_3">
-                        </mat-form-field>
-                    </td>
-                    <td>
-                        <mat-form-field>
-                            <input matInput  type="text"  formControlName="partStatus" placeholder=""
-                            name="partStatus">
-                        </mat-form-field>
-                    </td>
-                  </tr>
-                  <tr>
-                      <th style="width:10%;background-color: darkcyan">
-                          <mat-label >Actual</mat-label>
-                      </th>
-                      <td>
-                          <mat-form-field>
-                              <input matInput  type="text"  formControlName="2_1" placeholder=""
-                              name="2_1">
-                          </mat-form-field>
-                      </td>
-                      <td>
-                          <mat-form-field>
-                              <input matInput  type="text"  formControlName="2_2" placeholder=""
-                              name="2_2">
-                          </mat-form-field>
-                      </td>
-                      <td>
-                          <mat-form-field>
-                              <input matInput  type="text"  formControlName="2_3" placeholder=""
-                              name="2_3">
-                          </mat-form-field>
-                      </td>
-                      <td rowspan="2">
-                          <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE Part Report</button>
-                      </td>
-                    </tr>
-                    <tr>
-                        <th style=" width:10%;background-color: darkcyan">
-                            <mat-label >Deviation</mat-label>
-                        </th>
-                        <td>
-                            <mat-form-field>
-                                <input matInput  type="text"  formControlName="3_1" placeholder=""
-                                name="3_1">
+                                <input matInput  type="text" style="border:1px black;" formControlName="measuredValue"  
+                                name="measuredValue" (blur) = "calcOverAllMeasurement()" [readonly]="enablemeasurementValue=='Y'">
                             </mat-form-field>
-                        </td>
-                        <td>
+                        </div>
+                      <div id="Measurement status" style="width: 32%;float:left;padding-right: 10px;">
+                          <mat-label style="width: 32%;float:left;padding-right: 10px;">Status</mat-label>
+                          <mat-form-field>
+                              <input matInput  type="text" style="border:1px;" [style.backgroundColor]="measurementStatus==='ACCEPT'?'green':measurementStatus !== null?'yellow':white" 
+                              formControlName="status" placeholder="status" [value] = "measurementStatus" readonly
+                              name="status">
+                          </mat-form-field>
+                          <button mat-raised-button type="submit" [disabled]="!partNumberSw" (click)="onSaveMeasurement()" class="pull-right" color="primary">SAVE Measurement</button>
+                      </div>
+                    </div>
+                     <div>
+                      <div class="width-100" style="float: left;">
+                        <table style="background-color:#f4f4f4;">
+                          <tr>
+                                <th>
+                                </th>
+                                <th style="margin-bottom: 10px; width:10%;background-color: #263238;color: white;">
+                                    <mat-label >Base Measure</mat-label>
+                                </th>
+                                <th style="margin-bottom: 10px; width:10%;background-color: #263238;color: white;">
+                                    <mat-label >Upper Limit(+Tolerance)</mat-label>
+                                </th>
+                                <th style="margin-bottom: 10px; width:10%;background-color: #263238;color: white;">
+                                    <mat-label >Lower Limit(-Tolerance)</mat-label>
+                                </th>
+                                <th style="margin-bottom: 10px; width:7%;">
+                                    <mat-label >Part Status</mat-label>
+                                </th>
+                          </tr>
+                          <tr>
+                            <th style=" width:10%;background-color: darkcyan">
+                                    <mat-label >Desired</mat-label>
+                            </th>
+                            <td>
+                                    <mat-form-field>
+                                        <input matInput readonly type="text"  formControlName="Desired_BM" placeholder=""
+                                        name="Desired_BM">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                        <mat-form-field>
+                                            <input matInput readonly type="text"  formControlName="Desired_LL" placeholder=""
+                                             name="Desired_LL">
+                                        </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field>
+                                        <input matInput readonly type="text"  formControlName="Desired_UL" placeholder=""
+                                            name="Desired_UL">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                        <mat-form-field>
+                                                <mat-select matInput placeholder="Part Status" required formControlName="partStatus"
+                                                name="partStatus" >
+                                                <mat-option value = "ACCEPT">
+                                                        ACCEPT
+                                                </mat-option>
+                                                <mat-option value = "REJCT">
+                                                        REJECT
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <div class="error-message" *ngIf="displayErrorMessages('inspectionStage')">Please Select Inspection
+                                                Stage</div>
+                                    </td>
+                                
+                          </tr>
+                          <tr>
+                                <th style=" width:10%;background-color: darkcyan">
+                                        <mat-label >Actual</mat-label>
+                                </th>
+                                <td>
+                                        <mat-form-field>
+                                            <input matInput readonly type="text"  formControlName="Actual_BM" placeholder=""
+                                            name="Actual_BM">
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                            <mat-form-field>
+                                                <input matInput readonly type="text"  formControlName="Actual_LL" placeholder=""
+                                                name="Actual_LL">
+                                            </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field>
+                                            <input matInput readonly type="text"  formControlName="Actual_UL" placeholder=""
+                                                name="Actual_UL">
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                            <button mat-raised-button type="submit" [disabled]="this.inspectionsForm.get('partStatus').value === ''" (click)="savePartData()" class="pull-right" color="primary">SAVE Part</button>
+                                    </td>
+                          </tr>
+                          <tr>
+                            <th style=" width:10%;background-color: darkcyan">
+                                    <mat-label >Deviation</mat-label>
+                            </th>
+                          <td>
+                                <mat-form-field>
+                                    <input matInput readonly type="text"  formControlName="Deviation_BM" placeholder=""
+                                    name="Deviation.BM">
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                    <mat-form-field>
+                                        <input matInput readonly type="text"  formControlName="Deviation_LL" placeholder=""
+                                        name="Deviation_LL">
+                                    </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput readonly type="text"  formControlName="Deviation_UL" placeholder=""
+                                        name="Deviation_UL">
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                          <!-- <tr >
+                            <th style=" width:10%;background-color: darkcyan">
+                                <mat-label >Desired</mat-label>
+                            </th>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput  type="text"  formControlName="1_1" placeholder=""
+                                    name="1_1">
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput  type="text"  formControlName="1_2" placeholder=""
+                                    name="1_2">
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput  type="text"  formControlName="1_3" placeholder=""
+                                    name="1_3">
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput  type="text"  formControlName="partStatus" placeholder=""
+                                    name="partStatus">
+                                </mat-form-field>
+                            </td>
+                          </tr>
+                          <tr>
+                              <th style="width:10%;background-color: darkcyan">
+                                  <mat-label >Actual</mat-label>
+                              </th>
+                              <td>
+                                  <mat-form-field>
+                                      <input matInput  type="text"  formControlName="2_1" placeholder=""
+                                      name="2_1">
+                                  </mat-form-field>
+                              </td>
+                              <td>
+                                  <mat-form-field>
+                                      <input matInput  type="text"  formControlName="2_2" placeholder=""
+                                      name="2_2">
+                                  </mat-form-field>
+                              </td>
+                              <td>
+                                  <mat-form-field>
+                                      <input matInput  type="text"  formControlName="2_3" placeholder=""
+                                      name="2_3">
+                                  </mat-form-field>
+                              </td>
+                              <td rowspan="2">
+                                  <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE Part Report</button>
+                              </td>
+                            </tr>
+                            <tr>
+                                <th style=" width:10%;background-color: darkcyan">
+                                    <mat-label >Deviation</mat-label>
+                                </th>
+                                <td>
+                                    <mat-form-field>
+                                        <input matInput  type="text"  formControlName="3_1" placeholder=""
+                                        name="3_1">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field>
+                                        <input matInput  type="text"  formControlName="3_2" placeholder=""
+                                        name="3_2">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field>
+                                        <input matInput  type="text"  formControlName="3_3" placeholder=""
+                                        name="3_3">
+                                    </mat-form-field>
+                                </td>
+                              </tr> -->
+                            </table>
+                      </div> 
+                    </div> 
+                    <div class="width-100">
+                        <div class="form-control-field-left">
                             <mat-form-field>
-                                <input matInput  type="text"  formControlName="3_2" placeholder=""
-                                name="3_2">
+                                <input matInput placeholder="Inspected Quantity" readonly value="0" type="text"  required formControlName="inspectedQuantity"
+                                    name="inspectedQuantity">
                             </mat-form-field>
-                        </td>
-                        <td>
+                        </div>
+                        <div class="form-control-field-right">
                             <mat-form-field>
-                                <input matInput  type="text"  formControlName="3_3" placeholder=""
-                                name="3_3">
+                                <input matInput placeholder="Produced Quantity"
+                                pattern="[0-9]"
+                                type="producedQuantity" required 
+                                    formControlName="producedQuantity" name="producedQuantity"
+                                    (blur)="checkProducedQuantity()">
                             </mat-form-field>
-                        </td>
-                      </tr>
-                    </table>
-              </div>
-            </div> 
+                            <div class="error-message" *ngIf="displayErrorMessages('producedQuantity') && inspectionsForm.get('producedQuantity').value === ''">Please enter Produced Qunatity</div>
+                        </div>
+                      </div>
+          </div>
+         
         <div class="padding-top-10">
-            <button mat-raised-button type="submit" (click)="onSubmit()" class="pull-right" color="primary">SAVE</button>
+            <button mat-raised-button type="submit" [disabled]="!checkForSaveStatus()" (click)="saveReport()" class="pull-right" color="primary">SAVE</button>
         </div>
     </form>
 </div>

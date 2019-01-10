@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { InspectionMeasurement } from '../interfaces/inspection-measurement';
+import { PartIdentificationData } from '../interfaces/part-identification';
 
 @Injectable({
     providedIn: 'root'
@@ -33,6 +34,10 @@ export class InspectionMeasurementService {
         return this.httpService.post('inspectionMeasurement/update/', measurement);
     }
 
+    saveMeasruements(partData: PartIdentificationData) {
+        return this.httpService.post('inspectionMeasurement/saveMeasurement', partData);
+    }
+
     /* validateInspectionStage(master: InspectionMaster) {
         return this.httpService.post('inspectionMaster/validateStage/', master);
     }
@@ -41,4 +46,7 @@ export class InspectionMeasurementService {
         return this.httpService.post('inspectionMaster/delete', master);
     } */
 
+    getInspectionMeasurementsList(compDrawNum: string) {
+        return this.httpService.get('inspectionMeasurement/insptypes/' + compDrawNum);
+    }
 }

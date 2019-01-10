@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DISABLED } from '@angular/forms/src/model';
@@ -13,6 +13,7 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 })
 
 export class InspectionStageComponent implements OnInit {
+  @ViewChild('stageFormDirective') stageFormDirective;
     inspectionStageForm: FormGroup;
     subscriber: Subscriber;
     resource = 'inspectionstage/';
@@ -72,11 +73,16 @@ export class InspectionStageComponent implements OnInit {
       this.commonService.createOrUpdateResource(this.resource + 'create' , this.mapInspectionStage()).subscribe((response) => {
         console.log(response);
         const result = response.body;
+        this.stageFormDirective.resetForm();
+        this.inspectionStageForm.reset();
         if (result.status === 'Success' && result.message === 'Inspection Stage Saved') {
           this.commonService.triggerAlerts({message: 'Inspection Stage Saved', showAlert: true, isSuccess: true});
           setTimeout(() => {
             this.commonService.triggerAlerts({message: '', showAlert: false, isSuccess: true});
           }, 1000);
+          this.inspectionStageForm.get('subscriberName').
+          setValue(this.commonService.userDtls.subscriberName);
+          this.inspectionStageForm.get('subscriberName').disable();
         }
         else {
           this.commonService.triggerAlerts({message: 'Inspection Stage not Saved. Please Try again!', showAlert: true, isSuccess: false});

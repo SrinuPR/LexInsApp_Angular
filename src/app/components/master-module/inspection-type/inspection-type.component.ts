@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonService } from '../../../services/common.service';
@@ -13,6 +13,7 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 })
 
 export class InspectionTypeComponent implements OnInit {
+    @ViewChild('typeFormDirective') typeFormDirective;
     inspectionTypeForm: FormGroup;
     subscriber: Subscriber;
     resource = 'inspectiontype/';
@@ -74,6 +75,11 @@ export class InspectionTypeComponent implements OnInit {
           // setTimeout(() => {
           //   this.commonService.triggerAlerts({message: '', showAlert: false, isSuccess: true});
           // }, 1000);
+          this.typeFormDirective.resetForm();
+          this.inspectionTypeForm.reset();
+          this.inspectionTypeForm.get('subscriberName').
+          setValue(this.commonService.userDtls.subscriberName);
+          this.inspectionTypeForm.get('subscriberName').disable();
         }
         else {
           this.commonService.triggerAlerts({message: 'Inspection Type NOT saved, please try again', showAlert: true, isSuccess: false});

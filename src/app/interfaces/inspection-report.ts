@@ -1,12 +1,14 @@
 import { AlertType } from './alert';
+import { PartIdentificationData } from './part-identification';
 
-export interface InspectionReport {
+export class InspectionReport {
     inspReportNumber?: string;
     workJobOrderNumber?: string;
     lotNumber?: string;
     lotSize?: number;
     inspectionTypeId?: string;
     inspectionStageId?: string;
+    inspectionDate?: string;
     manufacturingBatchNumber?: string;
     manufacturingBatchSize?: number;
     subscriberId?: number;
@@ -18,6 +20,8 @@ export interface InspectionReport {
     customerPoQuantity?: string;
     userId?: string;
     workJobOrderId?: number;
+    customerNameAddress?: string;
+    lineItemData?: PartIdentificationData[];
 }
 
 

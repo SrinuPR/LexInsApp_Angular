@@ -185,8 +185,9 @@ export class InspectionReportComponent implements OnInit {
           componentProductDrawNumber: this.InspectionReportForm.get('productDrawingNumberionTypeID').value,
           customerPoNumber: this.InspectionReportForm.get('customerPONumber').value,
           customerPoDate: this.toLocaleDate(this.InspectionReportForm.get('customerPoQuantity').value),
-          customerPoQuantity: this.InspectionReportForm.get('customerPoQuantity').value
-
+          customerPoQuantity: this.InspectionReportForm.get('customerPoQuantity').value,
+          partIdentifications: [],
+          inspectionDate: null
         };
       }
 

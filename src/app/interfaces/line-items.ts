@@ -3,5 +3,5 @@ export interface LineItem {
     baseMeasure?: number;
     baseMeasureUnits?: number;
     lowerLimit?: number;
-    upperLimit?: number; 
+    upperLimit?: number;
 }

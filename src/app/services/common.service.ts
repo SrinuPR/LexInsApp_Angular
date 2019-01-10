@@ -14,6 +14,7 @@ import { ModalPopUpComponent } from '../common-components/alerts/modal-popup.com
 import { Alert } from '../interfaces/alert';
 import { SessionService } from './session.service';
 import * as _ from 'underscore';
+import { ConsoleReporter } from 'jasmine';
 
 @Injectable({
   providedIn: 'root'
@@ -227,7 +228,7 @@ export class CommonService {
   }
 
   getInspectionLineItemList(subscriberId) {
-    return this.httpService.get('insplineitem/all');
+    return this.httpService.get('insplineitem/all/' + subscriberId);
   }
   checkMeasureName(object) {
     return this.httpService.post('insplineitem/validate/measurementname', object);
@@ -281,7 +282,13 @@ export class CommonService {
     return node;
   }
   logout() {
-    return this.httpService.get('user/logout/', + this.userDtls.userId);
+      console.log('this.userDtls.userId' + this.userDtls.userId + 'this.userDtls.subscriber id ' + this.userDtls.subscriberId);
+    return this.httpService.get('user/logout/' + this.userDtls.userId).subscribe(
+      (response) => {
+        this.userDtls = null;
+        console.log(response);
+      }
+    );
   }
 }
 

@@ -2,13 +2,13 @@
     <div class="layout-header">
         <span class="header-span">Maintain Inspection Types</span>
     </div>
-    <form [formGroup]="inspectionTypeForm" class="form">
+    <form [formGroup]="inspectionTypeForm" #typeFormDirective="ngForm" class="form">
         <mat-form-field>
             <input matInput placeholder="Subscriber Name" type="subscriberName" formControlName="subscriberName"
                 name="subscriberName" [value]="subscriber.subscriberName">
         </mat-form-field>
         <div class="width-100">
-            <div class="form-control-field-left">
+            <div class="form-control-field-left">   
                 <mat-form-field>
                     <input matInput placeholder="Inspection Type ID" [formControl]="inspectionTypeID" type="text" required formControlName="inspectionTypeID"
                         name="inspectionTypeID"

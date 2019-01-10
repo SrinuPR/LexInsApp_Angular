@@ -148,8 +148,11 @@ export class InspectionLineItemComponent implements OnInit {
                 this.commonService.triggerAlerts({
                     message: isReport ? 'Inspection Measurement Master Saved.'
                         : 'Inspection Measurement Item Saved.', showAlert: true, isSuccess: true
-                });
+                })
                 this.inspectionLineItemForm.reset();
+
+                this.inspectionLineItemForm.get('subscriberName').
+                setValue(this.commonService.userDtls.subscriberName);
                 this.measureItems.controls = [];
             }
         },

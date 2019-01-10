@@ -1,3 +1,6 @@
+import { AlertType } from './alert';
+import { PartIdentificationData } from './part-identification';
+
 export interface InspectionMeasurement {
     subscriberId?: number;
     inspStageId?: number;
@@ -5,7 +8,7 @@ export interface InspectionMeasurement {
     subscriberName?: string;
     inspectionMeasurementId?: number;
     inspectionReportNumber?: string;
-    componentProductDrawNumber?: string;
+    compProductDrawNum?: string;
     lotNumber?: string;
     lotSize?: number;
     manufacturingBatchNumber?: string;
@@ -15,13 +18,14 @@ export interface InspectionMeasurement {
     inspectionStage?: number;
     facilityMachineNumber?: string;
     facilityMachineName?: string;
+    userId?: string;
     userName?: string;
-    inspectionDate?: Date;
-    shiftId?: string;
+    inspectionDate?: string;
+    shiftID?: string;
     shiftName?: string;
     customerPONumber?: string;
     customerPOQuantity?: number;
-    customerPODate?: Date;
+    customerPODate?: string;
     customerNameAddress?: string;
     workOrderId?: number;
     workJobOrderNumber?: string;
@@ -30,4 +34,27 @@ export interface InspectionMeasurement {
     measuredValue?: number;
     actualBaseMeasure?: string;
     actualUpperLimit?: number;
+    partIdentifications?: PartIdentificationData[];
+    producedQuantity?: number;
+    inspectedQuantity?: number;
+}
+
+export interface InspectionMeasurementDialog {
+    title?: string;
+    content?: string;
+    confirm?: boolean;
+    message?: string;
+    fomControlName?: string;
+    actionControlText: string;
+    enableControlsOrExit?: boolean;
+    type?: AlertType;
+}
+
+export interface InspectionMeasurementConfirm {
+    reportNumber?: boolean;
+    workNumberConfirm?: boolean;
+    lotNumberConfirm?: boolean;
+    lotSizeConfirm?: boolean;
+    batchNumberConfirm?: boolean;
+    batchSizeConfirm?: boolean;
 }
