@@ -102,3 +102,14 @@ a {
     vertical-align: middle;
    }
    
+   .left-nav-link:hover, .active-nav {
+     border: 1px solid rgba(255, 255, 255, 0.56);
+     -moz-box-shadow: 0 0 3px 2px #888;
+      -webkit-box-shadow: 0 0 3px 2px #888;
+      box-shadow: 0 0 3px 2px #888;
+     i, span {
+       color: white;
+       font-weight: 700;
+       text-shadow: 2px 2px 4px #000000;
+     }
+   }

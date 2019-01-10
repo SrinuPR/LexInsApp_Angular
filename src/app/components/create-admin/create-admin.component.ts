@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/services/common.service';
 
@@ -8,6 +8,7 @@ import { CommonService } from 'src/app/services/common.service';
     styleUrls: ['./create-admin.component.scss']
 })
 export class CreateAdminComponent implements OnInit {
+    @ViewChild('adminFormRef') adminFormRef;
     form: FormGroup;
     constructor(private formBuilder: FormBuilder, private commonService: CommonService) { }
 
@@ -87,11 +88,7 @@ export class CreateAdminComponent implements OnInit {
     // }
 
     resetForm() {
-        this.form.reset({
-            userName: '',
-            emailId: '',
-            password: '',
-            confirmPassword: ''
-        });
+        this.adminFormRef.resetForm();
+        this.form.reset();
     }
 }

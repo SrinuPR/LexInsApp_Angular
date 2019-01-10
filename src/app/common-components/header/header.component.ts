@@ -22,6 +22,7 @@ export class HeaderComponent {
   logout() {
     this.auth.isLoggedIn = false;
     this.commonService.logout();
+    this.sessionService.clearSession();
     this.route.navigate(['']);
   }
 

@@ -48,7 +48,7 @@ import { HttpService } from './services/http.service';
 import { SessionService } from './services/session.service';
 import {
   MatCheckboxModule, MatDatepickerModule, MatNativeDateModule, MatDialogModule,
-  MAT_DIALOG_DATA, MAT_DATE_FORMATS, DateAdapter
+  MAT_DIALOG_DATA, MAT_DATE_FORMATS, DateAdapter, NativeDateAdapter
 } from '@angular/material';
 
 import { OnlyNumericDirective } from './directives/only-numeric';
@@ -60,6 +60,33 @@ import { LoaderService } from './services/loader.service';
 import { WorkJobOrderConfirmDialogComponent } from './components/master-module/work-job-order/work-job-order-confirm-dialog.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { ModalPopUpComponent } from './common-components/alerts/modal-popup.component';
+
+export class CustomDateAdapter extends NativeDateAdapter {
+
+  format(date: Date, displayFormat: Object): string {
+      if (displayFormat === 'custom') {
+          return (date.getMonth() + 1) + '/' + date.getDate() + '/' + this.trimToTwodigit(date.getFullYear());
+      } else {
+          return date.toDateString();
+      }
+  }
+
+  trimToTwodigit(digit: number) {
+      return (digit.toString()).substr(2);
+  }
+}
+
+export const MM_DD_YY_Format = {
+  parse: {
+      dateInput: 'LL',
+  },
+  display: {
+      dateInput: 'custom',
+      monthYearLabel: 'MMM YYYY',
+      dateA11yLabel: 'LL',
+      monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @NgModule({
   declarations: [
@@ -131,13 +158,15 @@ import { ModalPopUpComponent } from './common-components/alerts/modal-popup.comp
       provide: MAT_DIALOG_DATA,
       useValue: {}
     },
+    {
+      provide: DateAdapter, useClass: CustomDateAdapter
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MM_DD_YY_Format},
     AuthGuard
   ],
   entryComponents: [WorkJobOrderConfirmDialogComponent, WorkJobOrderComponent, ModalPopUpComponent, UsersListDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(private dateAdapter: DateAdapter<Date>) {
-    dateAdapter.setLocale('en-in'); // DD/MM/YYYY
-  }
 }
+

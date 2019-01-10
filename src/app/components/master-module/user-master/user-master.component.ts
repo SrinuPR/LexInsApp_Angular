@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SubscriberService } from 'src/app/services/subscriber.service';
@@ -13,6 +13,7 @@ import { CommonService } from 'src/app/services/common.service';
 })
 
 export class UserMasterComponent implements OnInit {
+    @ViewChild('userMasterFormRef') userMasterFormRef;
     userMasterForm: FormGroup;
     constructor(
         public router: Router,
@@ -76,6 +77,8 @@ export class UserMasterComponent implements OnInit {
             }
             this.commonService.triggerAlerts(
                 { message: message, showAlert: true, isSuccess: false });
+        }, () => {
+            this.resetForm();
         });
     }
 
@@ -102,4 +105,9 @@ export class UserMasterComponent implements OnInit {
             control.setErrors({ 'userIdNotUnique': true });
         });
     }
+
+    resetForm() {
+        this.userMasterFormRef.resetForm();
+        this.userMasterForm.reset();
+      }
 }

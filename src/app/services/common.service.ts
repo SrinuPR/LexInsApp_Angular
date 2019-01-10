@@ -14,7 +14,6 @@ import { ModalPopUpComponent } from '../common-components/alerts/modal-popup.com
 import { Alert } from '../interfaces/alert';
 import { SessionService } from './session.service';
 import * as _ from 'underscore';
-import { ConsoleReporter } from 'jasmine';
 
 @Injectable({
   providedIn: 'root'
@@ -84,6 +83,7 @@ export class CommonService {
       password: pwd
     };
     const response = await this.httpService.post1('user/login', body);
+    console.log(response);
     const userData = JSON.stringify(response);
     this.userDtls = JSON.parse(userData);
     this.sessionService.setSession(this.userDtls);
