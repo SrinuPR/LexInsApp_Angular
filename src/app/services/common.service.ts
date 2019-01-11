@@ -84,7 +84,6 @@ export class CommonService {
       password: pwd
     };
     const response = await this.httpService.post1('user/login', body);
-    console.log(response);
     const userData = JSON.stringify(response);
     this.userDtls = JSON.parse(userData);
     this.sessionService.setSession(this.userDtls);
