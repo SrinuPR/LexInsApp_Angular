@@ -40,8 +40,7 @@ export class LoginComponent implements OnInit {
       if (this.commonService.userDtls.errorMessage !== undefined &&
        (this.commonService.userDtls.errorMessage !== null)) {
         this.commonService.triggerAlerts({ message: this.commonService.userDtls.errorMessage, showAlert: true, isSuccess: false });
-      }
-      else if (null != this.commonService.userDtls && this.commonService.userDtls.status === 'Success') {
+      } else if (null != this.commonService.userDtls && this.commonService.userDtls.status === 'Success') {
         console.log('inside login success block!');
         this.auth.isLoggedIn = true;
         if (this.commonService.userDtls.firstTimeLogin) {
