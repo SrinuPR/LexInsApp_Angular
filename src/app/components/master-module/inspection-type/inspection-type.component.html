@@ -16,7 +16,7 @@
                 </mat-form-field>
                 <div class="error-message" *ngIf="(displayErrorMessages('inspectionTypeID') && 
                 inspectionTypeForm.get('inspectionTypeID').value != null && 
-                !inspectionTypeForm.get('inspectionTypeID').value.length === 5) || 
+                !(inspectionTypeForm.get('inspectionTypeID').value.length === 5)) || 
                 inspectionTypeForm.get('inspectionTypeID').hasError('lengthConstarint')">
                 Max allowed digits are 5 only </div>
                 <div class="error-message" *ngIf="inspectionTypeForm.get('inspectionTypeID').touched && inspectionTypeForm.get('inspectionTypeID').hasError('inspectionTypeIdNotUnique');">Inspection Type ID already exists, Please enter
