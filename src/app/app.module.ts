@@ -60,6 +60,7 @@ import { LoaderService } from './services/loader.service';
 import { WorkJobOrderConfirmDialogComponent } from './components/master-module/work-job-order/work-job-order-confirm-dialog.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { ModalPopUpComponent } from './common-components/alerts/modal-popup.component';
+import { AdminUserSearchComponent } from './components/admin-user-search/admin-user-search.component';
 
 export class CustomDateAdapter extends NativeDateAdapter {
 
@@ -124,7 +125,8 @@ export const MM_DD_YY_Format = {
     ModalPopUpComponent,
     AdminHomeComponent,
     SubscriberMasterScreenListComponent,
-    SubscriberUserScreenListComponent
+    SubscriberUserScreenListComponent,
+    AdminUserSearchComponent
   ],
   imports: [
     BrowserModule,

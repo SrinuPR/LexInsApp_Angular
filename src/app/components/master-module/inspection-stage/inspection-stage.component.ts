@@ -83,8 +83,7 @@ export class InspectionStageComponent implements OnInit {
           this.inspectionStageForm.get('subscriberName').
           setValue(this.commonService.userDtls.subscriberName);
           this.inspectionStageForm.get('subscriberName').disable();
-        }
-        else {
+        } else {
           this.commonService.triggerAlerts({message: 'Inspection Stage not Saved. Please Try again!', showAlert: true, isSuccess: false});
         }
       },
@@ -100,4 +99,4 @@ export class InspectionStageComponent implements OnInit {
         createdBy: this.commonService.userDtls.userName
       };
     }
-}
+  }

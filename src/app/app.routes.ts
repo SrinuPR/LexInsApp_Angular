@@ -28,6 +28,7 @@ import {
 import { AdminHomeComponent } from './components/admin-home/admin-home.component';
 import { SubscriberUserScreenListComponent
   } from './components/master-module/subscriber-user-screen-list/subscriber-user-screen-list.component';
+import { AdminUserSearchComponent } from './components/admin-user-search/admin-user-search.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -43,6 +44,7 @@ const routes: Routes = [
       { path: 'user-type-master', component: UserTypeMasterComponent },
       { path: 'subscriber-master-screens', component: SubscriberMasterScreenListComponent },
       { path: 'subscriber-user-screens', component: SubscriberUserScreenListComponent },
+      { path: 'app-admin-user-search', component: AdminUserSearchComponent },
     ]
   },
   {

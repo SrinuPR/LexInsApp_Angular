@@ -1,0 +1,32 @@
+<div class="layout-header">
+  <span class="header-span">User Search</span>
+</div>
+<form [formGroup]="userSearchForm" #searchDirForm="ngForm" class="form">
+  <div class="width-100">
+    <div class="form-control-field-left">
+      <mat-form-field>
+        <input matInput placeholder="User ID" type="text" required formControlName="userId" 
+        name="userId"
+          (blur)="verifyUserId()">
+      </mat-form-field>
+      <div class="error-message" *ngIf="displayErrorMessages('userId') && inspectionStageForm.get('inspectionStageID').value.length == 0">Please
+        Enter User ID</div>
+        <div class="error-message" *ngIf="showErrorMsg">User Id Does not Exists</div>
+    </div>
+    <div class="form-control-field-right">
+      <mat-form-field>
+      <mat-select [disabled]="!userNotExists" matInput placeholder="Choose Action" required formControlName="userOperation" name="userOperation">
+          <mat-option value ='Unlock User'>
+              Unlock User
+          </mat-option>
+      </mat-select>
+    </mat-form-field>
+    </div>
+  </div>
+  <div class="width-100">
+      <div class="padding-top-10">
+          <button mat-raised-button type="submit" [disabled]="!userSearchForm.valid" (click)="selectedAction()" class="pull-right" color="primary">SUBMIT</button>
+      </div>
+  </div>
+  
+</form>

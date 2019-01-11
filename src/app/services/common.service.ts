@@ -40,7 +40,8 @@ export class CommonService {
     { id: 'T04', displayText: 'User Type List', route: 'user-type-master', isActive: false },
     { id: 'T05', displayText: 'User Master', route: 'user-master', isActive: false },
     { id: 'T06', displayText: 'Subscriber Screens', route: 'subscriber-master-screens', isActive: false },
-    { id: 'T07', displayText: 'Users Screens', route: 'subscriber-user-screens', isActive: false }
+    { id: 'T07', displayText: 'Users Screens', route: 'subscriber-user-screens', isActive: false },
+    { id: 'T07', displayText: 'Users Search', route: 'app-admin-user-search', isActive: false }
   ];
   leftNavJSON = [];
   showAlerts = new Subject<Alert>();
@@ -289,6 +290,12 @@ export class CommonService {
         console.log(response);
       }
     );
+  }
+  userSearch(userId: string) {
+    return this.httpService.get('user/validateUser/' + userId);
+  }
+  selectedAction(userId: String) {
+    return this.httpService.get('user/unLock/' + userId);
   }
 }
 
