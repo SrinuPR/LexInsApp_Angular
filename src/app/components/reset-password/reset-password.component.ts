@@ -72,11 +72,6 @@ export class ResetPasswordComponent implements OnInit {
         this.passwordMismatch = false;
       }
     }
-    /* if (control.get('newPassword') && control.get('confirmPassword')) {
-      if (control.get('newPassword').value !== control.get('confirmPassword').value) {
-        return { invalid: true };
-      }
-    } */
   }
 
   async onSubmit() {

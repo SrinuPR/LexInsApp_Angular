@@ -16,7 +16,7 @@ export class LeftNavComponent implements OnInit {
   constructor(
     public auth: AuthService,
     public route: Router,
-    private commonService: CommonService
+    public commonService: CommonService
   ) { }
 
   ngOnInit() {

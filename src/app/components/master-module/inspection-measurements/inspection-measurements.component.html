@@ -6,7 +6,7 @@
         <div class="width-100">
             <div class="form-control-field-left">
                 <mat-form-field>
-                    <mat-select matInput [disabled]="isUpdate" placeholder="Component / Product Drawing Number" required formControlName="componentProductDrawingNumber"
+                    <mat-select matInput placeholder="Component / Product Drawing Number" required formControlName="componentProductDrawingNumber"
                         name="componentProductDrawingNumber" (selectionChange)="onProdDrawNumberChange()">
                         <mat-option *ngFor="let component of componentDataList" [value]="component.componentProductDrawNumber">
                             {{ component.componentProductDrawNumber }}
