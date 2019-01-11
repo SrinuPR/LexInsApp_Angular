@@ -14,7 +14,7 @@ export class UsersListDialogComponent {
     pagedResults: Array<any> = [];
     constructor(
         public dialogRef: MatDialogRef<SubscribersComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: UserListDialogData[]) { }
+        @Inject(MAT_DIALOG_DATA) public data: UserListDialogData) { }
 
     onNoClick(): void {
         this.dialogRef.close();
@@ -28,7 +28,7 @@ export class UsersListDialogComponent {
     getPageChanged() {
         const start: number = this.currentPage * this.pageSize;
         const end: number = start + this.pageSize;
-        this.pagedResults = this.data.slice(start, end);
+        this.pagedResults = this.data.userDetails.slice(start, end);
     }
 }
 

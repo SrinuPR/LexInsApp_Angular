@@ -28,7 +28,6 @@ export class HeaderComponent {
 
   navigatetoHome() {
     this.auth.activeLink = '';
-    console.log(this.route.url);
     if (this.route.url === '/dashboard') {
       this.commonService.userDtls = this.sessionService.getSession();
       this.commonService.userDtls.subscriberId = null;

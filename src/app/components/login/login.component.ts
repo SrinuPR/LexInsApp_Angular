@@ -37,25 +37,16 @@ export class LoginComponent implements OnInit {
       const user = this.loginForm.get('userName').value;
       const pwd = this.loginForm.get('password').value;
       await this.commonService.userLogin1(user, pwd);
-      const userDtls = this.commonService.userDtls;
-      this.errorDesc = userDtls.errorMessage;
-      if (this.errorDesc != null || this.errorDesc !== '') {
-        console.log('inside trigger alert!');
-        this.commonService.triggerAlerts({ message: this.errorDesc, showAlert: true, isSuccess: false });
-      }
-      if (this.errorDesc != null ||
-        this.errorDesc !== 'You are already logged in from a different session. Please logout first or wait for sometime.') {
-        console.log('inside trigger alert!' + this.errorDesc);
-        this.commonService.triggerAlerts({ message: this.errorDesc, showAlert: true, isSuccess: false });
-      }
-      console.log('error msg' + this.errorDesc);
-      if (null != userDtls && userDtls.status === 'Success') {
-        this.commonService.triggerAlerts({ message: '', showAlert: false, isSuccess: false });
+      if (this.commonService.userDtls.errorMessage !== undefined &&
+       (this.commonService.userDtls.errorMessage !== null)) {
+        this.commonService.triggerAlerts({ message: this.commonService.userDtls.errorMessage, showAlert: true, isSuccess: false });
+      } else if (null != this.commonService.userDtls && this.commonService.userDtls.status === 'Success') {
+        console.log('inside login success block!');
         this.auth.isLoggedIn = true;
-        if (userDtls.firstTimeLogin) {
+        if (this.commonService.userDtls.firstTimeLogin) {
           this.router.navigate(['/resetpassword']);
         } else {
-          if (userDtls.isAdmin === 'Y') {
+          if (this.commonService.userDtls.isAdmin === 'Y') {
             this.commonService.adminJSON[0].isActive = true;
             this.router.navigate(['/admin-dashboard']);
           } else {

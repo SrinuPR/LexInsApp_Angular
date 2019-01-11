@@ -16,6 +16,7 @@ import { ComponentProductMaster } from 'src/app/interfaces/component-product-mas
 export class CustomerPOComponent implements OnInit {
     @ViewChild('f') myNgForm;
     customerPOForm: FormGroup;
+    isUpdate = false;
     displayColumns = ['Product Draw Number', 'Customer PO Number', 'Customer PO Date', 'Customer PO Quantity'];
     customerPOList: CustomerPO[] = [];
     customerPObject: CustomerPO;

@@ -4,12 +4,12 @@
         <tr class="table-header">
             <td class="header-span">User</td>
         </tr>
-        <tr class="table-column" *ngFor="let element of data.userDetails;let index=index;">
+        <tr class="table-column" *ngFor="let element of data?.userDetails;let index=index;">
             <td class="user-label">{{element}}</td>
         </tr>
     </table>
-    <div *ngIf="data?.length">
-        <app-pagination [dataLength]="data.length" [(currentPage)]="currentPage" (pageChange)="pageChange($event)"
+    <div *ngIf="data?.userDetails?.length">
+        <app-pagination [dataLength]="data.userDetails.length" [(currentPage)]="currentPage" (pageChange)="pageChange($event)"
             [pageSize]="pageSize"></app-pagination>
     </div>
 </div>

@@ -9,7 +9,7 @@
                             <button mat-raised-button type="submit" class="pull-right" >SUPPORT</button>
                         </li>
                         <li>
-                            <a *ngIf="auth.isLoggedIn" class="pull-right" (click)="logout()" type="button">
+                            <a *ngIf="auth.isAuthenticated()" class="pull-right" (click)="logout()" type="button">
                                 <mat-icon class="icon">input</mat-icon>
                                 <span class="label">LogOut</span>
                             </a>
