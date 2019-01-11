@@ -9,8 +9,6 @@
         name="userId"
           (blur)="verifyUserId()">
       </mat-form-field>
-      <div class="error-message" *ngIf="displayErrorMessages('userId') && inspectionStageForm.get('inspectionStageID').value.length == 0">Please
-        Enter User ID</div>
         <div class="error-message" *ngIf="showErrorMsg">User Id Does not Exists</div>
     </div>
     <div class="form-control-field-right">

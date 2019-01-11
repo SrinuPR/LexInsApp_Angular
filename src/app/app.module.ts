@@ -58,6 +58,7 @@ import { UserService } from './services/user.service';
 import { LoaderInterceptorService } from './services/loader-interceptor.service';
 import { LoaderService } from './services/loader.service';
 import { WorkJobOrderConfirmDialogComponent } from './components/master-module/work-job-order/work-job-order-confirm-dialog.component';
+import { InspectionMeasurementConfirmDialogComponent } from './components/master-module/inspection-measurements/inspection-measurement-confirm-dialog.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { ModalPopUpComponent } from './common-components/alerts/modal-popup.component';
 import { AdminUserSearchComponent } from './components/admin-user-search/admin-user-search.component';
@@ -122,6 +123,7 @@ export const MM_DD_YY_Format = {
     PaginationComponent,
     InspectionMeasurementsComponent,
     WorkJobOrderConfirmDialogComponent,
+    InspectionMeasurementConfirmDialogComponent,
     ModalPopUpComponent,
     AdminHomeComponent,
     SubscriberMasterScreenListComponent,
@@ -166,7 +168,8 @@ export const MM_DD_YY_Format = {
     {provide: MAT_DATE_FORMATS, useValue: MM_DD_YY_Format},
     AuthGuard
   ],
-  entryComponents: [WorkJobOrderConfirmDialogComponent, WorkJobOrderComponent, ModalPopUpComponent, UsersListDialogComponent],
+  entryComponents: [WorkJobOrderConfirmDialogComponent, InspectionMeasurementConfirmDialogComponent, WorkJobOrderComponent, 
+    ModalPopUpComponent, UsersListDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

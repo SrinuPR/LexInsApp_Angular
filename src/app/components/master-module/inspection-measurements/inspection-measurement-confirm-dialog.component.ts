@@ -1,14 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { WorkJobOrderDialog } from 'src/app/interfaces/work-job-order';
 import { AlertType } from 'src/app/interfaces/alert';
 import { InspectionMeasurementDialog } from 'src/app/interfaces/inspection-measurement';
 import { InspectionMeasurementsComponent } from './inspection-measurements.component';
 
 @Component({
     selector: 'app-work-job-order-confirm-dialog',
-    templateUrl: 'work-job-order-confirm-dialog.component.html',
-    styleUrls: ['./work-job-order-confirm-dialog.component.scss']
+    templateUrl: '../work-job-order/work-job-order-confirm-dialog.component.html',
+    styleUrls: ['../work-job-order/work-job-order-confirm-dialog.component.scss']
   })
   export class InspectionMeasurementConfirmDialogComponent {
     alertType = AlertType;
