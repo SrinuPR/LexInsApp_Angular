@@ -16,7 +16,8 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    if (this.commonServcie.userDtls != null && this.commonServcie.userDtls.errorMessage === null) {
+    if (!(this.commonServcie.userDtls === undefined || this.commonServcie.userDtls === null) &&
+      (this.commonServcie.userDtls.errorMessage === null || this.commonServcie.userDtls.errorMessage === '')) {
       return true;
     } else {
         return false;

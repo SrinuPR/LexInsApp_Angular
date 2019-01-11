@@ -39,18 +39,13 @@ export class LoginComponent implements OnInit {
       await this.commonService.userLogin1(user, pwd);
       const userDtls = this.commonService.userDtls;
       this.errorDesc = userDtls.errorMessage;
-      if (this.errorDesc != null || this.errorDesc !== '') {
+      if (!(this.errorDesc === undefined) && (this.errorDesc !== null || this.errorDesc !== '')) {
         console.log('inside trigger alert!');
         this.commonService.triggerAlerts({ message: this.errorDesc, showAlert: true, isSuccess: false });
       }
-      if (this.errorDesc != null ||
-        this.errorDesc !== 'You are already logged in from a different session. Please logout first or wait for sometime.') {
-        console.log('inside trigger alert!' + this.errorDesc);
-        this.commonService.triggerAlerts({ message: this.errorDesc, showAlert: true, isSuccess: false });
-      }
-      console.log('error msg' + this.errorDesc);
-      if (null != userDtls && userDtls.status === 'Success') {
-        this.commonService.triggerAlerts({ message: '', showAlert: false, isSuccess: false });
+      else if (null != userDtls && userDtls.status === 'Success') {
+        console.log('inside login success block!');
+        //this.commonService.triggerAlerts({ message: this.errorDesc, showAlert: true, isSuccess: true });
         this.auth.isLoggedIn = true;
         if (userDtls.firstTimeLogin) {
           this.router.navigate(['/resetpassword']);
