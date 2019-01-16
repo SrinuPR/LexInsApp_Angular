@@ -165,9 +165,10 @@ export class InspectionMeasurementsComponent implements OnInit {
         }
         if (this.lineItemList != null) {
           this.lineItemList.forEach(i => {
+            console.log('measurement name : ' + i.measurementName);
             this.measurementNamesList.push(new Measurement(i.measurementName, i.measuredValue + ''));
           });
-          console.log('i.measurementNamesList size:' + this.measurementNamesList.length);
+          console.log('i.measurementNamesList size:' + this.measurementNamesList[0].mName);
         }
         this.populateMeasurements();
       }
@@ -192,7 +193,7 @@ export class InspectionMeasurementsComponent implements OnInit {
         control.associateControlName = p.mValue;
         control.associateControlLabel = p.mValue;
         control.associateControlType = 'textbox';
-        console.log('i.measurementName:' + p.mValue);
+        console.log('i.measurementName:' + p.mName);
         // control.associateControlData = p.mName;
         // store in array, use by html to loop through
         this.measurementsControlMetada.push(control);
@@ -225,7 +226,7 @@ export class InspectionMeasurementsComponent implements OnInit {
       const rNumber = this.inspectionsForm.get('inspectionReportNumber').value;
       this.selectedReportNum = this.inpectionReportList.find(i => i.inspReportNumber === rNumber);
       this.inspectionsForm.get('manBatchSize').setValue(this.selectedReportNum.manufacturingBatchSize);
-      this.inspectionsForm.get('userName').setValue(this.selectedReportNum.userId);
+      this.inspectionsForm.get('userName').setValue(this.commonService.userDtls.userName);
       this.inspectionsForm.get('inspectionType').setValue(this.selectedReportNum.inspectionTypeId);
       this.inspectionsForm.get('inspectionStage').setValue(this.selectedReportNum.inspectionStageId);
       this.inspectionsForm.get('inspectionDate').setValue(this.selectedReportNum.inspectionDate);
@@ -311,7 +312,6 @@ export class InspectionMeasurementsComponent implements OnInit {
           (response) => {
             this.measurementId = response.inspectionMeasurementId;
             this.lineItemList = response.partIdentifications;
-            console.log(this.lineItemList);
           }
         );
         this.partNumberSw = true;
@@ -332,9 +332,13 @@ export class InspectionMeasurementsComponent implements OnInit {
       this.clearMeasurementsData();
            this.enablemeasurementValue = 'N';
            this.selectedMeasurementName = e.value;
+           console.log('after selection of measurement:' + this.selectedMeasurementName );
             if (this.selectedMeasurementName !== null) {
-              this.selectedLineItem =  this.lineItemList.find(i => i.measurementName === this.selectedMeasurementName ) ;
+              this.selectedLineItem =  this.lineItemList.find(i => i.measurementName === this.selectedMeasurementName ) ; 
+              console.log('this.lineItemList[0].name' + this.lineItemList[0].measurementName);
             }
+            console.log('selected line item:' + this.selectedLineItem.measurementName
+            + ' actual Measure:' + this.selectedLineItem.actualBaseMeasure);
             this.calcOverAllMeasurement();
     }
 
