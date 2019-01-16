@@ -175,7 +175,7 @@ export class InspectionReportComponent implements OnInit {
           inspectionTypeId: this.InspectionReportForm.get('inspectionType').value,
           componentProdcuctName: this.InspectionReportForm.get('productDrawingName').value,
           inspectionStageId: this.InspectionReportForm.get('inspectionStage').value,
-          workJobOrderId: this.InspectionReportForm.get('workJobOrderNumber').value,
+          workJobOrderNumber: this.InspectionReportForm.get('workJobOrderNumber').value,
           lotNumber: this.InspectionReportForm.get('lotNumber').value,
           lotSize: Number(this.InspectionReportForm.get('lotSize').value),
           manufacturingBatchNumber: this.InspectionReportForm.get('manufacturingBatchNumber').value,
