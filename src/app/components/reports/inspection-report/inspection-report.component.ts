@@ -194,9 +194,11 @@ export class InspectionReportComponent implements OnInit {
       createInspectionReport() {
         const newInspectionReport = this.mapInspectionReport();
         const workJobOrder = this.workJobOrderList.find((order: WorkJobOrder) => {
-          return order.wjOrderId === newInspectionReport.workJobOrderId;
+          return order.workJobOrderNumber === newInspectionReport.workJobOrderNumber;
         });
-        newInspectionReport.workJobOrderNumber = workJobOrder.workJobOrderNumber;
+        if (workJobOrder !== null && workJobOrder !== undefined) {
+          newInspectionReport.workJobOrderNumber = workJobOrder.workJobOrderNumber;
+         }
         this.inspectionReportService.createInspectionReport(newInspectionReport).
           subscribe((response) => {
             console.log(response);

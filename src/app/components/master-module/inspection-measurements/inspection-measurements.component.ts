@@ -226,7 +226,7 @@ export class InspectionMeasurementsComponent implements OnInit {
       const rNumber = this.inspectionsForm.get('inspectionReportNumber').value;
       this.selectedReportNum = this.inpectionReportList.find(i => i.inspReportNumber === rNumber);
       this.inspectionsForm.get('manBatchSize').setValue(this.selectedReportNum.manufacturingBatchSize);
-      this.inspectionsForm.get('userName').setValue(this.commonService.userDtls.userName);
+      this.inspectionsForm.get('userName').setValue(this.commonService.userDtls.userId);
       this.inspectionsForm.get('inspectionType').setValue(this.selectedReportNum.inspectionTypeId);
       this.inspectionsForm.get('inspectionStage').setValue(this.selectedReportNum.inspectionStageId);
       this.inspectionsForm.get('inspectionDate').setValue(this.selectedReportNum.inspectionDate);
@@ -355,9 +355,11 @@ export class InspectionMeasurementsComponent implements OnInit {
       this.calcOverallRange(this.selectedLineItem , measuredVal);
       const actualMeasure = this.getActualMeasureValue(measuredVal);
       const actualUL =
-      measuredVal > this.selectedLineItem.actualBaseMeasure ? (actualMeasure - this.selectedLineItem.actualBaseMeasure) : 0.0;
+      measuredVal > this.selectedLineItem.actualBaseMeasure ? (actualMeasure - this.selectedLineItem.actualBaseMeasure) :
+      ( this.selectedLineItem.actualBaseMeasure - actualMeasure);
       const actualLL =
-      measuredVal < this.selectedLineItem.actualBaseMeasure ? (this.selectedLineItem.actualBaseMeasure - actualMeasure ) : 0.0;
+      measuredVal < this.selectedLineItem.actualBaseMeasure ? (this.selectedLineItem.actualBaseMeasure - actualMeasure ) :
+      ( actualMeasure - this.selectedLineItem.actualBaseMeasure);
       this.inspectionsForm.get('Desired_BM').setValue(this.selectedLineItem.actualBaseMeasure);
       this.inspectionsForm.get('Desired_LL').setValue(this.selectedLineItem.actualLowerLimit);
       this.inspectionsForm.get('Desired_UL').setValue(this.selectedLineItem.actualUpperLimit);
@@ -371,8 +373,10 @@ export class InspectionMeasurementsComponent implements OnInit {
   }
   calcOverallRange(lineItem: PartIdentificationData, desiredVal: number) {
       this.upperLimitRange = new Range(lineItem.actualBaseMeasure + 0.0001 , lineItem.actualBaseMeasure + lineItem.actualUpperLimit);
-      this.lowerLimitRange = new Range(lineItem.actualBaseMeasure - 0.0001 , lineItem.actualBaseMeasure + lineItem.actualLowerLimit);
-      this.overAllRange = new Range(this.lowerLimitRange.ulValue , this.upperLimitRange.ulValue);
+      this.lowerLimitRange = new Range(lineItem.actualBaseMeasure - lineItem.actualLowerLimit , lineItem.actualBaseMeasure - 0.0001);
+      this.overAllRange = new Range(this.lowerLimitRange.llValue , this.upperLimitRange.ulValue);
+      console.log('desiredVal' + desiredVal + 'this.overAllRange.llValue' + this.overAllRange.llValue
+      + 'this.overAllRange.ulValue: ' + this.overAllRange.ulValue);
       this.measurementStatus = (desiredVal > this.overAllRange.llValue && desiredVal < this.overAllRange.ulValue) ? 'ACCEPT' : 'REJECT';
       if (this.measurementStatus === 'REJECT') {
         // this.commonService.displayPopUp({
@@ -414,11 +418,13 @@ export class InspectionMeasurementsComponent implements OnInit {
   }
 
   onSaveMeasurement() {
+
     if (this.selectedPartNum != null) {
+      const formattedMValue = this.inspectionsForm.get('measuredValue').value.toFixed(4);
       const tempPartNum = {
         partVerifId: null,
         measurementName: this.selectedMeasurementName,
-        measuredValue: this.inspectionsForm.get('measuredValue').value,
+        measuredValue:  formattedMValue ,
         actualBaseMeasure: this.inspectionsForm.get('Actual_BM').value,
         actualUpperLimit:  this.inspectionsForm.get('Actual_UL').value,
         actualLowerLimit: this.inspectionsForm.get('Actual_LL').value,
