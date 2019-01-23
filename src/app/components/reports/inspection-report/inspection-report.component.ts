@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { WorkJobOrder } from 'src/app/interfaces/work-job-order';
@@ -19,6 +19,7 @@ import { LineItem } from 'src/app/interfaces/line-items';
 })
 
 export class InspectionReportComponent implements OnInit {
+  @ViewChild('formDirective') formDirective;
     InspectionReportForm: FormGroup;
     componentDataList: ComponentProductMaster[];
     tempcomponentDataList: ComponentProductMaster[];
@@ -208,6 +209,7 @@ export class InspectionReportComponent implements OnInit {
               message: response.body.message,
               type: AlertType.INFO
             });
+          this.clearReportForm();
           }, (error) => {
             if (error && error.error) {
               this.commonService.displayPopUp({
@@ -255,5 +257,19 @@ export class InspectionReportComponent implements OnInit {
           });
         }
         return list;
+      }
+      clearReportForm() {
+        this.componentDataList = null;
+        this.tempcomponentDataList = null;
+        this.componentData = null;
+        this.inspectionTypes = null;
+        this.inspectionStages = null;
+        this.inspectionReportList = null;
+        this.componentSelected = false;
+        this.workJobOrderList = null;
+        this.selectedWorkJobOrder = null;
+        this.selectedInspectionReport = null;
+        this.formDirective.resetForm();
+        this.InspectionReportForm.reset();
       }
 }

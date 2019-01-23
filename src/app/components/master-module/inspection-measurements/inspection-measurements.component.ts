@@ -343,7 +343,7 @@ export class InspectionMeasurementsComponent implements OnInit {
     }
 
   calcOverAllMeasurement() {
-    let measuredVal = this.inspectionsForm.get('measuredValue').value;
+    let measuredVal = Number(this.inspectionsForm.get('measuredValue').value);
     const checkLineitemWIthPIN =  this.partIdentificationList.find
     (i => i.partIdentificationNumber === this.selectedPartNum && i.measurementName === this.selectedMeasurementName ) ;
     if (checkLineitemWIthPIN != null ) {
@@ -353,22 +353,27 @@ export class InspectionMeasurementsComponent implements OnInit {
     }
     if (measuredVal != null && measuredVal > 0) {
       this.calcOverallRange(this.selectedLineItem , measuredVal);
-      const actualMeasure = this.getActualMeasureValue(measuredVal);
-      const actualUL =
-      measuredVal > this.selectedLineItem.actualBaseMeasure ? (actualMeasure - this.selectedLineItem.actualBaseMeasure) :
-      ( this.selectedLineItem.actualBaseMeasure - actualMeasure);
-      const actualLL =
-      measuredVal < this.selectedLineItem.actualBaseMeasure ? (this.selectedLineItem.actualBaseMeasure - actualMeasure ) :
-      ( actualMeasure - this.selectedLineItem.actualBaseMeasure);
-      this.inspectionsForm.get('Desired_BM').setValue(this.selectedLineItem.actualBaseMeasure);
-      this.inspectionsForm.get('Desired_LL').setValue(this.selectedLineItem.actualLowerLimit);
-      this.inspectionsForm.get('Desired_UL').setValue(this.selectedLineItem.actualUpperLimit);
-      this.inspectionsForm.get('Actual_BM').setValue(actualMeasure);
-      this.inspectionsForm.get('Actual_LL').setValue(actualLL);
-      this.inspectionsForm.get('Actual_UL').setValue(actualUL);
-      this.inspectionsForm.get('Deviation_BM').setValue(actualMeasure - this.selectedLineItem.actualBaseMeasure);
-      this.inspectionsForm.get('Deviation_LL').setValue(actualLL - this.selectedLineItem.actualLowerLimit);
-      this.inspectionsForm.get('Deviation_UL').setValue(actualUL - this.selectedLineItem.actualUpperLimit);
+      let newActualMeasure = measuredVal;
+      let newActualLL = 0.0;
+      let newActualUL = 0.0;
+      if ( (measuredVal > this.upperLimitRange.llValue && measuredVal < this.upperLimitRange.ulValue) ||
+        measuredVal > this.upperLimitRange.ulValue) {
+          newActualMeasure = Math.floor(measuredVal);
+          newActualUL = measuredVal - newActualMeasure;
+          this.inspectionsForm.get('Actual_BM').setValue(measuredVal);
+      } else {
+        newActualMeasure = Math.ceil(measuredVal);
+        newActualLL =  newActualMeasure - measuredVal;
+      }
+      this.inspectionsForm.get('Desired_BM').setValue(Number(this.selectedLineItem.actualBaseMeasure).toFixed(4));
+      this.inspectionsForm.get('Desired_LL').setValue(Number(this.selectedLineItem.actualLowerLimit).toFixed(4));
+      this.inspectionsForm.get('Desired_UL').setValue(Number(this.selectedLineItem.actualUpperLimit).toFixed(4));
+      this.inspectionsForm.get('Actual_BM').setValue(measuredVal.toFixed(4));
+      this.inspectionsForm.get('Actual_LL').setValue(newActualLL.toFixed(4));
+      this.inspectionsForm.get('Actual_UL').setValue(newActualUL.toFixed(4));
+      this.inspectionsForm.get('Deviation_BM').setValue((newActualMeasure - this.selectedLineItem.actualBaseMeasure).toFixed(4));
+      this.inspectionsForm.get('Deviation_LL').setValue((newActualLL - this.selectedLineItem.actualLowerLimit).toFixed(4));
+      this.inspectionsForm.get('Deviation_UL').setValue((newActualUL - this.selectedLineItem.actualUpperLimit).toFixed(4));
     }
   }
   calcOverallRange(lineItem: PartIdentificationData, desiredVal: number) {
@@ -396,13 +401,6 @@ export class InspectionMeasurementsComponent implements OnInit {
         });
       }
   }
-  getActualMeasureValue(desiredVal: number) {
-    if  (desiredVal >= this.upperLimitRange.llValue && desiredVal <= this.upperLimitRange.ulValue) {
-      return Math.floor(desiredVal);
-    }
-      return Math.ceil(desiredVal);
-  }
-
   openConfirmationDialog(dialogData: InspectionMeasurementDialog): void {
     const dialogRef = this.dialog.open(WorkJobOrderConfirmDialogComponent, {
       width: '500px',
@@ -420,7 +418,7 @@ export class InspectionMeasurementsComponent implements OnInit {
   onSaveMeasurement() {
 
     if (this.selectedPartNum != null) {
-      const formattedMValue = this.inspectionsForm.get('measuredValue').value.toFixed(4);
+      const formattedMValue = this.inspectionsForm.get('measuredValue').value;
       const tempPartNum = {
         partVerifId: null,
         measurementName: this.selectedMeasurementName,
@@ -429,7 +427,7 @@ export class InspectionMeasurementsComponent implements OnInit {
         actualUpperLimit:  this.inspectionsForm.get('Actual_UL').value,
         actualLowerLimit: this.inspectionsForm.get('Actual_LL').value,
         deviation: this.inspectionsForm.get('Deviation_BM').value,
-        status: this.inspectionsForm.get('partStatus').value,
+        status: this.measurementStatus,
         partIdentificationNumber: this.selectedPartNum
       };
       console.log('part list :' + this.partIdentificationList.length);

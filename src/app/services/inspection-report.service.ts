@@ -35,7 +35,7 @@ export class InspectionReportService {
     }
 
      getInspectionMeasurementsForPid(compNumber: number) {
-         return this.httpService.get('inspectionMeasurement/validate/' + compNumber).map(res => {
+         return this.httpService.get('insplineitem/report/' + compNumber).map(res => {
              console.log('result from srevice:' + res);
              return res.body.results;
          });
