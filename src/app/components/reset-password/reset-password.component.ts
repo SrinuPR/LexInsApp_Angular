@@ -43,8 +43,7 @@ export class ResetPasswordComponent implements OnInit {
     const control = this.resetPasswordForm.get('newPassword');
     if (control.value && (control.value.length >= 8  && control.value.length <= 20 ) ) {
       control.setErrors(null);
-    }
-    else {
+    } else {
       control.setErrors({ 'weakPassword': true});
     }
   }
@@ -85,8 +84,8 @@ export class ResetPasswordComponent implements OnInit {
       if (null != response && response.text === 'Passowrd Changed Successfully') {
         this.commonService.triggerAlerts({message: 'Password changed successfully', showAlert: true, isSuccess: true});
         this.router.navigate(['']);
-      }
-      else {
+        const test =  await this.commonService.logoutOnPwdChange(user);
+      } else {
         this.commonService.triggerAlerts(
           {message: response , showAlert: true, isSuccess: false
         });

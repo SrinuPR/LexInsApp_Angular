@@ -21,17 +21,17 @@ import * as _ from 'underscore';
 export class CommonService {
   masterScreensDataList = [
     { id: 'T01', displayText: 'Home', route: 'home', isChecked: false, isActive: false },
-    { id: 'T02', displayText: 'Customer P.O.', route: 'customer-po', isChecked: false, isActive: false },
-    { id: 'T03', displayText: 'Inspection Type', route: 'inspection-type', isChecked: false, isActive: false },
-    { id: 'T04', displayText: 'Inspection Stage', route: 'inspection-stage', isChecked: false, isActive: false },
-    { id: 'T05', displayText: 'Facilities', route: 'facilities', isChecked: false, isActive: false },
-    { id: 'T06', displayText: 'Shift', route: 'shift', isChecked: false, isActive: false },
-    { id: 'T07', displayText: 'Component Master', route: 'component-master', isChecked: false, isActive: false },
+    { id: 'T02', displayText: 'Inspection Type', route: 'inspection-type', isChecked: false, isActive: false },
+    { id: 'T03', displayText: 'Inspection Stage', route: 'inspection-stage', isChecked: false, isActive: false },
+    { id: 'T04', displayText: 'Facilities', route: 'facilities', isChecked: false, isActive: false },
+    { id: 'T05', displayText: 'Shift', route: 'shift', isChecked: false, isActive: false },
+    { id: 'T06', displayText: 'Component Master', route: 'component-master', isChecked: false, isActive: false },
+    { id: 'T07', displayText: 'Customer P.O.', route: 'customer-po', isChecked: false, isActive: false },
     { id: 'T08', displayText: 'Work Job Order', route: 'work-job-order', isChecked: false, isActive: false },
     { id: 'T09', displayText: 'Inspection Master', route: 'inspections', isChecked: false, isActive: false },
     { id: 'T10', displayText: 'Inspection-line-item', route: 'inspection-line-item', isChecked: false, isActive: false },
-    { id: 'T11', displayText: 'Inspection Measurements', route: 'inspection-meaurements', isChecked: false, isActive: false },
-    { id: 'T12', displayText: 'Inspection-Report', route: 'inspection-report', isChecked: false, isActive: false }
+    { id: 'T11', displayText: 'Inspection-Report', route: 'inspection-report', isChecked: false, isActive: false },
+    { id: 'T12', displayText: 'Inspection Measurements', route: 'inspection-meaurements', isChecked: false, isActive: false }
   ];
   adminJSON = [
     { id: 'T01', displayText: 'Subscribers', route: 'subscribers', isActive: false },
@@ -41,7 +41,7 @@ export class CommonService {
     { id: 'T05', displayText: 'User Master', route: 'user-master', isActive: false },
     { id: 'T06', displayText: 'Subscriber Screens', route: 'subscriber-master-screens', isActive: false },
     { id: 'T07', displayText: 'Users Screens', route: 'subscriber-user-screens', isActive: false },
-    { id: 'T07', displayText: 'Users Search', route: 'app-admin-user-search', isActive: false }
+    { id: 'T08', displayText: 'Users Search', route: 'app-admin-user-search', isActive: false }
   ];
   leftNavJSON = [];
   showAlerts = new Subject<Alert>();
@@ -295,6 +295,14 @@ export class CommonService {
   }
   selectedAction(userId: String) {
     return this.httpService.get('user/unLock/' + userId);
+  }
+
+  logoutOnPwdChange(userId?: string) {
+    return this.httpService.get('user/logout/' + userId).subscribe(
+      (response) => {
+        console.log('logout on password change success');
+      }
+    );
   }
 }
 
