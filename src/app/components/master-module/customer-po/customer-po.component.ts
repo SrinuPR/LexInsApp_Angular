@@ -97,7 +97,9 @@ export class CustomerPOComponent implements OnInit {
             .subscribe((response) => {
                 if (response.body.status === 'Success') {
                     this.customerPOList = response.body.result;
-                    this.getPageChanged();
+                    if (this.customerPOList.length !== null && this.customerPOList.length !== 0 ) {
+                        this.getPageChanged();
+                    }
                 }
             });
     }
@@ -121,6 +123,11 @@ export class CustomerPOComponent implements OnInit {
         this.commonService.deleteCustomerPO(element.customerPoId)
             .subscribe((response) => {
                 this.customerPOList = _.without(this.customerPOList, element);
+                if (this.customerPOList !== null && this.customerPOList.length !== 0) {
+                    this.getPageChanged();
+                }
+                this.commonService.triggerAlerts(
+                    { message: response.body.message, showAlert: true, isSuccess: true });
             },
                 (error) => {
                     this.commonService.triggerAlerts(
