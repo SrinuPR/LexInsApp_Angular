@@ -12,7 +12,7 @@
             </div>
             <div class="form-control-field-right">
                     <mat-form-field>
-                        <input matInput placeholder="Inspection Report Number"  autocomplete="off" maxlength="10"
+                        <input matInput placeholder="Inspection Report Number"  onlyNumeric autocomplete="off" maxlength="10"
                          type="text" name="inspectionReportNumber" formControlName="inspectionReportNumber">
                     </mat-form-field>
                     <div class="error-message" *ngIf="InspectionReportForm.get('inspectionReportNumber').touched && InspectionReportForm.get('inspectionReportNumber').hasError('ReportNumExists')">Inspection Report Num already exists, Please enter

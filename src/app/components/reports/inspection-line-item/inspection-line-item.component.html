@@ -34,7 +34,7 @@
                     </td>
                     <td [formGroupName]="index">
                         <mat-form-field>
-                            <input matInput type="text" formControlName="baseMeasure" maxlength="5" name="baseMeasure">
+                            <input matInput type="text" onlyNumeric formControlName="baseMeasure" maxlength="5" name="baseMeasure">
                         </mat-form-field>
                     </td>
                     <td [formGroupName]="index">
