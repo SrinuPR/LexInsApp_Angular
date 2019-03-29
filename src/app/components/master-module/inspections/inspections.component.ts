@@ -81,10 +81,13 @@ export class InspectionsComponent implements OnInit {
       this.inspectionService.getAllData(this.commonService.userDtls.subscriberId)
         .subscribe((responseList) => {
           console.log(responseList);
-          this.handleInspectionMasterList(responseList[0]);
-          this.componentDataList = responseList[1].body.componentData;
-          this.inspectionStageList = responseList[3].body.inspStageMasterList;
-          this.inspectionTypeList = responseList[2].body.inspTypeMasterList;
+          this.inspectionService.getInspectionMasterList()
+          .subscribe((masterResponse) => {
+            this.handleInspectionMasterList(masterResponse);
+          });
+          this.componentDataList = responseList[0].body.componentData;
+          this.inspectionStageList = responseList[2].body.inspStageMasterList;
+          this.inspectionTypeList = responseList[1].body.inspTypeMasterList;
         });
       this.buildFormControls();
     }

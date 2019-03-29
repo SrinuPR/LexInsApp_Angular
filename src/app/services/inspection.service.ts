@@ -43,11 +43,10 @@ export class InspectionMasterService {
     }
 
     getAllData(subscriberId: number) {
-        const master = this.httpService.get('inspectionMaster/all/');
         const component = this.httpService.get('workjoborder/compProdData/' + subscriberId);
         const type = this.httpService.get('inspectiontype/all/');
         const stage = this.httpService.get('inspectionstage/all/');
-        return forkJoin([master, component, type, stage]);
+        return forkJoin([component, type, stage]);
     }
 
 }
