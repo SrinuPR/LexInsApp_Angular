@@ -334,7 +334,7 @@ export class InspectionMeasurementsComponent implements OnInit {
            this.selectedMeasurementName = e.value;
            console.log('after selection of measurement:' + this.selectedMeasurementName );
             if (this.selectedMeasurementName !== null) {
-              this.selectedLineItem =  this.lineItemList.find(i => i.measurementName === this.selectedMeasurementName ) ; 
+              this.selectedLineItem =  this.lineItemList.find(i => i.measurementName === this.selectedMeasurementName ) ;
               console.log('this.lineItemList[0].name' + this.lineItemList[0].measurementName);
             }
             console.log('selected line item:' + this.selectedLineItem.measurementName
@@ -563,7 +563,7 @@ export class InspectionMeasurementsComponent implements OnInit {
       if (partItemFound === -1) {
         failed =  true;
         this.openConfirmationDialog(<InspectionMeasurementDialog>{
-          title: 'SUCCESS',
+          title: 'ERROR',
           content: 'Please complete all the measurements!',
           confirm: false,
           fomControlName: 'partIdentificationNumber',
