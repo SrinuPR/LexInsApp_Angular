@@ -14,7 +14,7 @@ export class HttpService {
   constructor(
     private http: HttpClient
   ) { }
-  path = 'http://10.118.44.228:8888/';
+  path = 'http://10.118.44.228:8180/';
 
   private headers = new HttpHeaders({
     'Pragma': 'no-cache',
